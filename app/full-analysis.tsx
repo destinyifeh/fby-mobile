@@ -1,20 +1,34 @@
-import React from 'react';
+import { getCapturedImageUri } from "@/store/capturedImageStore";
+import { Ionicons } from "@expo/vector-icons";
+import { BlurView } from "expo-blur";
+import { useFocusEffect, useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React, { useCallback, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
+  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
-} from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Svg, { Circle, Line, Path } from "react-native-svg";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function FullAnalysisScreen() {
   const router = useRouter();
-  const { imageUri } = useLocalSearchParams<{ imageUri: string }>();
+  // const { imageUri } = useLocalSearchParams<{ imageUri: string }>();
+
+  const [imageUri, setImageUri] = useState<string | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      setImageUri(getCapturedImageUri());
+    }, []),
+  );
 
   const handleBack = () => {
     router.back();
@@ -23,144 +37,229 @@ export default function FullAnalysisScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
-      <SafeAreaView style={styles.safeArea}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Scan & score</Text>
-          <View style={{ width: 40 }} />
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      >
+        <SafeAreaView style={styles.safeArea} edges={["top"]}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+              <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Scan & score</Text>
+            <View style={{ width: 40 }} />
+          </View>
+        </SafeAreaView>
+        {/* Image Section with Overlays */}
+        <View style={styles.imageSection}>
+          <Image
+            source={
+              imageUri ? { uri: imageUri } : require("@/assets/images/user.png")
+            }
+            style={styles.capturedImage}
+            resizeMode="cover"
+          />
+
+          {/* Detected Look Badge */}
+          <View style={styles.detectedBadgeWrapper}>
+            <BlurView intensity={40} tint="dark" style={styles.detectedBadge}>
+              <Text style={styles.detectedText}>
+                Detected look is full glam
+              </Text>
+            </BlurView>
+          </View>
+
+          {/* Callout 1: Top Right */}
+          <View style={[styles.callout1Wrapper, { zIndex: 10 }]}>
+            <BlurView intensity={40} tint="dark" style={styles.calloutBubble}>
+              <Text style={styles.calloutText}>
+                This worked well,{"\n"}but isn't blended{"\n"}properly
+              </Text>
+            </BlurView>
+            <Svg height="80" width="100" style={styles.calloutLine1}>
+              {/* Path from bottom-left of bubble (80,0) gently diagonally to the cheek (30,50), then straight left to (15,50) */}
+              <Path
+                d="M 80 0 L 30 50 L 15 50"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeDasharray="3, 3"
+                fill="none"
+              />
+              <Circle cx="15" cy="50" r="10" fill="rgba(255,255,255,0.4)" />
+              <Circle cx="15" cy="50" r="4" fill="#E88282" />
+            </Svg>
+          </View>
+
+          {/* Callout 2: Bottom Left */}
+          <View style={[styles.callout2Wrapper, { zIndex: 10 }]}>
+            <Svg height="80" width="100" style={styles.calloutLine2}>
+              {/* Path from top-right of bubble (20,80) diagonally up-right to cheek (70,30), then right to (85,30) */}
+              <Path
+                d="M 20 80 L 70 30 L 85 30"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeDasharray="3, 3"
+                fill="none"
+              />
+              <Circle cx="85" cy="30" r="10" fill="rgba(255,255,255,0.4)" />
+              <Circle cx="85" cy="30" r="4" fill="#E88282" />
+            </Svg>
+            <BlurView intensity={40} tint="dark" style={styles.calloutBubble}>
+              <Text style={styles.calloutText}>
+                Your blush{"\n"}looks amazing
+              </Text>
+            </BlurView>
+          </View>
+
+          {/* Callout 3: Bottom Right */}
+          <View style={[styles.callout3Wrapper, { zIndex: 10 }]}>
+            <BlurView intensity={40} tint="dark" style={styles.calloutBubble}>
+              <Text style={styles.calloutText}>
+                Try lining your{"\n"}lips more
+              </Text>
+            </BlurView>
+            <Svg height="40" width="100" style={styles.calloutLine3}>
+              {/* Straight path left horizontally from bubble middle-left (100,20) to lip (20,20) */}
+              <Line
+                x1="100"
+                y1="20"
+                x2="20"
+                y2="20"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeDasharray="3, 3"
+                fill="none"
+              />
+              <Circle cx="20" cy="20" r="10" fill="rgba(255,255,255,0.4)" />
+              <Circle cx="20" cy="20" r="4" fill="#E88282" />
+            </Svg>
+          </View>
+
+          {/* Dotted Cheek / Under-Eye Highlights */}
+          <View style={styles.cheekHighlightLeft} pointerEvents="none">
+            <Svg height="80" width="100">
+              <Path
+                d="M 15 20 Q -5 40 20 60 Q 50 80 80 60 Q 100 40 85 25 Q 70 15 50 25 Q 30 35 15 20"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.7)"
+                strokeWidth="1.5"
+                strokeDasharray="4, 4"
+              />
+            </Svg>
+          </View>
+          <View style={styles.cheekHighlightRight} pointerEvents="none">
+            <Svg height="80" width="100">
+              <Path
+                d="M 85 20 Q 105 40 80 60 Q 50 80 20 60 Q 0 40 15 25 Q 30 15 50 25 Q 70 35 85 20"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.7)"
+                strokeWidth="1.5"
+                strokeDasharray="4, 4"
+              />
+            </Svg>
+          </View>
         </View>
 
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Detected Look Badge */}
-          <View style={styles.detectedBadge}>
-            <Text style={styles.detectedText}>Detected look is full glam</Text>
-          </View>
-
-          {/* Image with Analysis Overlays */}
-          <View style={styles.imageContainer}>
-            <Image
-              source={
-                imageUri
-                  ? { uri: imageUri }
-                  : require('@/assets/images/splash-icon.png')
-              }
-              style={styles.capturedImage}
-              resizeMode="cover"
-            />
-
-            {/* Analysis Callouts */}
-            <View style={[styles.callout, styles.calloutTopRight]}>
-              <Text style={styles.calloutText}>
-                This worked well,{'\n'}but isn't blended{'\n'}properly
-              </Text>
-            </View>
-
-            <View style={[styles.callout, styles.calloutBottomLeft]}>
-              <Text style={styles.calloutText}>
-                Your blush{'\n'}looks amazing
-              </Text>
-            </View>
-
-            <View style={[styles.callout, styles.calloutBottomRight]}>
-              <Text style={styles.calloutText}>
-                Try lining your{'\n'}lips more
-              </Text>
-            </View>
-          </View>
-
-          {/* Analysis Card */}
-          <View style={styles.analysisCard}>
-            {/* Title */}
-            <View style={styles.analysisTitleRow}>
-              <Text style={styles.analysisTitle}>Analysis</Text>
-              <TouchableOpacity>
-                <Ionicons name="information-circle-outline" size={24} color="#A67B5B" />
-              </TouchableOpacity>
-            </View>
-
-            {/* Overall Score */}
-            <View style={styles.overallScoreBadge}>
-              <Text style={styles.overallScoreText}>Your Overall Score: 78/100</Text>
-            </View>
-
-            {/* Summary */}
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryText}>
-                A confident full-glam look with strong color balance and smooth foundation blending.
-              </Text>
-            </View>
-
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryText}>
-                Small refinements in symmetry, contour definition, and lip precision can elevate this look to professional level.
-              </Text>
-            </View>
-
-            {/* What You Did Well Section */}
-            <View style={styles.sectionBadge}>
-              <Text style={styles.sectionBadgeText}>What You Did Well</Text>
-            </View>
-
-            <View style={styles.feedbackCard}>
-              <Text style={styles.feedbackText}>
-                <Text style={styles.feedbackBold}>Foundation:</Text> Even tone and natural skin finish.
-              </Text>
-              <Text style={styles.feedbackText}>
-                <Text style={styles.feedbackBold}>Blending:</Text> Eyeshadow transitions are smooth with no harsh edges.
-              </Text>
-            </View>
-
-            {/* Areas to Improve Section */}
-            <View style={[styles.sectionBadge, styles.sectionBadgeWarning]}>
-              <Text style={styles.sectionBadgeText}>Areas to Improve</Text>
-            </View>
-
-            <View style={styles.feedbackCard}>
-              <Text style={styles.feedbackText}>
-                <Text style={styles.feedbackBold}>Contour:</Text> Slightly uneven on right side. Try blending upward toward the ear.
-              </Text>
-              <Text style={styles.feedbackText}>
-                <Text style={styles.feedbackBold}>Lips:</Text> Liner is visible outside natural lip line. Use a lip brush for precision.
-              </Text>
-              <Text style={styles.feedbackText}>
-                <Text style={styles.feedbackBold}>Symmetry:</Text> Brow arch is higher on left side. Consider mapping before filling.
-              </Text>
-            </View>
-
-            {/* Pro Tips Section */}
-            <View style={[styles.sectionBadge, styles.sectionBadgeTip]}>
-              <Text style={styles.sectionBadgeText}>Pro Tips</Text>
-            </View>
-
-            <View style={styles.feedbackCard}>
-              <Text style={styles.feedbackText}>
-                - Use setting spray to lock in your look
-              </Text>
-              <Text style={styles.feedbackText}>
-                - Try a lighter hand with bronzer for a more natural finish
-              </Text>
-              <Text style={styles.feedbackText}>
-                - Consider color-correcting before foundation for an even base
-              </Text>
-            </View>
-
-            {/* Done Button */}
-            <TouchableOpacity
-              style={styles.doneButton}
-              onPress={() => router.push('/(tabs)')}
-            >
-              <Text style={styles.doneButtonText}>Done</Text>
+        {/* Analysis Card */}
+        <View style={styles.analysisCard}>
+          {/* Title */}
+          <View style={styles.analysisTitleRow}>
+            <Text style={styles.analysisTitle}>Analysis</Text>
+            <TouchableOpacity>
+              <Ionicons
+                name="information-circle-outline"
+                size={24}
+                color="#A67B5B"
+              />
             </TouchableOpacity>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+
+          {/* Overall Score */}
+          <View style={styles.overallScoreBadge}>
+            <Text style={styles.overallScoreText}>
+              Your Overall Score: 78/100
+            </Text>
+          </View>
+
+          {/* Summary */}
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryText}>
+              A confident full-glam look with strong color balance and smooth
+              foundation blending.
+            </Text>
+          </View>
+
+          <View style={styles.summaryCard}>
+            <Text style={styles.summaryText}>
+              Small refinements in symmetry, contour definition, and lip
+              precision can elevate this look to professional level.
+            </Text>
+          </View>
+
+          {/* What You Did Well Section */}
+          <View style={styles.sectionBadge}>
+            <Text style={styles.sectionBadgeText}>What You Did Well</Text>
+          </View>
+
+          <View style={styles.feedbackCard}>
+            <Text style={styles.feedbackText}>
+              <Text style={styles.feedbackBold}>Foundation:</Text> Even tone and
+              natural skin finish.
+            </Text>
+            <Text style={styles.feedbackText}>
+              <Text style={styles.feedbackBold}>Blending:</Text> Eyeshadow
+              transitions are smooth with no harsh edges.
+            </Text>
+          </View>
+
+          {/* Areas to Improve Section */}
+          <View style={[styles.sectionBadge, styles.sectionBadgeWarning]}>
+            <Text style={styles.sectionBadgeText}>Areas to Improve</Text>
+          </View>
+
+          <View style={styles.feedbackCard}>
+            <Text style={styles.feedbackText}>
+              <Text style={styles.feedbackBold}>Contour:</Text> Slightly uneven
+              on right side. Try blending upward toward the ear.
+            </Text>
+            <Text style={styles.feedbackText}>
+              <Text style={styles.feedbackBold}>Lips:</Text> Liner is visible
+              outside natural lip line. Use a lip brush for precision.
+            </Text>
+            <Text style={styles.feedbackText}>
+              <Text style={styles.feedbackBold}>Symmetry:</Text> Brow arch is
+              higher on left side. Consider mapping before filling.
+            </Text>
+          </View>
+
+          {/* Pro Tips Section */}
+          <View style={[styles.sectionBadge, styles.sectionBadgeTip]}>
+            <Text style={styles.sectionBadgeText}>Pro Tips</Text>
+          </View>
+
+          <View style={styles.feedbackCard}>
+            <Text style={styles.feedbackText}>
+              - Use setting spray to lock in your look
+            </Text>
+            <Text style={styles.feedbackText}>
+              - Try a lighter hand with bronzer for a more natural finish
+            </Text>
+            <Text style={styles.feedbackText}>
+              - Consider color-correcting before foundation for an even base
+            </Text>
+          </View>
+
+          {/* Done Button */}
+          <TouchableOpacity
+            style={styles.doneButton}
+            onPress={() => router.push("/(tabs)")}
+          >
+            <Text style={styles.doneButtonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -168,27 +267,32 @@ export default function FullAnalysisScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF2DA',
+    backgroundColor: "#FAF3E8",
   },
   safeArea: {
-    flex: 1,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
   backButton: {
     width: 40,
     height: 40,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   headerTitle: {
-    fontSize: 20,
-    fontFamily: 'Inter_600SemiBold',
-    color: '#8D5241',
+    fontSize: 28,
+    fontFamily: "Inter_600SemiBold",
+    color: "#8D5241",
+    textAlign: "center",
   },
   scrollView: {
     flex: 1,
@@ -196,153 +300,196 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 40,
   },
-  detectedBadge: {
-    alignSelf: 'center',
-    backgroundColor: '#FFF2DA',
-    borderWidth: 1,
-    borderColor: '#E8D4C4',
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginBottom: 16,
-  },
-  detectedText: {
-    color: '#8D5241',
-    fontSize: 14,
-    fontFamily: 'Inter_500Medium',
-  },
-  imageContainer: {
-    marginHorizontal: 16,
-    height: 280,
-    borderRadius: 20,
-    overflow: 'hidden',
-    position: 'relative',
+  imageSection: {
+    height: SCREEN_WIDTH * 1.3,
+    backgroundColor: "#E3BCB5",
+    position: "relative",
   },
   capturedImage: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#E8D4C4',
+    width: "100%",
+    height: "100%",
   },
-  callout: {
-    position: 'absolute',
-    backgroundColor: '#FFF2DA',
-    borderRadius: 12,
-    padding: 8,
-    maxWidth: 120,
+  detectedBadgeWrapper: {
+    position: "absolute",
+    top: 100,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    zIndex: 10,
   },
-  calloutTopRight: {
-    top: 60,
-    right: 10,
+  detectedBadge: {
+    backgroundColor: "rgba(100, 50, 40, 0.3)",
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "rgba(251, 230, 211, 0.4)",
+    overflow: "hidden",
   },
-  calloutBottomLeft: {
-    bottom: 60,
-    left: 10,
+  detectedText: {
+    color: "#E8D4C4",
+    fontSize: 14,
+    fontFamily: "Inter_500Medium",
   },
-  calloutBottomRight: {
-    bottom: 20,
-    right: 10,
+  callout1Wrapper: {
+    position: "absolute",
+    top: "35%",
+    right: 20,
+  },
+  callout2Wrapper: {
+    position: "absolute",
+    bottom: "22%",
+    left: 20,
+  },
+  callout3Wrapper: {
+    position: "absolute",
+    bottom: "10%",
+    right: 20,
+  },
+  calloutBubble: {
+    backgroundColor: "rgba(100, 50, 40, 0.3)",
+    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+    maxWidth: 160,
+    overflow: "hidden",
   },
   calloutText: {
-    fontSize: 10,
-    color: '#8D5241',
-    fontFamily: 'Inter_400Regular',
+    color: "#E8D4C4",
+    fontSize: 14,
+    fontFamily: "Inter_400Regular",
+    lineHeight: 20,
+  },
+  calloutLine1: {
+    position: "absolute",
+    left: -70,
+    bottom: -45,
+  },
+  calloutLine2: {
+    position: "absolute",
+    right: -80,
+    top: -70,
+  },
+  calloutLine3: {
+    position: "absolute",
+    left: -90,
+    top: "50%",
+    marginTop: -20,
+  },
+  cheekHighlightLeft: {
+    position: "absolute",
+    top: "50%",
+    left: "23%",
+  },
+  cheekHighlightRight: {
+    position: "absolute",
+    top: "50%",
+    right: "23%",
   },
   analysisCard: {
-    backgroundColor: '#FFF2DA',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    marginTop: -20,
+    backgroundColor: "#FAF3E8",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    marginTop: -40,
     paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-    shadowColor: '#8D5241',
+    paddingTop: 30,
+    paddingBottom: 80,
+    shadowColor: "#8D5241",
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
   },
   analysisTitleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 16,
   },
   analysisTitle: {
     fontSize: 24,
-    fontFamily: 'Inter_600SemiBold',
-    color: '#8D5241',
+    fontFamily: "Inter_600SemiBold",
+    color: "#8D5241",
   },
   overallScoreBadge: {
-    backgroundColor: '#8D5241',
+    backgroundColor: "#E3BCB5",
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginBottom: 16,
   },
   overallScoreText: {
-    color: '#FFF2DA',
+    color: "#8D5241",
     fontSize: 14,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: "Inter_600SemiBold",
   },
   summaryCard: {
-    backgroundColor: '#F5E6D8',
-    borderRadius: 16,
+    backgroundColor: "#8D52411A",
+    borderRadius: 10,
     padding: 16,
     marginBottom: 12,
   },
   summaryText: {
-    color: '#8D5241',
+    color: "#8D5241",
     fontSize: 14,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
     lineHeight: 22,
   },
   sectionBadge: {
-    backgroundColor: '#8D5241',
+    backgroundColor: "#A67B5B",
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginTop: 8,
     marginBottom: 12,
   },
   sectionBadgeWarning: {
-    backgroundColor: '#C9A178',
+    backgroundColor: "#A67B5B",
   },
   sectionBadgeTip: {
-    backgroundColor: '#A67B5B',
+    backgroundColor: "#A67B5B",
   },
   sectionBadgeText: {
-    color: '#FFF2DA',
+    color: "#FFF2DA",
     fontSize: 13,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: "Inter_600SemiBold",
   },
   feedbackCard: {
-    backgroundColor: '#F5E6D8',
-    borderRadius: 16,
+    backgroundColor: "#8D52411A",
+    borderRadius: 10,
     padding: 16,
-    marginBottom: 12,
+    marginBottom: 20,
     gap: 8,
   },
   feedbackText: {
-    color: '#8D5241',
+    color: "#8D5241",
     fontSize: 14,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
     lineHeight: 22,
   },
   feedbackBold: {
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: "Inter_600SemiBold",
   },
   doneButton: {
-    backgroundColor: '#8D5241',
-    borderRadius: 25,
-    paddingVertical: 16,
+    backgroundColor: "#8D5241",
+    borderRadius: 35,
+    paddingVertical: 20,
     marginTop: 20,
-    alignItems: 'center',
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+    marginHorizontal: 10,
   },
   doneButtonText: {
-    color: '#FFF2DA',
-    fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
+    color: "#FFF2DA",
+    fontSize: 20,
+    fontFamily: "Inter_600SemiBold",
   },
 });

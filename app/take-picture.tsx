@@ -1,6 +1,8 @@
+import { setCapturedImageUri } from "@/store/capturedImageStore";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { CameraView, useCameraPermissions } from "expo-camera";
+import * as ImageManipulator from "expo-image-manipulator";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -44,10 +46,20 @@ export default function TakePictureScreen() {
           base64: false,
         });
         if (photo) {
-          router.push({
-            pathname: "/scan-score",
-            params: { imageUri: photo.uri },
-          });
+          // router.push({
+          //   pathname: "/scan-score",
+          //   params: { imageUri: photo.uri },
+          // });
+          // Convert the JPG photo directly to a PNG using ImageManipulator
+          const manipulatedPhoto = await ImageManipulator.manipulateAsync(
+            photo.uri,
+            [], // No resizing/cropping, just format conversion
+            { format: ImageManipulator.SaveFormat.PNG },
+          );
+
+          // By passing the URI in memory, it averts the Expo Router param corruption
+          setCapturedImageUri(manipulatedPhoto.uri);
+          router.push({ pathname: "/scan-score" });
         }
       } catch (error) {
         Alert.alert("Error", "Failed to take picture");
