@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Button, ScoreCard } from '@/components/ui';
+import { Button } from "@/components/ui";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Mock data for score categories
 const SCORE_CATEGORIES = [
-  { id: '1', name: 'Contour', score: 66 },
-  { id: '2', name: 'Blend Quality', score: 71 },
-  { id: '3', name: 'Foundation', score: 79 },
-  { id: '4', name: 'Base Finish', score: 71 },
-  { id: '5', name: 'Symmetry', score: 88 },
-  { id: '6', name: 'Color Balance', score: 63 },
+  { id: "1", name: "Contour", score: 66 },
+  { id: "2", name: "Blend Quality", score: 71 },
+  { id: "3", name: "Foundation", score: 79 },
+  { id: "4", name: "Base Finish", score: 71 },
+  { id: "5", name: "Symmetry", score: 88 },
+  { id: "6", name: "Color Balance", score: 63 },
 ];
 
 // Mock tips data
 const ANALYSIS_TIPS = [
-  { id: '1', text: 'Your blush looks amazing', type: 'positive' as const },
-  { id: '2', text: 'Try lining your lips more', type: 'suggestion' as const },
-  { id: '3', text: "This worked well, but isn't blended properly", type: 'suggestion' as const },
+  { id: "1", text: "Your blush looks amazing", type: "positive" as const },
+  { id: "2", text: "Try lining your lips more", type: "suggestion" as const },
+  {
+    id: "3",
+    text: "This worked well, but isn't blended properly",
+    type: "suggestion" as const,
+  },
 ];
 
 export default function ScanScreen() {
@@ -43,13 +41,12 @@ export default function ScanScreen() {
 
   const handleViewFullAnalysis = () => {
     // TODO: Navigate to full analysis screen
-    console.log('View full analysis');
+    console.log("View full analysis");
   };
 
   if (!showResults) {
     return (
       <View className="flex-1 bg-cream">
-        <StatusBar style="dark" />
         <SafeAreaView className="flex-1 items-center justify-center px-6">
           <Text className="font-inter-semibold text-2xl text-primary-brown mb-4">
             Scan & score
@@ -71,16 +68,16 @@ export default function ScanScreen() {
 
   return (
     <View className="flex-1">
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
 
       {/* Background gradient */}
       <LinearGradient
-        colors={['rgba(255,242,218,0.8)', 'rgba(249,188,153,0.8)']}
+        colors={["rgba(255,242,218,0.8)", "rgba(249,188,153,0.8)"]}
         locations={[0.2, 0.9]}
         className="absolute inset-0"
       />
 
-      <SafeAreaView className="flex-1" edges={['top']}>
+      <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
         <View className="flex-row items-center px-5 py-3">
           <TouchableOpacity onPress={() => router.back()}>
@@ -108,7 +105,9 @@ export default function ScanScreen() {
           {/* Placeholder for face image */}
           <View className="w-[250px] h-[300px] rounded-[20px] overflow-hidden">
             <Image
-              source={{ uri: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400' }}
+              source={{
+                uri: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400",
+              }}
               className="w-full h-full"
               resizeMode="cover"
             />
@@ -138,7 +137,7 @@ export default function ScanScreen() {
         <View
           className="bg-primary-brown-light rounded-t-[20px] px-5 pt-6 pb-8"
           style={{
-            shadowColor: '#8D5241',
+            shadowColor: "#8D5241",
             shadowOffset: { width: 0, height: -4 },
             shadowOpacity: 0.1,
             shadowRadius: 4,

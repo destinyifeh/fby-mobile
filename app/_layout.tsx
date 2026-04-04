@@ -1,12 +1,3 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ThemeProvider, DefaultTheme } from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-} from "@expo-google-fonts/inter";
 import {
   AbhayaLibre_400Regular,
   AbhayaLibre_500Medium,
@@ -14,8 +5,18 @@ import {
   AbhayaLibre_700Bold,
   AbhayaLibre_800ExtraBold,
 } from "@expo-google-fonts/abhaya-libre";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
@@ -81,6 +82,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeProvider value={FaceByYouTheme}>
+      <StatusBar style="dark" />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen

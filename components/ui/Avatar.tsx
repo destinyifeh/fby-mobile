@@ -1,11 +1,13 @@
-import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 interface AvatarProps {
-  source?: string;
+  source?: any;
   name?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   showOnline?: boolean;
+  showEdit?: boolean;
+  onEdit?: () => void;
 }
 
 export function Avatar({
@@ -13,26 +15,23 @@ export function Avatar({
   name,
   size = 'md',
   showOnline = false,
+  showEdit = false,
+  onEdit,
 }: AvatarProps) {
   const sizeClasses = {
     sm: 'w-8 h-8',
     md: 'w-[50px] h-[50px]',
     lg: 'w-16 h-16',
-    xl: 'w-20 h-20',
+    xl: 'w-24 h-24',
+    xxl: 'w-32 h-32',
   };
 
   const textSizeClasses = {
     sm: 'text-sm',
     md: 'text-lg',
     lg: 'text-xl',
-    xl: 'text-2xl',
-  };
-
-  const onlineDotSizes = {
-    sm: 'w-2 h-2',
-    md: 'w-2.5 h-2.5',
-    lg: 'w-3 h-3',
-    xl: 'w-4 h-4',
+    xl: 'text-3xl',
+    xxl: 'text-4xl',
   };
 
   const getInitials = (name: string) => {
@@ -54,11 +53,13 @@ export function Avatar({
           items-center
           justify-center
           overflow-hidden
+          border-2
+          border-primary-brown/20
         `}
       >
         {source ? (
           <Image
-            source={{ uri: source }}
+            source={typeof source === 'string' ? { uri: source } : source}
             className="w-full h-full"
             resizeMode="cover"
           />
@@ -66,7 +67,7 @@ export function Avatar({
           <Text
             className={`
               text-cream
-              font-inter-semibold
+              font-abhaya-bold
               ${textSizeClasses[size]}
             `}
           >
@@ -80,13 +81,21 @@ export function Avatar({
             absolute
             bottom-0
             right-0
-            ${onlineDotSizes[size]}
+            w-4 h-4
             bg-green-500
             rounded-full
             border-2
             border-cream
           `}
         />
+      )}
+      {showEdit && (
+        <TouchableOpacity
+          onPress={onEdit}
+          className="absolute bottom-0 right-0 w-10 h-10 bg-primary-brown/80 rounded-full border-2 border-cream-light items-center justify-center shadow-sm"
+        >
+          <Ionicons name="pencil-outline" size={20} color="white" />
+        </TouchableOpacity>
       )}
     </View>
   );

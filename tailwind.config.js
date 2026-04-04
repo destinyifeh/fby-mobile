@@ -1,34 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
       colors: {
         // Primary palette
         primary: {
-          brown: '#8D5241',
-          'brown-light': '#A67B5B',
-          'brown-dark': '#373737',
+          brown: "#8D5241",
+          "brown-light": "#A67B5B",
+          "brown-dark": "#373737",
         },
         // Background colors
         cream: {
-          DEFAULT: '#FFF2DA',
-          light: '#FFFBE9',
-          dark: '#FFEDCC',
-          peach: 'rgba(255, 242, 218, 0.74)',
+          DEFAULT: "#FFF2DA",
+          light: "#FFFBE9",
+          dark: "#FFEDCC",
+          peach: "rgba(255, 242, 218, 0.74)",
         },
         // Accent colors
         accent: {
-          pink: '#E3BCB5',
-          'pink-light': 'rgba(227, 188, 181, 0.2)',
-          'pink-medium': 'rgba(227, 188, 181, 0.3)',
-          tan: 'rgba(166, 123, 91, 0.3)',
-          'tan-light': 'rgba(166, 123, 91, 0.22)',
-          'tan-medium': 'rgba(166, 123, 91, 0.5)',
+          pink: "#E3BCB5",
+          "pink-light": "rgba(227, 188, 181, 0.2)",
+          "pink-medium": "rgba(227, 188, 181, 0.3)",
+          tan: "rgba(166, 123, 91, 0.3)",
+          "tan-light": "rgba(166, 123, 91, 0.22)",
+          "tan-medium": "rgba(166, 123, 91, 0.5)",
         },
       },
       fontFamily: {
@@ -43,8 +40,8 @@ module.exports = {
         "abhaya-extrabold": ["AbhayaLibre_800ExtraBold"],
       },
       borderRadius: {
-        '4xl': '2rem',
-        '5xl': '2.5rem',
+        "4xl": "2rem",
+        "5xl": "2.5rem",
       },
     },
   },
