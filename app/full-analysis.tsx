@@ -167,7 +167,7 @@ export default function FullAnalysisScreen() {
           {/* Title */}
           <View style={styles.analysisTitleRow}>
             <Text style={styles.analysisTitle}>Analysis</Text>
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.infoButton}>
               <Ionicons
                 name="information-circle-outline"
                 size={24}
@@ -404,14 +404,20 @@ const styles = StyleSheet.create({
   },
   analysisTitleRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
+    position: "relative",
   },
   analysisTitle: {
     fontSize: 24,
     fontFamily: "Inter_600SemiBold",
     color: "#8D5241",
+    textAlign: "center",
+  },
+  infoButton: {
+    position: "absolute",
+    right: 0,
   },
   overallScoreBadge: {
     backgroundColor: "#E3BCB5",
