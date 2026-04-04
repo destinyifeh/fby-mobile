@@ -17,7 +17,7 @@ export default function HelpSupportScreen() {
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center bg-cream h-20 rounded-3xl mb-4 px-8 justify-between shadow-sm border border-primary-brown/5"
+      className="flex-row items-center h-20 rounded-3xl mb-4 px-8 justify-between bg-cream-light shadow-md"
     >
       <Text className="font-inter-medium text-primary-brown-light text-lg flex-1 pr-4">
         {question}

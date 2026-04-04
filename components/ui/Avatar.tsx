@@ -1,10 +1,10 @@
-import { View, Image, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { fbyIcons } from "@/types";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 interface AvatarProps {
   source?: any;
   name?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  size?: "sm" | "md" | "lg" | "xl" | "xxl";
   showOnline?: boolean;
   showEdit?: boolean;
   onEdit?: () => void;
@@ -13,32 +13,32 @@ interface AvatarProps {
 export function Avatar({
   source,
   name,
-  size = 'md',
+  size = "md",
   showOnline = false,
   showEdit = false,
   onEdit,
 }: AvatarProps) {
   const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-[50px] h-[50px]',
-    lg: 'w-16 h-16',
-    xl: 'w-24 h-24',
-    xxl: 'w-32 h-32',
+    sm: "w-8 h-8",
+    md: "w-[50px] h-[50px]",
+    lg: "w-16 h-16",
+    xl: "w-24 h-24",
+    xxl: "w-32 h-32",
   };
 
   const textSizeClasses = {
-    sm: 'text-sm',
-    md: 'text-lg',
-    lg: 'text-xl',
-    xl: 'text-3xl',
-    xxl: 'text-4xl',
+    sm: "text-sm",
+    md: "text-lg",
+    lg: "text-xl",
+    xl: "text-3xl",
+    xxl: "text-4xl",
   };
 
   const getInitials = (name: string) => {
     return name
-      .split(' ')
+      .split(" ")
       .map((n) => n[0])
-      .join('')
+      .join("")
       .toUpperCase()
       .slice(0, 2);
   };
@@ -59,7 +59,7 @@ export function Avatar({
       >
         {source ? (
           <Image
-            source={typeof source === 'string' ? { uri: source } : source}
+            source={typeof source === "string" ? { uri: source } : source}
             className="w-full h-full"
             resizeMode="cover"
           />
@@ -71,7 +71,7 @@ export function Avatar({
               ${textSizeClasses[size]}
             `}
           >
-            {name ? getInitials(name) : 'U'}
+            {name ? getInitials(name) : "U"}
           </Text>
         )}
       </View>
@@ -92,9 +92,14 @@ export function Avatar({
       {showEdit && (
         <TouchableOpacity
           onPress={onEdit}
-          className="absolute bottom-0 right-0 w-10 h-10 bg-primary-brown/80 rounded-full border-2 border-cream-light items-center justify-center shadow-sm"
+          className="absolute bottom-0 right-0 w-10 h-10 bg-primary-brown-light rounded-full border-2 border-primary-brown-light items-center justify-center shadow-sm p-5"
         >
-          <Ionicons name="pencil-outline" size={20} color="white" />
+          {/* <Ionicons name="pencil-outline" size={20} color="#FFF2DA" /> */}
+          <Image
+            source={fbyIcons.pencil}
+            className="w-6 h-6"
+            resizeMode="contain"
+          />
         </TouchableOpacity>
       )}
     </View>

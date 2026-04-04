@@ -10,7 +10,7 @@ export default function PrivacyPolicyScreen() {
 
   const Section = ({ title, content }: { title: string; content: string }) => (
     <View className="mb-8">
-      <Text className="font-inter-bold text-2xl text-primary-brown mb-3">
+      <Text className="font-inter-bold text-2xl text-primary-brown-light mb-3">
         {title}
       </Text>
       <Text className="font-inter text-xl text-primary-brown-light leading-8">
@@ -50,7 +50,7 @@ export default function PrivacyPolicyScreen() {
             content="When you use Face By You, we may collect information that you provide directly to us, such as your email address. We also collect data related to your interactions with our platform to improve your experience."
           />
           <View className="mb-8">
-            <Text className="font-inter-bold text-2xl text-primary-brown mb-3">
+            <Text className="font-inter-bold text-2xl text-primary-brown-light mb-3">
               2. How We Use Your Information
             </Text>
             <Text className="font-inter text-xl text-primary-brown-light leading-8 mb-4">

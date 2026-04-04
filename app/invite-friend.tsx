@@ -1,9 +1,10 @@
-import React from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+import { fbyIcons } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function InviteFriendScreen() {
   const router = useRouter();
@@ -14,20 +15,30 @@ export default function InviteFriendScreen() {
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
         <View className="flex-row items-center justify-between px-6 py-4">
-          <TouchableOpacity onPress={() => router.back()} className="w-10 h-10 items-center justify-center">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="w-10 h-10 items-center justify-center"
+          >
             <Ionicons name="arrow-back" size={24} color="#8D5241" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">Invite a friend</Text>
+          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+            Invite a friend
+          </Text>
           <View className="w-10" />
         </View>
 
-        <ScrollView className="flex-1 px-8" showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center' }}>
+        <ScrollView
+          className="flex-1 px-8"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ alignItems: "center" }}
+        >
           {/* QR Code Container */}
-          <View className="bg-primary-brown w-full aspect-square rounded-4xl items-center justify-center mt-10 shadow-lg p-10">
-            <View className="bg-white w-full h-full rounded-2xl p-4 items-center justify-center">
-              {/* Sample QR Image or Icon */}
-              <Ionicons name="qr-code-outline" size={180} color="black" />
-            </View>
+          <View className="">
+            <Image
+              source={fbyIcons["qrcode"]}
+              className="w-[299px] h-[264px]"
+              resizeMode="contain"
+            />
           </View>
 
           {/* Invitation Text */}
@@ -42,18 +53,30 @@ export default function InviteFriendScreen() {
 
           {/* Action Buttons */}
           <View className="flex-row w-full mt-12 gap-x-4 pb-10">
-            <TouchableOpacity className="flex-1 bg-primary-brown h-24 rounded-3xl items-center justify-center shadow-md">
+            <TouchableOpacity className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md">
               <View className="flex-row items-center mb-1">
-                <Ionicons name="arrow-redo-outline" size={28} color="white" />
+                {/* <Ionicons name="arrow-redo-outline" size={28} color="#FFF2DA" /> */}
+                <Image
+                  source={fbyIcons.share}
+                  className="w-10 h-10"
+                  resizeMode="contain"
+                />
               </View>
-              <Text className="text-cream text-lg font-abhaya-bold">Share</Text>
+              <Text className="text-cream text-xl font-abhaya-bold">Share</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-1 bg-primary-brown h-24 rounded-3xl items-center justify-center shadow-md">
+            <TouchableOpacity className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md">
               <View className="flex-row items-center mb-1">
-                <Ionicons name="link-outline" size={28} color="white" />
+                <Image
+                  source={fbyIcons.copy}
+                  className="w-10 h-10"
+                  resizeMode="contain"
+                />
+                {/* <Ionicons name="link-outline" size={28} color="#FFF2DA" /> */}
               </View>
-              <Text className="text-cream text-lg font-abhaya-bold">Copy link</Text>
+              <Text className="text-cream text-xl font-abhaya-bold">
+                Copy link
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
