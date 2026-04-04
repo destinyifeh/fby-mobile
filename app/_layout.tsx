@@ -1,33 +1,66 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { ThemeProvider, DefaultTheme } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
+import {
+  AbhayaLibre_400Regular,
+  AbhayaLibre_500Medium,
+  AbhayaLibre_600SemiBold,
+  AbhayaLibre_700Bold,
+  AbhayaLibre_800ExtraBold,
+} from "@expo-google-fonts/abhaya-libre";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import "react-native-reanimated";
 
-import { useColorScheme } from '@/components/useColorScheme';
+import "../global.css";
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: "index",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
+// Custom theme matching Face By You design
+const FaceByYouTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#8D5241",
+    background: "#FFF2DA",
+    card: "#FFF2DA",
+    text: "#8D5241",
+    border: "rgba(0, 0, 0, 0.12)",
+    notification: "#8D5241",
+  },
+};
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    // Inter fonts
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    // Abhaya Libre fonts
+    AbhayaLibre_400Regular,
+    AbhayaLibre_500Medium,
+    AbhayaLibre_600SemiBold,
+    AbhayaLibre_700Bold,
+    AbhayaLibre_800ExtraBold,
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -46,13 +79,17 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+    <ThemeProvider value={FaceByYouTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen
+          name="auth"
+          options={{
+            animation: "slide_from_bottom",
+          }}
+        />
+        <Stack.Screen name="(tabs)" />
       </Stack>
     </ThemeProvider>
   );

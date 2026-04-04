@@ -1,57 +1,117 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { View, Image } from 'react-native';
+import { Tabs } from 'expo-router';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+// Import tab icons
+const homeIcon = require('@/assets/images/home.png');
+const scanIcon = require('@/assets/images/scan.png');
+const historyIcon = require('@/assets/images/history.png');
+const profileIcon = require('@/assets/images/profile.png');
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+interface TabBarIconProps {
+  focused: boolean;
+  icon: any;
+}
+
+function TabBarIcon({ focused, icon }: TabBarIconProps) {
+  return (
+    <View
+      style={{
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: focused ? '#8D5241' : 'transparent',
+      }}
+    >
+      <Image
+        source={icon}
+        style={{
+          width: 24,
+          height: 24,
+          tintColor: '#FFF2DA',
+        }}
+        resizeMode="contain"
+      />
+    </View>
+  );
+}
+
+function TabBarBackground() {
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(166, 123, 91, 0.5)',
+        borderTopLeftRadius: 52,
+        borderTopRightRadius: 52,
+      }}
+    />
+  );
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+        headerShown: false,
+        tabBarActiveTintColor: '#8D5241',
+        tabBarInactiveTintColor: '#8D5241',
+        tabBarShowLabel: false,
+        tabBarBackground: () => <TabBarBackground />,
+        tabBarStyle: {
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 77,
+          backgroundColor: 'transparent',
+          borderTopWidth: 0,
+          paddingHorizontal: 20,
+          paddingTop: 10,
+          elevation: 0,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Home',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={homeIcon} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="scan"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Scan',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={scanIcon} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: 'History',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={historyIcon} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={profileIcon} />
+          ),
         }}
       />
     </Tabs>
