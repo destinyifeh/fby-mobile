@@ -3,7 +3,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function InviteFriendScreen() {
@@ -33,11 +40,28 @@ export default function InviteFriendScreen() {
           contentContainerStyle={{ alignItems: "center" }}
         >
           {/* QR Code Container */}
-          <View className="">
+
+          <View
+            style={{ width: 299, height: 264 }}
+            className="items-center justify-center"
+          >
+            {/* QR Image */}
             <Image
               source={fbyIcons["qrcode"]}
-              className="w-[299px] h-[264px]"
               resizeMode="contain"
+              className="w-[216px] h-[216px]"
+            />
+
+            {/* Color overlay */}
+            <View
+              style={[
+                StyleSheet.absoluteFillObject,
+                {
+                  backgroundColor: "#A67B5B",
+                  opacity: 0.7,
+                  borderRadius: 20,
+                },
+              ]}
             />
           </View>
 
@@ -57,7 +81,7 @@ export default function InviteFriendScreen() {
               <View className="flex-row items-center mb-1">
                 {/* <Ionicons name="arrow-redo-outline" size={28} color="#FFF2DA" /> */}
                 <Image
-                  source={fbyIcons.share}
+                  source={fbyIcons["share"]}
                   className="w-10 h-10"
                   resizeMode="contain"
                 />
@@ -68,7 +92,7 @@ export default function InviteFriendScreen() {
             <TouchableOpacity className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md">
               <View className="flex-row items-center mb-1">
                 <Image
-                  source={fbyIcons.copy}
+                  source={fbyIcons["copy"]}
                   className="w-10 h-10"
                   resizeMode="contain"
                 />
