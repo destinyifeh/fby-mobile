@@ -50,10 +50,10 @@ function ScoreItem({ label, score }: ScoreItemProps) {
             stroke="#E3BCB5"
             strokeWidth={strokeWidth}
             fill="transparent"
-            strokeDasharray={circumference}
-            strokeDashoffset={circumference - progress}
+            strokeDasharray={`${progress} ${circumference}`}
+            strokeDashoffset={0}
             strokeLinecap="round"
-            transform="rotate(-90 27 27)"
+            transform={`rotate(${-90 - (score / 100) * 360} 27 27)`}
           />
         </Svg>
       </View>
