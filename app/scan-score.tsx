@@ -78,6 +78,7 @@ function ScoreItem({ label, score }: ScoreItemProps) {
 
 export default function ScanScoreScreen() {
   const router = useRouter();
+  // const { imageUri } = useLocalSearchParams<{ imageUri: string }>();
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   useFocusEffect(
@@ -107,7 +108,7 @@ export default function ScanScoreScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}

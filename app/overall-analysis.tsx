@@ -52,7 +52,7 @@ export default function OverallAnalysisScreen() {
         <ScrollView
           className="flex-1 px-6"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 40 }}
+          contentContainerStyle={{ paddingBottom: 60 }}
         >
           {/* Average Score Big Circle */}
           <View className="items-center mt-6">

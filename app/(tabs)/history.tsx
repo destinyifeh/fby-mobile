@@ -97,7 +97,7 @@ export default function HistoryScreen() {
       <SafeAreaView className="flex-1" edges={["top"]}>
         <ScrollView
           className="flex-1 px-6"
-          contentContainerStyle={{ paddingBottom: 100 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
           showsVerticalScrollIndicator={false}
         >
           {/* Header Row */}

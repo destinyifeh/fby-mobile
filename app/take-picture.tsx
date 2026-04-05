@@ -59,7 +59,10 @@ export default function TakePictureScreen() {
 
           // By passing the URI in memory, it averts the Expo Router param corruption
           setCapturedImageUri(manipulatedPhoto.uri);
-          router.push({ pathname: "/scan-score" });
+          router.push({
+            pathname: "/scan-score",
+            params: { imageUri: manipulatedPhoto.uri },
+          });
         }
       } catch (error) {
         Alert.alert("Error", "Failed to take picture");
