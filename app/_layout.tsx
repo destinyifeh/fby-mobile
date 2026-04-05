@@ -22,6 +22,7 @@ import { Image, View } from "react-native";
 import "react-native-reanimated";
 import Animated, { FadeIn } from "react-native-reanimated";
 
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
 export { ErrorBoundary } from "expo-router";
@@ -80,7 +81,7 @@ export default function RootLayout() {
       // Delay transition to main app for brand presence
       const timer = setTimeout(() => {
         setIsReady(true);
-      }, 2000);
+      }, 800);
 
       return () => clearTimeout(timer);
     }
@@ -116,18 +117,20 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <ThemeProvider value={FaceByYouTheme}>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen
-          name="auth"
-          options={{
-            animation: "slide_from_bottom",
-          }}
-        />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={FaceByYouTheme}>
+        <StatusBar style="dark" translucent />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen
+            name="auth"
+            options={{
+              animation: "slide_from_bottom",
+            }}
+          />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
