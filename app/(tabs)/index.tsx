@@ -1,40 +1,47 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import { Avatar, LookCard } from '@/components/ui';
+import { Avatar, LookCard } from "@/components/ui";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Placeholder images - in production these would come from an API
 const RECENT_LOOKS = [
-  { id: '1', name: 'Full glam', image: 'https://images.unsplash.com/photo-1526510747491-58f928ec870f?w=200' },
-  { id: '2', name: 'Soft glam', image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200' },
-  { id: '3', name: 'Soft glam', image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200' },
+  {
+    id: "1",
+    name: "Full glam",
+    image: "https://images.unsplash.com/photo-1526510747491-58f928ec870f?w=200",
+  },
+  {
+    id: "2",
+    name: "Soft glam",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200",
+  },
+  {
+    id: "3",
+    name: "Soft glam",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200",
+  },
 ];
 
 export default function HomeScreen() {
   const router = useRouter();
-  const userName = 'Tina';
+  const userName = "Tina";
   const makeupScore = 64;
 
   const handleScoreYourLook = () => {
-    router.push('/take-picture');
+    router.push("/take-picture");
   };
 
   const handleViewMore = () => {
-    router.push('/(tabs)/history');
+    router.push("/(tabs)/history");
   };
 
   return (
     <View className="flex-1 bg-cream">
       <StatusBar style="dark" />
-      <SafeAreaView className="flex-1" edges={['top']}>
+      <SafeAreaView className="flex-1" edges={["top"]}>
         <ScrollView
           className="flex-1"
           contentContainerStyle={{ paddingBottom: 100 }}
@@ -44,16 +51,18 @@ export default function HomeScreen() {
           <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
             <View className="flex-row items-center">
               <Avatar size="md" name={userName} />
-              <View
-                className="ml-3 bg-accent-tan-light rounded-full px-3 py-1.5"
-              >
-                <Text className="font-inter-semibold text-xs text-primary-brown">
+              <View className="ml-3 bg-accent-tan-light rounded-full px-3 py-1.5">
+                <Text className="font-inter-semibold text-sm text-primary-brown">
                   Make up score:{makeupScore}%
                 </Text>
               </View>
             </View>
-            <TouchableOpacity onPress={() => router.push('/notifications')}>
-              <Ionicons name="notifications-outline" size={24} color="#8D5241" />
+            <TouchableOpacity onPress={() => router.push("/notifications")}>
+              <Ionicons
+                name="notifications-outline"
+                size={24}
+                color="#8D5241"
+              />
             </TouchableOpacity>
           </View>
 
@@ -103,6 +112,13 @@ export default function HomeScreen() {
                 "
               >
                 <Ionicons name="camera-outline" size={20} color="#FFF2DA" />
+
+                {/* <Image
+                  source={fbyIcons.camera}
+                  className="w-6 h-6"
+                  resizeMode="contain"
+                /> */}
+
                 <Text className="ml-2 font-abhaya-extrabold text-base text-cream">
                   Score your look
                 </Text>
@@ -112,16 +128,14 @@ export default function HomeScreen() {
 
           {/* Recent Looks Section */}
           <View className="mx-6 mt-6">
-            <View
-              className="bg-accent-tan rounded-[20px] px-5 pt-4 pb-5"
-            >
+            <View className="bg-accent-tan rounded-[20px] px-5 pt-4 pb-5">
               {/* Header */}
               <View className="flex-row items-center justify-between mb-4">
                 <Text className="font-inter-semibold text-xl text-primary-brown">
                   Recent Looks
                 </Text>
                 <TouchableOpacity onPress={handleViewMore}>
-                  <Text className="font-inter text-xs text-primary-brown-light">
+                  <Text className="font-inter text-sm text-primary-brown-light">
                     View more
                   </Text>
                 </TouchableOpacity>
@@ -138,7 +152,7 @@ export default function HomeScreen() {
                     key={look.id}
                     name={look.name}
                     image={look.image}
-                    onPress={() => console.log('Look pressed:', look.name)}
+                    onPress={() => console.log("Look pressed:", look.name)}
                   />
                 ))}
               </ScrollView>

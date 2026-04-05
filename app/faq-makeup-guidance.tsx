@@ -57,7 +57,7 @@ export default function MakeupGuidanceScreen() {
         >
           {/* Intro Card */}
           <View className="bg-primary-brown/5 p-8 rounded-4xl mb-10 border border-primary-brown/10 shadow-sm">
-            <Text className="font-abhaya-bold text-3xl text-primary-brown-light text-center leading-9">
+            <Text className="font-abhaya-bold text-3xl text-primary-brown text-center leading-9">
               Discover how Face By You analyzes your makeup and builds guidance
               that truly works for you.
             </Text>

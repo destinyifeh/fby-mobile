@@ -13,7 +13,7 @@ export default function ScanScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream">
+    <View className="flex-1 bg-cream-light">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
