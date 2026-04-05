@@ -75,15 +75,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (Platform.OS === "android") {
-      // 1. Set the background color to fully transparent
-      NavigationBar.setBackgroundColorAsync("#ffffff00");
-
-      // 2. Set the position to absolute so your app content
-      // sits behind the navigation bar
-      NavigationBar.setPositionAsync("absolute");
-
-      // 3. Optional: Set the button tint based on your background
-      // Use 'dark' if your app background is light (like your cream color)
+      NavigationBar.setBackgroundColorAsync("#FFF2DA"); // match your UI
       NavigationBar.setButtonStyleAsync("dark");
     }
   }, []);
