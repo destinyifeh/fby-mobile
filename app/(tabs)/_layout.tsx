@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Image, View } from "react-native";
-
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // Import tab icons
 const homeIcon = require("@/assets/images/home.png");
 const scanIcon = require("@/assets/images/scan.png");
@@ -28,8 +28,8 @@ function TabBarIcon({ focused, icon }: TabBarIconProps) {
       <Image
         source={icon}
         style={{
-          width: 24,
-          height: 24,
+          width: 25,
+          height: 25,
           tintColor: "#FFF2DA",
         }}
         resizeMode="contain"
@@ -56,6 +56,7 @@ function TabBarBackground() {
 }
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -66,15 +67,20 @@ export default function TabLayout() {
         tabBarBackground: () => <TabBarBackground />,
         tabBarStyle: {
           position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 95,
+          // bottom: 0,
+          // left: 0,
+          // right: 0,
+          left: 20,
+          right: 20,
+          bottom: insets.bottom + 0,
+          height: 70,
+          //height: 95,
           backgroundColor: "transparent",
           borderTopWidth: 0,
           paddingHorizontal: 20,
-          paddingTop: 10,
-          paddingBottom: 25,
+          paddingTop: 15,
+          // paddingTop: 10,
+          //paddingBottom: 25,
           elevation: 0,
         },
       }}

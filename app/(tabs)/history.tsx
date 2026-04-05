@@ -10,7 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 // Mock history data
 const HISTORY_ITEMS = [
@@ -90,14 +93,17 @@ function HistoryCard({ item, onPress }: HistoryCardProps) {
 
 export default function HistoryScreen() {
   const router = useRouter();
-
+  const insets = useSafeAreaInsets();
   return (
     <View className="flex-1 bg-cream-light">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         <ScrollView
           className="flex-1 px-6"
-          contentContainerStyle={{ paddingBottom: 120 }}
+          contentContainerStyle={{
+            // paddingBottom: 120
+            paddingBottom: insets.bottom + 100,
+          }}
           showsVerticalScrollIndicator={false}
         >
           {/* Header Row */}
@@ -242,7 +248,7 @@ export default function HistoryScreen() {
                 {/* CTA Button */}
                 <TouchableOpacity className="absolute bottom-4 right-4 bg-primary-brown/40 px-4 py-1.5 rounded-full">
                   <Text className="text-white font-inter-medium text-sm">
-                    view full details
+                    View full details
                   </Text>
                 </TouchableOpacity>
               </View>

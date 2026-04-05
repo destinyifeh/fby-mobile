@@ -22,14 +22,19 @@
         "backgroundColor": "#FFF2DA"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.facebyyou"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font", "expo-system-ui"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-system-ui"
+    ],
     "experiments": {
       "typedRoutes": true
     }
