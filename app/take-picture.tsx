@@ -186,16 +186,16 @@ export default function TakePictureScreen() {
 
         {/* Bottom Controls */}
         <View style={styles.bottomControls}>
-          <TouchableOpacity onPress={handleBack}>
+          {/* <TouchableOpacity onPress={handleBack}>
             <Image source={resetIcon} style={styles.resetIcon} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Capture Button */}
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
             <View style={styles.captureButtonInner} />
           </TouchableOpacity>
 
-          <View style={{ width: 40 }} />
+          {/* <View style={{ width: 40 }} /> */}
         </View>
       </SafeAreaView>
     </View>

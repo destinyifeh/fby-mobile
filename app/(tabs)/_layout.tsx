@@ -1,12 +1,12 @@
-import React from 'react';
-import { View, Image } from 'react-native';
-import { Tabs } from 'expo-router';
+import { Tabs } from "expo-router";
+import React from "react";
+import { Image, View } from "react-native";
 
 // Import tab icons
-const homeIcon = require('@/assets/images/home.png');
-const scanIcon = require('@/assets/images/scan.png');
-const historyIcon = require('@/assets/images/history.png');
-const profileIcon = require('@/assets/images/profile.png');
+const homeIcon = require("@/assets/images/home.png");
+const scanIcon = require("@/assets/images/scan.png");
+const historyIcon = require("@/assets/images/history.png");
+const profileIcon = require("@/assets/images/profile.png");
 
 interface TabBarIconProps {
   focused: boolean;
@@ -20,9 +20,9 @@ function TabBarIcon({ focused, icon }: TabBarIconProps) {
         width: 50,
         height: 50,
         borderRadius: 25,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: focused ? '#8D5241' : 'transparent',
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: focused ? "#8D5241" : "transparent",
       }}
     >
       <Image
@@ -30,7 +30,7 @@ function TabBarIcon({ focused, icon }: TabBarIconProps) {
         style={{
           width: 24,
           height: 24,
-          tintColor: '#FFF2DA',
+          tintColor: "#FFF2DA",
         }}
         resizeMode="contain"
       />
@@ -42,12 +42,12 @@ function TabBarBackground() {
   return (
     <View
       style={{
-        position: 'absolute',
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(166, 123, 91, 0.5)',
+        backgroundColor: "rgba(166, 123, 91, 0.5)",
         borderTopLeftRadius: 52,
         borderTopRightRadius: 52,
       }}
@@ -60,20 +60,21 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#8D5241',
-        tabBarInactiveTintColor: '#8D5241',
+        tabBarActiveTintColor: "#8D5241",
+        tabBarInactiveTintColor: "#8D5241",
         tabBarShowLabel: false,
         tabBarBackground: () => <TabBarBackground />,
         tabBarStyle: {
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          height: 77,
-          backgroundColor: 'transparent',
+          height: 95,
+          backgroundColor: "transparent",
           borderTopWidth: 0,
           paddingHorizontal: 20,
           paddingTop: 10,
+          paddingBottom: 25,
           elevation: 0,
         },
       }}
@@ -81,7 +82,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: "Home",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={homeIcon} />
           ),
@@ -90,7 +91,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scan"
         options={{
-          title: 'Scan',
+          title: "Scan",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={scanIcon} />
           ),
@@ -99,7 +100,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: 'History',
+          title: "History",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={historyIcon} />
           ),
@@ -108,7 +109,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: "Profile",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={profileIcon} />
           ),

@@ -240,11 +240,11 @@ export default function HistoryScreen() {
                 />
 
                 {/* CTA Button */}
-                <View className="absolute bottom-4 right-4 bg-primary-brown/40 px-4 py-1.5 rounded-full">
+                <TouchableOpacity className="absolute bottom-4 right-4 bg-primary-brown/40 px-4 py-1.5 rounded-full">
                   <Text className="text-white font-inter-medium text-sm">
                     view full details
                   </Text>
-                </View>
+                </TouchableOpacity>
               </View>
             </LinearGradient>
           </View>
