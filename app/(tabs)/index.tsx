@@ -4,8 +4,10 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 // Placeholder images - in production these would come from an API
 const RECENT_LOOKS = [
   {
@@ -27,6 +29,7 @@ const RECENT_LOOKS = [
 
 export default function HomeScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const userName = "Tina";
   const makeupScore = 64;
 
@@ -41,10 +44,13 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-cream">
       <StatusBar style="dark" />
-      <SafeAreaView className="flex-1" edges={["top"]}>
+      <SafeAreaView className="flex-1 bg-cream" edges={["top", "bottom"]}>
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ paddingBottom: 100 }}
+          contentContainerStyle={{
+            // paddingBottom: 100
+            paddingBottom: insets.bottom + 40,
+          }}
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
