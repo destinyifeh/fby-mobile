@@ -17,8 +17,11 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Image, View } from "react-native";
 import "react-native-reanimated";
+
 
 import "../global.css";
 
@@ -45,7 +48,10 @@ const FaceByYouTheme = {
   },
 };
 
+const fbyLogo = require("../assets/images/fby-logo.png");
+
 export default function RootLayout() {
+
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     // Inter fonts
@@ -62,22 +68,47 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
     if (loaded) {
+      // Hide native splash immediately when fonts are loaded
       SplashScreen.hideAsync();
+      
+      // Delay transition to main app for brand presence
+      const timer = setTimeout(() => {
+        setIsReady(true);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || !isReady) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#FFF2DA", alignItems: "center", justifyContent: "center" }}>
+        <Animated.View entering={FadeIn.duration(800)}>
+          <Image
+            source={fbyLogo}
+            style={{ width: 240, height: 60 }}
+            resizeMode="contain"
+          />
+        </Animated.View>
+      </View>
+    );
   }
 
-  return <RootLayoutNav />;
+  return (
+    <Animated.View style={{ flex: 1 }} entering={FadeIn.duration(500)}>
+      <RootLayoutNav />
+    </Animated.View>
+  );
 }
+
 
 function RootLayoutNav() {
   return (
