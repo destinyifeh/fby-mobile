@@ -14,14 +14,14 @@ import {
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import * as NavigationBar from "expo-navigation-bar";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { Image, View } from "react-native";
+import { Image, Platform, View } from "react-native";
 import "react-native-reanimated";
-
+import Animated, { FadeIn } from "react-native-reanimated";
 
 import "../global.css";
 
@@ -51,7 +51,6 @@ const FaceByYouTheme = {
 const fbyLogo = require("../assets/images/fby-logo.png");
 
 export default function RootLayout() {
-
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     // Inter fonts
@@ -75,22 +74,44 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
+    if (Platform.OS === "android") {
+      // 1. Set the background color to fully transparent
+      NavigationBar.setBackgroundColorAsync("#ffffff00");
+
+      // 2. Set the position to absolute so your app content
+      // sits behind the navigation bar
+      NavigationBar.setPositionAsync("absolute");
+
+      // 3. Optional: Set the button tint based on your background
+      // Use 'dark' if your app background is light (like your cream color)
+      NavigationBar.setButtonStyleAsync("dark");
+    }
+  }, []);
+
+  useEffect(() => {
     if (loaded) {
       // Hide native splash immediately when fonts are loaded
       SplashScreen.hideAsync();
-      
+
       // Delay transition to main app for brand presence
       const timer = setTimeout(() => {
         setIsReady(true);
       }, 2000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [loaded]);
 
   if (!loaded || !isReady) {
     return (
-      <View style={{ flex: 1, backgroundColor: "#FFF2DA", alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#FFF2DA",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Animated.View entering={FadeIn.duration(800)}>
           <Image
             source={fbyLogo}
@@ -108,7 +129,6 @@ export default function RootLayout() {
     </Animated.View>
   );
 }
-
 
 function RootLayoutNav() {
   return (
