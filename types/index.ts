@@ -81,5 +81,5 @@ export const fbyIcons: Record<FbyIconName, any> = {
   questionMark: require("@/assets/icons/question-mark.png"),
   calendarLove: require("@/assets/icons/calendar-love.png"),
   camera: require("@/assets/icons/camera.png"),
-  qrcode: require("@/assets/images/qrcode.png"),
+  qrcode: require("@/assets/images/fby-qrcode.png"),
 };
