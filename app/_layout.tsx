@@ -81,7 +81,7 @@ export default function RootLayout() {
       // Delay transition to main app for brand presence
       const timer = setTimeout(() => {
         setIsReady(true);
-      }, 800);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
@@ -119,7 +119,7 @@ function RootLayoutNav() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={FaceByYouTheme}>
-        <StatusBar style="dark" translucent />
+        <StatusBar style="dark" />
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
           <Stack.Screen
