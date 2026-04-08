@@ -4,17 +4,38 @@ import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
+  Alert,
   Image,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as Clipboard from "expo-clipboard";
+import { SITE_LINK } from "@/constants/utils";
 
 export default function InviteFriendScreen() {
   const router = useRouter();
+  const inviteLink = SITE_LINK;
+
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `Join me on Face By You and become your own MUA! Check it out here: ${inviteLink}`,
+        url: inviteLink, // iOS only
+      });
+    } catch (error: any) {
+      Alert.alert("Share Error", error.message);
+    }
+  };
+
+  const handleCopy = async () => {
+    await Clipboard.setStringAsync(inviteLink);
+    Alert.alert("Success", "Invitation link copied to clipboard!");
+  };
 
   return (
     <View className="flex-1 bg-cream-light">
@@ -40,7 +61,6 @@ export default function InviteFriendScreen() {
           contentContainerStyle={{ alignItems: "center" }}
         >
           {/* QR Code Container */}
-
           <View
             style={{ width: 299, height: 264 }}
             className="items-center justify-center"
@@ -49,7 +69,7 @@ export default function InviteFriendScreen() {
             <Image
               source={fbyIcons["qrcode"]}
               resizeMode="contain"
-              className="w-[216px] h-[216px]"
+              className="w-[216px] h-[216px] z-10"
             />
 
             {/* Color overlay */}
@@ -77,9 +97,11 @@ export default function InviteFriendScreen() {
 
           {/* Action Buttons */}
           <View className="flex-row w-full mt-12 gap-x-4 pb-10">
-            <TouchableOpacity className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md">
+            <TouchableOpacity 
+              onPress={handleShare}
+              className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md active:opacity-80"
+            >
               <View className="flex-row items-center mb-1">
-                {/* <Ionicons name="arrow-redo-outline" size={28} color="#FFF2DA" /> */}
                 <Image
                   source={fbyIcons["share"]}
                   className="w-10 h-10"
@@ -89,14 +111,16 @@ export default function InviteFriendScreen() {
               <Text className="text-cream text-xl font-abhaya-bold">Share</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md">
+            <TouchableOpacity 
+              onPress={handleCopy}
+              className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md active:opacity-80"
+            >
               <View className="flex-row items-center mb-1">
                 <Image
                   source={fbyIcons["copy"]}
                   className="w-10 h-10"
                   resizeMode="contain"
                 />
-                {/* <Ionicons name="link-outline" size={28} color="#FFF2DA" /> */}
               </View>
               <Text className="text-cream text-xl font-abhaya-bold">
                 Copy link

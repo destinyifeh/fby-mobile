@@ -23,7 +23,12 @@ import "react-native-reanimated";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "@/src/providers/AuthProvider";
+import { AuthGate } from "@/src/components/AuthGate";
 import "../global.css";
+
+const queryClient = new QueryClient();
 
 export { ErrorBoundary } from "expo-router";
 
@@ -118,19 +123,25 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={FaceByYouTheme}>
-        <StatusBar style="dark" />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen
-            name="auth"
-            options={{
-              animation: "slide_from_bottom",
-            }}
-          />
-          <Stack.Screen name="(tabs)" />
-        </Stack>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider value={FaceByYouTheme}>
+            <StatusBar style="dark" />
+            <AuthGate>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen
+                  name="auth"
+                  options={{
+                    animation: "slide_from_bottom",
+                  }}
+                />
+                <Stack.Screen name="(tabs)" />
+              </Stack>
+            </AuthGate>
+          </ThemeProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }

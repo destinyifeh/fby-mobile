@@ -4,10 +4,11 @@ import { BlurView } from "expo-blur";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import * as ImageManipulator from "expo-image-manipulator";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   StyleSheet,
@@ -32,19 +33,31 @@ export default function TakePictureScreen() {
   const router = useRouter();
   const [facing, setFacing] = useState<"front" | "back">("front");
   const [permission, requestPermission] = useCameraPermissions();
+  const [isProcessing, setIsProcessing] = useState(false);
   const cameraRef = useRef<CameraView>(null);
+
+  // Reset processing state when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      setIsProcessing(false);
+    }, [])
+  );
 
   const handleBack = () => {
     router.back();
   };
 
   const takePicture = async () => {
-    if (cameraRef.current) {
+    if (cameraRef.current && !isProcessing) {
       try {
         const photo = await cameraRef.current.takePictureAsync({
           quality: 0.8,
           base64: false,
         });
+
+        // Show processing look after the shutter has finished
+        setIsProcessing(true);
+
         if (photo) {
           // router.push({
           //   pathname: "/scan-score",
@@ -61,11 +74,12 @@ export default function TakePictureScreen() {
           setCapturedImageUri(manipulatedPhoto.uri);
           router.push({
             pathname: "/scan-score",
-            params: { imageUri: manipulatedPhoto.uri },
+            params: { imageUri: manipulatedPhoto.uri, from: "camera" },
           });
         }
       } catch (error) {
         Alert.alert("Error", "Failed to take picture");
+        setIsProcessing(false);
       }
     }
   };
@@ -163,6 +177,15 @@ export default function TakePictureScreen() {
                 <Text style={styles.badgeSubtitle}>lighting</Text>
               </View>
             </BlurView>
+
+            {/* Processing Overlay */}
+            {isProcessing && (
+              <View style={styles.processingOverlay}>
+                <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
+                <ActivityIndicator size="large" color="#8D5241" />
+                <Text style={styles.processingText}>Processing Look...</Text>
+              </View>
+            )}
           </LinearGradient>
         </View>
 
@@ -194,7 +217,11 @@ export default function TakePictureScreen() {
           </TouchableOpacity> */}
 
           {/* Capture Button */}
-          <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
+          <TouchableOpacity 
+            style={[styles.captureButton, isProcessing && { opacity: 0.5 }]} 
+            onPress={takePicture}
+            disabled={isProcessing}
+          >
             <View style={styles.captureButtonInner} />
           </TouchableOpacity>
 
@@ -418,5 +445,18 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 18,
     backgroundColor: "#C4A68D",
+  },
+  processingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 100,
+  },
+  processingText: {
+    marginTop: 16,
+    color: "#8D5241",
+    fontSize: 18,
+    fontFamily: "Inter_600SemiBold",
   },
 });

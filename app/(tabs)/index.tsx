@@ -1,13 +1,19 @@
-import { Avatar, LookCard } from "@/components/ui";
+import { Avatar, LookCard, Button } from "@/components/ui";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, TouchableOpacity, View, Modal, Dimensions } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { useAuthStore } from "@/src/store/useAuthStore";
+import { capitalize } from "@/constants/utils";
+import { BlurView } from "expo-blur";
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
 // Placeholder images - in production these would come from an API
 const RECENT_LOOKS = [
   {
@@ -29,9 +35,22 @@ const RECENT_LOOKS = [
 
 export default function HomeScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
   const insets = useSafeAreaInsets();
-  const userName = "Tina";
+  const { user } = useAuthStore();
+  const rawName = user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina";
+  const userName = capitalize(rawName);
   const makeupScore = 64;
+
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    if (params.login === 'true') {
+      setShowWelcome(true);
+      // Clean up the URL param
+      router.setParams({ login: '' });
+    }
+  }, [params.login]);
 
   const handleScoreYourLook = () => {
     router.push("/take-picture");
@@ -166,6 +185,72 @@ export default function HomeScreen() {
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      {/* Welcome / Beautify Onboarding Modal (Temporary Demo) */}
+      <Modal
+        visible={showWelcome}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowWelcome(false)}
+      >
+        <View className="flex-1 justify-end">
+          <BlurView intensity={20} tint="dark" className="absolute inset-0" />
+          <TouchableOpacity 
+            className="flex-1" 
+            activeOpacity={1} 
+            onPress={() => setShowWelcome(false)} 
+          />
+          
+          <View 
+            className="bg-cream rounded-t-[40px] px-8 pt-10 pb-12 shadow-2xl"
+            style={{ maxHeight: SCREEN_HEIGHT * 0.7 }}
+          >
+            <View className="w-12 h-1.5 bg-primary-brown/10 rounded-full self-center mb-8" />
+            
+            <View className="items-center mb-6">
+              <View className="w-20 h-20 bg-accent-tan rounded-full items-center justify-center mb-4 border-4 border-white/50">
+                <Ionicons name="sparkles" size={40} color="#8D5241" />
+              </View>
+              <Text className="font-abhaya-bold text-4xl text-primary-brown text-center">
+                A Glimpse of the Future!
+              </Text>
+            </View>
+
+            <Text className="font-inter text-lg text-primary-brown-light text-center mb-8 leading-7">
+              This is just a preview, real data isn’t live yet. We wanted to
+              give you a feel for what we’re building at Face By You.
+            </Text>
+
+            <View className="gap-y-4 mb-8">
+              <View className="flex-row items-center bg-[#A67B5B12] p-4 rounded-2xl">
+                <View className="w-10 h-10 bg-primary-brown rounded-full items-center justify-center mr-4">
+                  <Ionicons name="scan" size={20} color="#FFF2DA" />
+                </View>
+                <Text className="flex-1 font-inter-semibold text-primary-brown text-base">
+                  Real-time Makeup Scoring & Feedback
+                </Text>
+              </View>
+              
+              <View className="flex-row items-center bg-[#A67B5B12] p-4 rounded-2xl">
+                <View className="w-10 h-10 bg-primary-brown rounded-full items-center justify-center mr-4">
+                  <Ionicons name="color-palette" size={20} color="#FFF2DA" />
+                </View>
+                <Text className="flex-1 font-inter-semibold text-primary-brown text-base">
+                  Symmetry & Color Balance Analysis
+                </Text>
+              </View>
+            </View>
+
+            <Button 
+              title="Let's Start Glowing!" 
+              variant="primary" 
+              size="lg" 
+              fullWidth 
+              onPress={() => setShowWelcome(false)}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

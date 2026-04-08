@@ -53,7 +53,7 @@ export default function MakeupGuidanceScreen() {
         <ScrollView
           className="flex-1 px-8 py-6"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 40 }}
+          contentContainerStyle={{ paddingBottom: 70 }}
         >
           {/* Intro Card */}
           <View className="bg-primary-brown/5 p-8 rounded-4xl mb-10 border border-primary-brown/10 shadow-sm">

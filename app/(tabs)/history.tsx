@@ -14,6 +14,9 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { Avatar } from "@/components/ui/Avatar";
+import { useAuthStore } from "@/src/store/useAuthStore";
+import { capitalize } from "@/constants/utils";
 
 // Mock history data
 const HISTORY_ITEMS = [
@@ -94,6 +97,8 @@ function HistoryCard({ item, onPress }: HistoryCardProps) {
 export default function HistoryScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { user } = useAuthStore();
+  const userName = capitalize(user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina");
   return (
     <View className="flex-1 bg-cream-light">
       <StatusBar style="dark" />
@@ -108,16 +113,8 @@ export default function HistoryScreen() {
         >
           {/* Header Row */}
           <View className="flex-row items-center mt-4">
-            <View className="w-16 h-16 rounded-full bg-primary-brown items-center justify-center mr-4">
-              {/* Optional: Add user avatar image here */}
-              {/* <Image
-                source={require("@/assets/images/profile.png")}
-                resizeMode="contain"
-                className="h-10 w-10"
-              /> */}
-              <Text className="text-cream font-abhaya-bold text-2xl">
-                {"U"}
-              </Text>
+            <View className="mr-4">
+              <Avatar size="lg" name={userName} />
             </View>
             <View
               className="bg-[#8D524133] px-5 justify-center items-center"
@@ -246,7 +243,10 @@ export default function HistoryScreen() {
                 />
 
                 {/* CTA Button */}
-                <TouchableOpacity className="absolute bottom-4 right-4 bg-primary-brown/40 px-4 py-1.5 rounded-full">
+                <TouchableOpacity 
+                  onPress={() => router.push("/full-analysis")}
+                  className="absolute bottom-4 right-4 bg-primary-brown/40 px-4 py-1.5 rounded-full"
+                >
                   <Text className="text-white font-inter-medium text-sm">
                     View full details
                   </Text>
@@ -261,7 +261,7 @@ export default function HistoryScreen() {
               <HistoryCard
                 key={item.id}
                 item={item}
-                onPress={() => console.log("View detail", item.id)}
+                onPress={() => router.push("/full-analysis")}
               />
             ))}
           </View>

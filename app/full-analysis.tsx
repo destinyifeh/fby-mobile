@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Path } from "react-native-svg";
+import { fbyIcons } from "@/types";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -55,9 +56,7 @@ export default function FullAnalysisScreen() {
         {/* Image Section with Overlays */}
         <View style={styles.imageSection}>
           <Image
-            source={
-              imageUri ? { uri: imageUri } : require("@/assets/images/user.png")
-            }
+            source={imageUri ? { uri: imageUri } : fbyIcons.makeupLady}
             style={styles.capturedImage}
             resizeMode="cover"
           />
@@ -137,8 +136,8 @@ export default function FullAnalysisScreen() {
             </Svg>
           </View>
 
-          {/* Dotted Cheek / Under-Eye Highlights */}
-          <View style={styles.cheekHighlightLeft} pointerEvents="none">
+          {/* Dotted Cheek / Under-Eye Highlights - Commented out for now */}
+          {/* <View style={styles.cheekHighlightLeft} pointerEvents="none">
             <Svg height="80" width="100">
               <Path
                 d="M 15 20 Q -5 40 20 60 Q 50 80 80 60 Q 100 40 85 25 Q 70 15 50 25 Q 30 35 15 20"
@@ -159,7 +158,7 @@ export default function FullAnalysisScreen() {
                 strokeDasharray="4, 4"
               />
             </Svg>
-          </View>
+          </View> */}
         </View>
 
         {/* Analysis Card */}

@@ -6,6 +6,8 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuthStore } from "@/src/store/useAuthStore";
+import { capitalize } from "@/constants/utils";
 
 interface ProfileMenuItemProps {
   icon: keyof typeof Ionicons.glyphMap;
@@ -44,8 +46,10 @@ function ProfileMenuItem({
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const userName = "Tina Joy";
-  const userEmail = "tinajoy@gmail.com";
+  const { user } = useAuthStore();
+  const rawName = user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina Joy";
+  const userName = capitalize(rawName);
+  const userEmail = user?.email || "tinajoy@gmail.com";
   const makeupScore = 64;
 
   return (
@@ -75,6 +79,7 @@ export default function ProfileScreen() {
           <View className="items-center mt-4 mb-8 px-6">
             <Avatar
               size="xxl"
+              name={userName}
               //source={require("@/assets/images/profile.png")}
               showEdit={true}
               onEdit={() => router.push("/personal-info")}

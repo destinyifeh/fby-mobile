@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HelpSupportScreen() {
@@ -69,7 +69,10 @@ export default function HelpSupportScreen() {
             <Text className="font-inter-semibold text-xl text-primary-brown-light mb-6 self-start">
               Need more help?
             </Text>
-            <TouchableOpacity className="flex-row items-center bg-primary-brown w-full h-[50px] rounded-[50px] justify-center shadow-lg">
+            <TouchableOpacity 
+              onPress={() => router.push({ pathname: "/contact-us", params: { type: "contact" } })}
+              className="flex-row items-center bg-primary-brown w-full h-[50px] rounded-[50px] justify-center shadow-lg"
+            >
               <View className="mr-4">
                 {/* <Ionicons
                   name="shield-checkmark-outline"
@@ -86,7 +89,10 @@ export default function HelpSupportScreen() {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="mt-8">
+            <TouchableOpacity 
+              onPress={() => router.push({ pathname: "/contact-us", params: { type: "issue" } })}
+              className="mt-8"
+            >
               <Text className="text-primary-brown-light text-2xl font-abhaya-bold opacity-80">
                 Report an issue
               </Text>

@@ -1,12 +1,13 @@
 import { getCapturedImageUri } from "@/store/capturedImageStore";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useState } from "react";
 import {
   Dimensions,
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -78,8 +79,10 @@ function ScoreItem({ label, score }: ScoreItemProps) {
 
 export default function ScanScoreScreen() {
   const router = useRouter();
-  // const { imageUri } = useLocalSearchParams<{ imageUri: string }>();
+  const params = useLocalSearchParams();
+  const fromCamera = params.from === "camera";
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [showAiDemo, setShowAiDemo] = useState(fromCamera);
 
   useFocusEffect(
     useCallback(() => {
@@ -142,6 +145,51 @@ export default function ScanScoreScreen() {
               </Text>
             </BlurView>
           </View>
+
+          {/* AI Internal Clue Message (Temporary Bottom Sheet) */}
+          <Modal
+            visible={showAiDemo}
+            transparent
+            animationType="slide"
+            onRequestClose={() => setShowAiDemo(false)}
+          >
+            <View style={styles.modalOverlay}>
+              <TouchableOpacity
+                style={{ flex: 1 }}
+                activeOpacity={1}
+                onPress={() => setShowAiDemo(false)}
+              />
+              <View style={styles.demoSheet}>
+                <View style={styles.sheetHandle} />
+                <View style={styles.demoHeader}>
+                  <View style={styles.sparkleIcon}>
+                    <Ionicons name="sparkles" size={24} color="#8D5241" />
+                  </View>
+                  <Text style={styles.demoTitle}>Proof of Concept</Text>
+                  <TouchableOpacity
+                    onPress={() => setShowAiDemo(false)}
+                    style={styles.closeIcon}
+                  >
+                    <Ionicons name="close" size={24} color="#8D5241" />
+                  </TouchableOpacity>
+                </View>
+
+                <Text style={styles.demoSheetText}>
+                  This is just a demo preview, no real data is being used yet.
+                  Once the app is fully live, all scores, analysis, and
+                  recommendations will be generated dynamically by Face By You
+                  AI.
+                </Text>
+
+                <TouchableOpacity
+                  style={styles.gotItButton}
+                  onPress={() => setShowAiDemo(false)}
+                >
+                  <Text style={styles.gotItText}>Got it!</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           {/* Callout 1: Top Right */}
           <View style={[styles.callout1Wrapper, { zIndex: 10 }]}>
@@ -209,8 +257,8 @@ export default function ScanScoreScreen() {
             </Svg>
           </View>
 
-          {/* Dotted Cheek / Under-Eye Highlights */}
-          <View style={styles.cheekHighlightLeft} pointerEvents="none">
+          {/* Dotted Cheek / Under-Eye Highlights - Commented out for now */}
+          {/* <View style={styles.cheekHighlightLeft} pointerEvents="none">
             <Svg height="80" width="100">
               <Path
                 d="M 15 20 Q -5 40 20 60 Q 50 80 80 60 Q 100 40 85 25 Q 70 15 50 25 Q 30 35 15 20"
@@ -231,7 +279,7 @@ export default function ScanScoreScreen() {
                 strokeDasharray="4, 4"
               />
             </Svg>
-          </View>
+          </View> */}
         </View>
 
         {/* Scores Bottom Sheet */}
@@ -318,6 +366,99 @@ const styles = StyleSheet.create({
     color: "#E8D4C4",
     fontSize: 14,
     fontFamily: "Inter_500Medium",
+  },
+  aiMessageWrapper: {
+    position: "absolute",
+    top: 160,
+    left: 20,
+    right: 20,
+    zIndex: 20,
+  },
+  aiMessageInner: {
+    padding: 12,
+    borderRadius: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.6)",
+    overflow: "hidden",
+  },
+  aiMessageText: {
+    color: "#8D5241",
+    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+    flex: 1,
+    marginLeft: 8,
+    lineHeight: 18,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  demoSheet: {
+    backgroundColor: "#FAF3E8",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 40,
+  },
+  sheetHandle: {
+    width: 40,
+    height: 4,
+    backgroundColor: "rgba(141,82,65,0.2)",
+    borderRadius: 2,
+    alignSelf: "center",
+    marginBottom: 20,
+  },
+  demoHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  sparkleIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#E3BCB533",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+  demoTitle: {
+    flex: 1,
+    fontSize: 22,
+    fontFamily: "Inter_600SemiBold",
+    color: "#8D5241",
+  },
+  closeIcon: {
+    padding: 8,
+  },
+  demoSheetText: {
+    fontSize: 16,
+    color: "#8D5241",
+    fontFamily: "Inter_400Regular",
+    lineHeight: 24,
+    marginBottom: 30,
+  },
+  gotItButton: {
+    backgroundColor: "#8D5241",
+    height: 60,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  gotItText: {
+    color: "#FFF2DA",
+    fontSize: 18,
+    fontFamily: "Inter_600SemiBold",
   },
   callout1Wrapper: {
     position: "absolute",

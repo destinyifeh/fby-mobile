@@ -67,7 +67,8 @@ export type FbyIconName =
   | "questionMark"
   | "calendarLove"
   | "camera"
-  | "qrcode";
+  | "qrcode"
+  | "makeupLady";
 
 export const fbyIcons: Record<FbyIconName, any> = {
   user: require("@/assets/icons/user-icon.png"),
@@ -82,4 +83,5 @@ export const fbyIcons: Record<FbyIconName, any> = {
   calendarLove: require("@/assets/icons/calendar-love.png"),
   camera: require("@/assets/icons/camera.png"),
   qrcode: require("@/assets/images/fby-qrcode.png"),
+  makeupLady: require("@/assets/images/makeup-lady.png"),
 };

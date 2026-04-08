@@ -17,7 +17,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, signUpSchema, LoginFormValues, SignUpFormValues } from "@/lib/validations/auth";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useSocialAuth } from "@/src/hooks/useSocialAuth";
 
 const fbyLogo = require("@/assets/images/fby-logo.png");
 const userIcon = require("@/assets/images/user.png");
@@ -45,26 +49,238 @@ const GoogleLogo = ({ size = 28 }: { size?: number }) => (
   </Svg>
 );
 
+const SocialLogins = () => {
+  const { loginWithProvider } = useSocialAuth();
+  
+  return (
+    <>
+      {/* Divider */}
+      <View className="flex-row items-center my-2">
+        <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
+        <Text className="mx-4 text-primary-brown-light font-inter text-base">Or</Text>
+        <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
+      </View>
+
+      {/* Social Login */}
+      <View className="flex-row justify-center gap-6 mt-2">
+        <TouchableOpacity
+          onPress={() => loginWithProvider("google")}
+          className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
+        >
+          <GoogleLogo size={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => loginWithProvider("apple")}
+          className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
+        >
+          <Ionicons name="logo-apple" size={32} color="#000000" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => loginWithProvider("facebook")}
+          className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
+        >
+          <Ionicons name="logo-facebook" size={32} color="#1877F2" />
+        </TouchableOpacity>
+      </View>
+    </>
+  );
+};
+
+const LoginForm = () => {
+  const router = useRouter();
+  const { login, isLoggingIn } = useAuth();
+  const { control, handleSubmit } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
+  });
+
+  return (
+    <View className="gap-3">
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <Input
+            label="Email"
+            placeholder="Enter your email"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={error?.message}
+            icon={<Image source={userIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <Input
+            label="Password"
+            placeholder="Enter password"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={error?.message}
+            icon={<Image source={lockedIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            secureTextEntry
+            textContentType="password"
+          />
+        )}
+      />
+      <TouchableOpacity className="self-start" onPress={() => router.push('/forgot-password' as any)}>
+        <Text className="text-primary-brown font-inter-medium text-base">Forgot password?</Text>
+      </TouchableOpacity>
+      <Button
+        title={isLoggingIn ? "Logging in..." : "Login"}
+        variant="primary"
+        size="lg"
+        fullWidth
+        onPress={handleSubmit((data) => login(data))}
+        className="mt-2"
+        disabled={isLoggingIn}
+      />
+      <SocialLogins />
+    </View>
+  );
+};
+
+const formatDateOfBirth = (text: string) => {
+  const cleaned = text.replace(/\D/g, "");
+  let formatted = cleaned;
+  if (cleaned.length > 2) {
+    formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+  }
+  if (cleaned.length > 4) {
+    formatted = `${formatted.slice(0, 5)}/${cleaned.slice(4, 8)}`;
+  }
+  return formatted;
+};
+
+const SignUpForm = () => {
+  const { signUp, isSigningUp } = useAuth();
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const { control, handleSubmit } = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { username: "", email: "", dateOfBirth: "", password: "" },
+  });
+
+  return (
+    <View className="gap-3">
+      <Controller
+        control={control}
+        name="username"
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <Input
+            label="Username"
+            placeholder="Enter username"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={error?.message}
+            icon={<Image source={userIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            autoCapitalize="none"
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <Input
+            label="Email"
+            placeholder="Enter your email"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={error?.message}
+            icon={<Image source={userIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="dateOfBirth"
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <Input
+            label="Date of Birth"
+            placeholder="DD/MM/YYYY"
+            value={value}
+            onChangeText={(text) => onChange(formatDateOfBirth(text))}
+            onBlur={onBlur}
+            error={error?.message}
+            icon={<Image source={calendarIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            keyboardType="numeric"
+            maxLength={10}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <Input
+            label="Create Password"
+            placeholder="Enter password"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            error={error?.message}
+            icon={<Image source={lockedIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            secureTextEntry
+            textContentType="newPassword"
+          />
+        )}
+      />
+
+      {/* Terms and Conditions */}
+      <TouchableOpacity onPress={() => setAgreeToTerms(!agreeToTerms)} className="flex-row items-center">
+        <View
+          style={{
+            width: 20,
+            height: 20,
+            borderRadius: 4,
+            borderWidth: 1.5,
+            borderColor: "#8D5241",
+            backgroundColor: agreeToTerms ? "#8D5241" : "transparent",
+            alignItems: "center",
+            justifyContent: "center",
+            marginRight: 10,
+          }}
+        >
+          {agreeToTerms && <Ionicons name="checkmark" size={14} color="#FFF2DA" />}
+        </View>
+        <Text className="text-primary-brown font-inter text-sm">I agree with the terms and conditions</Text>
+      </TouchableOpacity>
+
+      <Button
+        title={isSigningUp ? "Signing up..." : "Sign up"}
+        variant="primary"
+        size="lg"
+        fullWidth
+        onPress={handleSubmit((data) => {
+          if (!agreeToTerms) {
+            alert("You must agree to the terms and conditions.");
+            return;
+          }
+          signUp(data);
+        })}
+        className="mt-2"
+        disabled={isSigningUp}
+      />
+      <SocialLogins />
+    </View>
+  );
+};
 
 export default function AuthScreen() {
-  const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
-
-  const handleAuth = () => {
-    // TODO: Implement actual authentication
-    router.replace("/(tabs)");
-  };
-
-  const handleSocialLogin = (provider: "google" | "apple" | "facebook") => {
-    // TODO: Implement social login
-    console.log(`Login with ${provider}`);
-    router.replace("/(tabs)");
-  };
 
   return (
     <View className="flex-1">
@@ -81,274 +297,36 @@ export default function AuthScreen() {
       <SafeAreaView className="flex-1">
         {/* Top section with logo and preview */}
         <View className="items-center pt-4 px-4">
-          {/* Logo - positioned left */}
-          <View
-            style={{ width: "100%", alignItems: "flex-start", marginBottom: 8 }}
-          >
-            <Image
-              source={fbyLogo}
-              style={{ width: 140, height: 36 }}
-              resizeMode="contain"
-            />
+          <View style={{ width: "100%", alignItems: "flex-start", marginBottom: 8 }}>
+            <Image source={fbyLogo} style={{ width: 140, height: 36 }} resizeMode="contain" />
           </View>
-
           <Text className="font-inter-semibold text-xl text-primary-brown-dark mb-4">
             AI powered MUA assistant
           </Text>
-
-          {/* Animated Chat Preview - positioned to be overlapped by auth form */}
-          <View
-            style={{
-              width: 320,
-              height: 300,
-              marginBottom: mode === "signup" ? -240 : -80,
-              zIndex: 1,
-              alignItems: "center",
-              justifyContent: "flex-start",
-            }}
-          >
+          <View style={{ width: 320, height: 300, marginBottom: mode === "signup" ? -240 : -80, zIndex: 1, alignItems: "center", justifyContent: "flex-start" }}>
             <ChatAnimation compact />
           </View>
         </View>
 
-        {/* Auth Form Card - overlaps the chat preview */}
-        <View
-          className="flex-1 bg-cream rounded-t-[30px] px-7 pt-6"
-          style={{
-            shadowColor: "#A67B5B",
-            shadowOffset: { width: 0, height: -4 },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
-            elevation: 8,
-            zIndex: 10,
-          }}
-        >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            className="flex-1"
-          >
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 40 }}
-            >
+        {/* Auth Form Card */}
+        <View className="flex-1 bg-cream rounded-t-[30px] px-7 pt-6" style={{ shadowColor: "#A67B5B", shadowOffset: { width: 0, height: -4 }, shadowOpacity: 0.2, shadowRadius: 4, elevation: 8, zIndex: 10 }}>
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 20} className="flex-1">
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 150 }} keyboardShouldPersistTaps="handled">
               {/* Tab Switcher */}
               <View className="bg-accent-tan-light rounded-[30px] h-[55px] flex-row items-center p-1.5 mb-4">
-                <TouchableOpacity
-                  onPress={() => setMode("login")}
-                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${
-                    mode === "login" ? "bg-cream" : ""
-                  }`}
-                >
-                  <Text
-                    className={`font-inter-medium text-base ${
-                      mode === "login"
-                        ? "text-primary-brown"
-                        : "text-primary-brown-light"
-                    }`}
-                  >
+                <TouchableOpacity onPress={() => setMode("login")} className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "login" ? "bg-cream" : ""}`}>
+                  <Text className={`font-inter-medium text-base ${mode === "login" ? "text-primary-brown" : "text-primary-brown-light"}`}>
                     Login
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => setMode("signup")}
-                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${
-                    mode === "signup" ? "bg-cream" : ""
-                  }`}
-                >
-                  <Text
-                    className={`font-inter-medium text-base ${
-                      mode === "signup"
-                        ? "text-primary-brown"
-                        : "text-primary-brown-light"
-                    }`}
-                  >
+                <TouchableOpacity onPress={() => setMode("signup")} className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "signup" ? "bg-cream" : ""}`}>
+                  <Text className={`font-inter-medium text-base ${mode === "signup" ? "text-primary-brown" : "text-primary-brown-light"}`}>
                     Sign up
                   </Text>
                 </TouchableOpacity>
               </View>
 
-              {/* Form Fields */}
-              <View className="gap-3">
-                {mode === "signup" ? (
-                  <>
-                    <Input
-                      label="Username"
-                      placeholder="Enter username"
-                      value={username}
-                      onChangeText={setUsername}
-                      icon={
-                        <Image
-                          source={userIcon}
-                          style={{ width: 24, height: 24 }}
-                          resizeMode="contain"
-                        />
-                      }
-                      autoCapitalize="none"
-                    />
-
-                    <Input
-                      label="Email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChangeText={setEmail}
-                      icon={
-                        <Image
-                          source={userIcon}
-                          style={{ width: 24, height: 24 }}
-                          resizeMode="contain"
-                        />
-                      }
-                      keyboardType="email-address"
-                      autoCapitalize="none"
-                    />
-
-                    <Input
-                      label="Date of Birth"
-                      placeholder="DD/MM/YYYY"
-                      value={dateOfBirth}
-                      onChangeText={setDateOfBirth}
-                      icon={
-                        <Image
-                          source={calendarIcon}
-                          style={{ width: 24, height: 24 }}
-                          resizeMode="contain"
-                        />
-                      }
-                      keyboardType="numeric"
-                    />
-
-                    <Input
-                      label="Create Password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChangeText={setPassword}
-                      icon={
-                        <Image
-                          source={lockedIcon}
-                          style={{ width: 24, height: 24 }}
-                          resizeMode="contain"
-                        />
-                      }
-                      secureTextEntry
-                    />
-
-                    {/* Terms and Conditions */}
-                    <TouchableOpacity
-                      onPress={() => setAgreeToTerms(!agreeToTerms)}
-                      className="flex-row items-center"
-                    >
-                      <View
-                        style={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: 4,
-                          borderWidth: 1.5,
-                          borderColor: "#8D5241",
-                          backgroundColor: agreeToTerms
-                            ? "#8D5241"
-                            : "transparent",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginRight: 10,
-                        }}
-                      >
-                        {agreeToTerms && (
-                          <Ionicons
-                            name="checkmark"
-                            size={14}
-                            color="#FFF2DA"
-                          />
-                        )}
-                      </View>
-                      <Text className="text-primary-brown font-inter text-sm">
-                        I agree with the terms and conditions
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                ) : (
-                  <>
-                    <Input
-                      label="Email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChangeText={setEmail}
-                      icon={
-                        <Image
-                          source={userIcon}
-                          style={{ width: 24, height: 24 }}
-                          resizeMode="contain"
-                        />
-                      }
-                      keyboardType="email-address"
-                      autoCapitalize="none"
-                    />
-
-                    <Input
-                      label="Password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChangeText={setPassword}
-                      icon={
-                        <Image
-                          source={lockedIcon}
-                          style={{ width: 24, height: 24 }}
-                          resizeMode="contain"
-                        />
-                      }
-                      secureTextEntry
-                    />
-
-                    <TouchableOpacity className="self-start">
-                      <Text className="text-primary-brown font-inter-medium text-base">
-                        Forgot password?
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-
-                <Button
-                  title={mode === "login" ? "Login" : "Sign up"}
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                  onPress={handleAuth}
-                  className="mt-2"
-                />
-
-                {/* Divider */}
-                <View className="flex-row items-center my-2">
-                  <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
-                  <Text className="mx-4 text-primary-brown-light font-inter text-base">
-                    Or
-                  </Text>
-                  <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
-                </View>
-
-                {/* Social Login */}
-                <View className="flex-row justify-center gap-6 mt-2">
-                  <TouchableOpacity
-                    onPress={() => handleSocialLogin("google")}
-                    className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
-                  >
-                    <GoogleLogo size={30} />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => handleSocialLogin("apple")}
-                    className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
-                  >
-                    <Ionicons name="logo-apple" size={32} color="#000000" />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => handleSocialLogin("facebook")}
-                    className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
-                  >
-                    <Ionicons name="logo-facebook" size={32} color="#1877F2" />
-                  </TouchableOpacity>
-                </View>
-
-              </View>
+              {mode === "login" ? <LoginForm /> : <SignUpForm />}
             </ScrollView>
           </KeyboardAvoidingView>
         </View>

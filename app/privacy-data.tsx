@@ -3,11 +3,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "@/src/hooks/useAuth";
 
 export default function PrivacyDataScreen() {
   const router = useRouter();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert("Log Out", "Are you sure you want to log out?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Log Out", style: "destructive", onPress: () => logout() }
+    ]);
+  };
 
   const MenuItem = ({
     icon,
@@ -111,7 +120,7 @@ export default function PrivacyDataScreen() {
               imgIcon="logout"
               title="Log out"
               isDanger={true}
-              onPress={() => router.replace("/auth")}
+              onPress={handleLogout}
             />
           </View>
 

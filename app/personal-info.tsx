@@ -12,12 +12,17 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useAuthStore } from "@/src/store/useAuthStore";
+import { capitalize } from "@/constants/utils";
+
 export default function PersonalInfoScreen() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
-  const [nationality, setNationality] = useState("");
+  const { user } = useAuthStore();
+  
+  const [username, setUsername] = useState(capitalize(user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || ""));
+  const [email, setEmail] = useState(user?.email || "");
+  const [dob, setDob] = useState(user?.user_metadata?.dob || "");
+  const [nationality, setNationality] = useState(user?.user_metadata?.nationality || "");
 
   const handleUpdate = () => {
     // Implement update logic here
@@ -52,6 +57,7 @@ export default function PersonalInfoScreen() {
           <View className="items-center mt-6 mb-8">
             <Avatar
               size="xxl"
+              name={username}
               // source={require("@/assets/images/profile.png")}
               showEdit={!true}
               onEdit={() => console.log("Edit avatar")}
