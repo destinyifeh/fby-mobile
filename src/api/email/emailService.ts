@@ -67,12 +67,21 @@ export const emailService = {
         },
       );
 
+      if (!resendApiKey) {
+        console.error("CRITICAL: Resend API Key is missing from environment!");
+      }
+
+      console.log("WELCOME HTML PREVIEW:", welcomeHtml ? welcomeHtml.substring(0, 100) + "..." : "EMPTY");
+
       const { data: userData, error: userError } = await resend.emails.send({
         from: `Face By You <${EMAILS.NOREPLY}>`,
         to: email,
         subject: "Welcome to Face By You!",
-        html: welcomeHtml,
+        html: welcomeHtml || "<h1>Welcome to Face By You!</h1>",
+        text: "Welcome to Face By You!", // Added plain text fallback
       });
+
+      console.log("RESEND WELCOME RESPONSE:", { userData, userError });
 
       if (userError) {
         console.error("Error sending welcome email:", userError);
@@ -94,8 +103,11 @@ export const emailService = {
         from: `Waitlist Notifier <${EMAILS.NOREPLY}>`,
         to: EMAILS.ADMIN,
         subject: "New Waitlist Entry!",
-        html: adminHtml,
+        html: adminHtml || "<h1>New Waitlist Entry</h1>",
+        text: `New user signup: ${email}`, // Added plain text fallback
       });
+
+      console.log("RESEND ADMIN RESPONSE:", { adminData, adminError });
 
       if (adminError) {
         console.error("Error sending admin notification:", adminError);

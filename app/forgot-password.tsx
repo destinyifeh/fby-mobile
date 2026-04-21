@@ -138,15 +138,15 @@ export default function ForgotPasswordScreen() {
                       className="mt-4"
                       disabled={isVerifyingOtp || otpCode.length < 6}
                     />
-                    <Button
-                      title="Resend Code"
-                      variant="outline"
-                      size="lg"
-                      fullWidth
-                      onPress={handleSubmit(sendOtpReq)}
-                      className="mt-2"
-                      disabled={isSendingReset}
-                    />
+                    <TouchableOpacity 
+                      onPress={() => setEmailSentTo(null)} 
+                      className="items-center mt-4"
+                    >
+                      <Text className="text-primary-brown-light font-inter-medium text-base">
+                        Didn't receive a code?{" "}
+                        <Text className="text-primary-brown underline">Go back</Text>
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </>
               )}

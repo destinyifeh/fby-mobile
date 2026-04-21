@@ -1,12 +1,23 @@
 import { ChatAnimation } from "@/components/chat";
 import { Button, Input } from "@/components/ui";
+import {
+  LoginFormValues,
+  loginSchema,
+  SignUpFormValues,
+  signUpSchema,
+} from "@/lib/validations/auth";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useSocialAuth } from "@/src/hooks/useSocialAuth";
 import type { AuthMode } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -17,11 +28,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, signUpSchema, LoginFormValues, SignUpFormValues } from "@/lib/validations/auth";
-import { useAuth } from "@/src/hooks/useAuth";
-import { useSocialAuth } from "@/src/hooks/useSocialAuth";
 
 const fbyLogo = require("@/assets/images/fby-logo.png");
 const userIcon = require("@/assets/images/user.png");
@@ -51,13 +57,15 @@ const GoogleLogo = ({ size = 28 }: { size?: number }) => (
 
 const SocialLogins = () => {
   const { loginWithProvider } = useSocialAuth();
-  
+
   return (
     <>
       {/* Divider */}
       <View className="flex-row items-center my-2">
         <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
-        <Text className="mx-4 text-primary-brown-light font-inter text-base">Or</Text>
+        <Text className="mx-4 text-primary-brown-light font-inter text-base">
+          Or
+        </Text>
         <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
       </View>
 
@@ -87,21 +95,44 @@ const SocialLogins = () => {
     </>
   );
 };
-
-const LoginForm = () => {
+const LoginForm = ({
+  onShowVerification,
+}: {
+  onShowVerification: (email: string) => void;
+}) => {
   const router = useRouter();
-  const { login, isLoggingIn } = useAuth();
+  const { login, isLoggingIn, resendVerification } = useAuth();
   const { control, handleSubmit } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
+
+  const handleLogin = async (data: LoginFormValues) => {
+    try {
+      await login(data, {
+        onError: (error: any) => {
+          if (error.message.includes("Your email is not verified")) {
+            // Automatically trigger a fresh code when they try to login unverified
+            resendVerification(data.email);
+            // Redirect to the verification screen
+            onShowVerification(data.email);
+          }
+        },
+      });
+    } catch (err) {
+      // Mutations handle their own alerts
+    }
+  };
 
   return (
     <View className="gap-3">
       <Controller
         control={control}
         name="email"
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
           <Input
             label="Email"
             placeholder="Enter your email"
@@ -109,7 +140,13 @@ const LoginForm = () => {
             onChangeText={onChange}
             onBlur={onBlur}
             error={error?.message}
-            icon={<Image source={userIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            icon={
+              <Image
+                source={userIcon}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            }
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -118,7 +155,10 @@ const LoginForm = () => {
       <Controller
         control={control}
         name="password"
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
           <Input
             label="Password"
             placeholder="Enter password"
@@ -126,21 +166,32 @@ const LoginForm = () => {
             onChangeText={onChange}
             onBlur={onBlur}
             error={error?.message}
-            icon={<Image source={lockedIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            icon={
+              <Image
+                source={lockedIcon}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            }
             secureTextEntry
             textContentType="password"
           />
         )}
       />
-      <TouchableOpacity className="self-start" onPress={() => router.push('/forgot-password' as any)}>
-        <Text className="text-primary-brown font-inter-medium text-base">Forgot password?</Text>
+      <TouchableOpacity
+        className="self-start"
+        onPress={() => router.push("/forgot-password" as any)}
+      >
+        <Text className="text-primary-brown font-inter-medium text-base">
+          Forgot password?
+        </Text>
       </TouchableOpacity>
       <Button
         title={isLoggingIn ? "Logging in..." : "Login"}
         variant="primary"
         size="lg"
         fullWidth
-        onPress={handleSubmit((data) => login(data))}
+        onPress={handleSubmit(handleLogin)}
         className="mt-2"
         disabled={isLoggingIn}
       />
@@ -161,9 +212,104 @@ const formatDateOfBirth = (text: string) => {
   return formatted;
 };
 
-const SignUpForm = () => {
+const VerificationForm = ({
+  email,
+  onBack,
+}: {
+  email: string;
+  onBack: () => void;
+}) => {
+  const {
+    verifyEmail,
+    isVerifyingEmail,
+    resendVerification,
+    isResendingVerification,
+  } = useAuth();
+  const [code, setCode] = useState("");
+
+  const handleVerify = () => {
+    if (code.length < 6) {
+      Alert.alert(
+        "Invalid Code",
+        "Please enter the verification code sent to your email.",
+      );
+      return;
+    }
+    verifyEmail({ email, token: code });
+  };
+
+  return (
+    <View className="gap-6 py-4">
+      <View className="items-center">
+        <View className="w-16 h-16 bg-primary-brown/10 rounded-full items-center justify-center mb-4">
+          <Ionicons name="mail-unread-outline" size={32} color="#8D5241" />
+        </View>
+        <Text className="font-abhaya-bold text-3xl text-primary-brown mb-2 text-center">
+          Verify your email
+        </Text>
+        <Text className="text-primary-brown font-inter text-base text-center mt-3 px-4">
+          We've sent a verification code to{"\n"}
+          <Text className="font-inter-bold">{email}</Text>.{"\n"}
+          Please enter it below to activate your account.
+        </Text>
+      </View>
+
+      <View>
+        <Input
+          label="Verification Code"
+          placeholder="Enter 8-digit code"
+          value={code}
+          onChangeText={setCode}
+          keyboardType="numeric"
+          maxLength={8}
+          autoFocus
+          style={{
+            textAlign: "center",
+            fontSize: 20,
+            letterSpacing: 4,
+            height: 60,
+          }}
+        />
+      </View>
+
+      <View className="gap-3">
+        <Button
+          title={isVerifyingEmail ? "Verifying..." : "Verify & Activate"}
+          variant="primary"
+          size="lg"
+          fullWidth
+          onPress={handleVerify}
+          disabled={isVerifyingEmail || !code}
+        />
+
+        <Button
+          title={isResendingVerification ? "Resending..." : "Resend Code"}
+          variant="outline"
+          size="lg"
+          fullWidth
+          onPress={() => resendVerification(email)}
+          disabled={isResendingVerification || isVerifyingEmail}
+        />
+      </View>
+
+      <TouchableOpacity onPress={onBack} className="items-center mt-2">
+        <Text className="text-primary-brown-light font-inter-medium text-base">
+          Incorrect email?{" "}
+          <Text className="text-primary-brown underline">Go back</Text>
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const SignUpForm = ({
+  onShowVerification,
+}: {
+  onShowVerification: (email: string) => void;
+}) => {
   const { signUp, isSigningUp } = useAuth();
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+
   const { control, handleSubmit } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: { username: "", email: "", dateOfBirth: "", password: "" },
@@ -174,7 +320,10 @@ const SignUpForm = () => {
       <Controller
         control={control}
         name="username"
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
           <Input
             label="Username"
             placeholder="Enter username"
@@ -182,7 +331,13 @@ const SignUpForm = () => {
             onChangeText={onChange}
             onBlur={onBlur}
             error={error?.message}
-            icon={<Image source={userIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            icon={
+              <Image
+                source={userIcon}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            }
             autoCapitalize="none"
           />
         )}
@@ -190,7 +345,10 @@ const SignUpForm = () => {
       <Controller
         control={control}
         name="email"
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
           <Input
             label="Email"
             placeholder="Enter your email"
@@ -198,7 +356,13 @@ const SignUpForm = () => {
             onChangeText={onChange}
             onBlur={onBlur}
             error={error?.message}
-            icon={<Image source={userIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            icon={
+              <Image
+                source={userIcon}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            }
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -207,7 +371,10 @@ const SignUpForm = () => {
       <Controller
         control={control}
         name="dateOfBirth"
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
           <Input
             label="Date of Birth"
             placeholder="DD/MM/YYYY"
@@ -215,7 +382,13 @@ const SignUpForm = () => {
             onChangeText={(text) => onChange(formatDateOfBirth(text))}
             onBlur={onBlur}
             error={error?.message}
-            icon={<Image source={calendarIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            icon={
+              <Image
+                source={calendarIcon}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            }
             keyboardType="numeric"
             maxLength={10}
           />
@@ -224,7 +397,10 @@ const SignUpForm = () => {
       <Controller
         control={control}
         name="password"
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
           <Input
             label="Create Password"
             placeholder="Enter password"
@@ -232,7 +408,13 @@ const SignUpForm = () => {
             onChangeText={onChange}
             onBlur={onBlur}
             error={error?.message}
-            icon={<Image source={lockedIcon} style={{ width: 24, height: 24 }} resizeMode="contain" />}
+            icon={
+              <Image
+                source={lockedIcon}
+                style={{ width: 24, height: 24 }}
+                resizeMode="contain"
+              />
+            }
             secureTextEntry
             textContentType="newPassword"
           />
@@ -240,7 +422,10 @@ const SignUpForm = () => {
       />
 
       {/* Terms and Conditions */}
-      <TouchableOpacity onPress={() => setAgreeToTerms(!agreeToTerms)} className="flex-row items-center">
+      <TouchableOpacity
+        onPress={() => setAgreeToTerms(!agreeToTerms)}
+        className="flex-row items-center"
+      >
         <View
           style={{
             width: 20,
@@ -254,9 +439,13 @@ const SignUpForm = () => {
             marginRight: 10,
           }}
         >
-          {agreeToTerms && <Ionicons name="checkmark" size={14} color="#FFF2DA" />}
+          {agreeToTerms && (
+            <Ionicons name="checkmark" size={14} color="#FFF2DA" />
+          )}
         </View>
-        <Text className="text-primary-brown font-inter text-sm">I agree with the terms and conditions</Text>
+        <Text className="text-primary-brown font-inter text-sm">
+          I agree with the terms and conditions
+        </Text>
       </TouchableOpacity>
 
       <Button
@@ -269,7 +458,11 @@ const SignUpForm = () => {
             alert("You must agree to the terms and conditions.");
             return;
           }
-          signUp(data);
+          signUp(data, {
+            onSuccess: () => {
+              onShowVerification(data.email);
+            },
+          });
         })}
         className="mt-2"
         disabled={isSigningUp}
@@ -281,6 +474,40 @@ const SignUpForm = () => {
 
 export default function AuthScreen() {
   const [mode, setMode] = useState<AuthMode>("login");
+  const [verificationEmail, setVerificationEmail] = useState<string | null>(
+    null,
+  );
+
+  if (verificationEmail) {
+    return (
+      <View className="flex-1">
+        <StatusBar style="dark" />
+        <LinearGradient
+          colors={["#E3BCB5", "#FFF2DA", "#E6CDB3", "#CDA78B", "#E3BCB5"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          className="absolute inset-0"
+        />
+        <SafeAreaView className="flex-1">
+          <View
+            className="flex-1 bg-cream rounded-t-[30px] px-7 pt-10 mt-20"
+            style={{
+              shadowColor: "#A67B5B",
+              shadowOffset: { width: 0, height: -4 },
+              shadowOpacity: 0.2,
+              shadowRadius: 4,
+              elevation: 8,
+            }}
+          >
+            <VerificationForm
+              email={verificationEmail}
+              onBack={() => setVerificationEmail(null)}
+            />
+          </View>
+        </SafeAreaView>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1">
@@ -297,36 +524,83 @@ export default function AuthScreen() {
       <SafeAreaView className="flex-1">
         {/* Top section with logo and preview */}
         <View className="items-center pt-4 px-4">
-          <View style={{ width: "100%", alignItems: "flex-start", marginBottom: 8 }}>
-            <Image source={fbyLogo} style={{ width: 140, height: 36 }} resizeMode="contain" />
+          <View
+            style={{ width: "100%", alignItems: "flex-start", marginBottom: 8 }}
+          >
+            <Image
+              source={fbyLogo}
+              style={{ width: 140, height: 36 }}
+              resizeMode="contain"
+            />
           </View>
           <Text className="font-inter-semibold text-xl text-primary-brown-dark mb-4">
             AI powered MUA assistant
           </Text>
-          <View style={{ width: 320, height: 300, marginBottom: mode === "signup" ? -240 : -80, zIndex: 1, alignItems: "center", justifyContent: "flex-start" }}>
+          <View
+            style={{
+              width: 320,
+              height: 300,
+              marginBottom: mode === "signup" ? -240 : -80,
+              zIndex: 1,
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
             <ChatAnimation compact />
           </View>
         </View>
 
         {/* Auth Form Card */}
-        <View className="flex-1 bg-cream rounded-t-[30px] px-7 pt-6" style={{ shadowColor: "#A67B5B", shadowOffset: { width: 0, height: -4 }, shadowOpacity: 0.2, shadowRadius: 4, elevation: 8, zIndex: 10 }}>
-          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 20} className="flex-1">
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 150 }} keyboardShouldPersistTaps="handled">
+        <View
+          className="flex-1 bg-cream rounded-t-[30px] px-7 pt-6"
+          style={{
+            shadowColor: "#A67B5B",
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 8,
+            zIndex: 10,
+          }}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 20}
+            className="flex-1"
+          >
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 150 }}
+              keyboardShouldPersistTaps="handled"
+            >
               {/* Tab Switcher */}
               <View className="bg-accent-tan-light rounded-[30px] h-[55px] flex-row items-center p-1.5 mb-4">
-                <TouchableOpacity onPress={() => setMode("login")} className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "login" ? "bg-cream" : ""}`}>
-                  <Text className={`font-inter-medium text-base ${mode === "login" ? "text-primary-brown" : "text-primary-brown-light"}`}>
+                <TouchableOpacity
+                  onPress={() => setMode("login")}
+                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "login" ? "bg-cream" : ""}`}
+                >
+                  <Text
+                    className={`font-inter-medium text-base ${mode === "login" ? "text-primary-brown" : "text-primary-brown-light"}`}
+                  >
                     Login
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setMode("signup")} className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "signup" ? "bg-cream" : ""}`}>
-                  <Text className={`font-inter-medium text-base ${mode === "signup" ? "text-primary-brown" : "text-primary-brown-light"}`}>
+                <TouchableOpacity
+                  onPress={() => setMode("signup")}
+                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "signup" ? "bg-cream" : ""}`}
+                >
+                  <Text
+                    className={`font-inter-medium text-base ${mode === "signup" ? "text-primary-brown" : "text-primary-brown-light"}`}
+                  >
                     Sign up
                   </Text>
                 </TouchableOpacity>
               </View>
 
-              {mode === "login" ? <LoginForm /> : <SignUpForm />}
+              {mode === "login" ? (
+                <LoginForm onShowVerification={setVerificationEmail} />
+              ) : (
+                <SignUpForm onShowVerification={setVerificationEmail} />
+              )}
             </ScrollView>
           </KeyboardAvoidingView>
         </View>
