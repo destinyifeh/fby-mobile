@@ -58,6 +58,14 @@ const GoogleLogo = ({ size = 28 }: { size?: number }) => (
 const SocialLogins = () => {
   const { loginWithProvider } = useSocialAuth();
 
+  const handleSocialLogin = (provider: "google" | "facebook" | "apple") => {
+    return Alert.alert(
+      "Oops!",
+      "Social login is currently unavailable. Please use email and password to login or sign up.",
+    );
+    // loginWithProvider(provider);
+  };
+
   return (
     <>
       {/* Divider */}
@@ -72,21 +80,21 @@ const SocialLogins = () => {
       {/* Social Login */}
       <View className="flex-row justify-center gap-6 mt-2">
         <TouchableOpacity
-          onPress={() => loginWithProvider("google")}
+          onPress={() => handleSocialLogin("google")}
           className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
         >
           <GoogleLogo size={30} />
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => loginWithProvider("apple")}
+          onPress={() => handleSocialLogin("apple")}
           className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
         >
           <Ionicons name="logo-apple" size={32} color="#000000" />
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => loginWithProvider("facebook")}
+          onPress={() => handleSocialLogin("facebook")}
           className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
         >
           <Ionicons name="logo-facebook" size={32} color="#1877F2" />
