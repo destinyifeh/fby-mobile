@@ -133,6 +133,18 @@ export const useAuth = () => {
     },
   });
 
+  const updateProfileMutation = useMutation({
+    mutationFn: (updates: { username?: string; dob?: string; nationality?: string }) =>
+      authService.updateProfile(updates),
+    onSuccess: (data) => {
+      setUser(data.user);
+      Alert.alert("Success", "Profile updated successfully!");
+    },
+    onError: (error: any) => {
+      Alert.alert("Update Failed", error.message || "Failed to update profile.");
+    },
+  });
+
   const resendVerificationMutation = useMutation({
     mutationFn: (email: string) => authService.resendSignUpOtp(email),
     onSuccess: () => {
@@ -166,5 +178,7 @@ export const useAuth = () => {
     isResendingVerification: resendVerificationMutation.isPending,
     updatePassword: updatePasswordMutation.mutate,
     isUpdatingPassword: updatePasswordMutation.isPending,
+    updateProfile: updateProfileMutation.mutate,
+    isUpdatingProfile: updateProfileMutation.isPending,
   };
 };
