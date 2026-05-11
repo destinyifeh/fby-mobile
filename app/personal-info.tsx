@@ -56,9 +56,6 @@ export default function PersonalInfoScreen() {
   const [username, setUsername] = useState(capitalize(initialUsername));
   const [email, setEmail] = useState(initialEmail);
   const [dob, setDob] = useState(user?.user_metadata?.dob || "");
-  const [nationality, setNationality] = useState(
-    user?.user_metadata?.nationality || "",
-  );
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleUpdate = async () => {
@@ -113,7 +110,7 @@ export default function PersonalInfoScreen() {
 
       // 4. Perform Update
       const updateData: any = {
-        data: { username, dob, nationality },
+        data: { username, dob },
       };
 
       if (emailChanged) {
@@ -283,19 +280,6 @@ export default function PersonalInfoScreen() {
                   placeholderTextColor="#A67B5B"
                   keyboardType="number-pad"
                   maxLength={10}
-                  className="bg-[#A67B5B1A] h-16 rounded-[20px] px-6 font-inter-medium text-primary-brown-light text-lg border border-primary-brown/5"
-                />
-              </View>
-
-              <View>
-                <Text className="font-inter-medium text-lg text-primary-brown mb-2 ml-1">
-                  Nationality
-                </Text>
-                <TextInput
-                  value={nationality}
-                  onChangeText={setNationality}
-                  placeholder="Enter nationality"
-                  placeholderTextColor="#A67B5B"
                   className="bg-[#A67B5B1A] h-16 rounded-[20px] px-6 font-inter-medium text-primary-brown-light text-lg border border-primary-brown/5"
                 />
               </View>

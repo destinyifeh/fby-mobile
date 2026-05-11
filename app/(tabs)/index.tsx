@@ -60,6 +60,14 @@ export default function HomeScreen() {
     router.push("/(tabs)/history");
   };
 
+  const handleLookPress = (lookId: string) => {
+    router.push("/scan-score");
+  };
+
+  const handleScanFirstLook = () => {
+    router.push("/take-picture");
+  };
+
   return (
     <View className="flex-1 bg-cream">
       <StatusBar style="dark" />
@@ -166,6 +174,25 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               </View>
 
+              {/* Scan First Look CTA */}
+              <TouchableOpacity
+                onPress={handleScanFirstLook}
+                className="flex-row items-center bg-primary-brown/10 rounded-2xl px-4 py-3 mb-4"
+              >
+                <View className="w-10 h-10 bg-primary-brown rounded-full items-center justify-center mr-3">
+                  <Ionicons name="camera-outline" size={20} color="#FFF2DA" />
+                </View>
+                <View className="flex-1">
+                  <Text className="font-inter-semibold text-base text-primary-brown">
+                    Scan your first look
+                  </Text>
+                  <Text className="font-inter text-sm text-primary-brown-light">
+                    Take a photo to get your makeup score
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color="#8D5241" />
+              </TouchableOpacity>
+
               {/* Looks Grid */}
               <ScrollView
                 horizontal
@@ -177,7 +204,7 @@ export default function HomeScreen() {
                     key={look.id}
                     name={look.name}
                     image={look.image}
-                    onPress={() => console.log("Look pressed:", look.name)}
+                    onPress={() => handleLookPress(look.id)}
                   />
                 ))}
               </ScrollView>
