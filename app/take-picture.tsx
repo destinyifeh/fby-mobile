@@ -19,32 +19,75 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const cameraIcon = require("@/assets/images/camera.png");
-const resetIcon = require("@/assets/images/reset.png");
 
-// Face capture modes configuration - commented out for now
-// const CAPTURE_MODES = [
-//   { id: 0, title: 'Front Face', subtitle: 'Look directly at the camera' },
-//   { id: 1, title: 'Left Profile', subtitle: 'Turn your head to the left' },
-//   { id: 2, title: 'Right Profile', subtitle: 'Turn your head to the right' },
-//   { id: 3, title: 'Tilted Up', subtitle: 'Tilt your head slightly up' },
-// ];
+// Face capture modes configuration
+const CAPTURE_MODES = [
+  {
+    id: 0,
+    title: 'Front Face',
+    subtitle: 'Look directly at the camera',
+    icon: 'person-outline' as const,
+    guideImage: null,
+  },
+  {
+    id: 1,
+    title: 'Right Profile',
+    subtitle: 'Turn your head to the right',
+    icon: 'arrow-forward-outline' as const,
+    guideImage: null,
+  },
+  {
+    id: 2,
+    title: 'Left Profile',
+    subtitle: 'Turn your head to the left',
+    icon: 'arrow-back-outline' as const,
+    guideImage: null,
+  },
+];
 
 export default function TakePictureScreen() {
   const router = useRouter();
-  const [facing, setFacing] = useState<"front" | "back">("front");
   const [permission, requestPermission] = useCameraPermissions();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [currentModeIndex, setCurrentModeIndex] = useState(0);
+  const [capturedPhotos, setCapturedPhotos] = useState<(string | null)[]>([null, null, null]);
   const cameraRef = useRef<CameraView>(null);
 
-  // Reset processing state when screen comes into focus
+  const currentMode = CAPTURE_MODES[currentModeIndex];
+
+  const [cameraKey, setCameraKey] = useState(0);
+
+  // Reset state when screen comes into focus
   useFocusEffect(
     useCallback(() => {
       setIsProcessing(false);
+      setCurrentModeIndex(0);
+      setCapturedPhotos([null, null, null]);
+      setCameraKey(prev => prev + 1); // Force camera remount
     }, [])
   );
 
   const handleBack = () => {
-    router.back();
+    // Always exit the screen - with confirmation if photos were taken
+    const hasAnyPhoto = capturedPhotos.some(p => p !== null);
+    if (hasAnyPhoto) {
+      Alert.alert(
+        "Discard Photos?",
+        "You have captured photos. Are you sure you want to go back?",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Discard", style: "destructive", onPress: () => router.back() }
+        ]
+      );
+    } else {
+      router.back();
+    }
+  };
+
+  const handlePreviousStep = () => {
+    if (currentModeIndex > 0) {
+      setCurrentModeIndex(currentModeIndex - 1);
+    }
   };
 
   const takePicture = async () => {
@@ -55,33 +98,32 @@ export default function TakePictureScreen() {
           base64: false,
         });
 
-        // Show processing look after the shutter has finished
-        setIsProcessing(true);
-
         if (photo) {
-          // router.push({
-          //   pathname: "/scan-score",
-          //   params: { imageUri: photo.uri },
-          // });
-          // Convert the JPG photo directly to a PNG using ImageManipulator
+          // Mirror the image horizontally (front camera captures non-mirrored, but preview is mirrored)
+          // and convert to PNG
           const manipulatedPhoto = await ImageManipulator.manipulateAsync(
             photo.uri,
-            [], // No resizing/cropping, just format conversion
+            [{ flip: ImageManipulator.FlipType.Horizontal }],
             { format: ImageManipulator.SaveFormat.PNG },
           );
 
-          // By passing the URI in memory, it averts the Expo Router param corruption
-          setCapturedImageUri(manipulatedPhoto.uri);
-          router.push({
-            pathname: "/scan-score",
-            params: { imageUri: manipulatedPhoto.uri, from: "camera" },
-          });
+          // Save photo for current mode - stay on this step to show preview
+          const newPhotos = [...capturedPhotos];
+          newPhotos[currentModeIndex] = manipulatedPhoto.uri;
+          setCapturedPhotos(newPhotos);
+          // Don't auto-advance - let user review and press Continue
         }
       } catch (error) {
         Alert.alert("Error", "Failed to take picture");
         setIsProcessing(false);
       }
     }
+  };
+
+  const retakePhoto = () => {
+    const newPhotos = [...capturedPhotos];
+    newPhotos[currentModeIndex] = null;
+    setCapturedPhotos(newPhotos);
   };
 
   if (!permission) {
@@ -110,17 +152,57 @@ export default function TakePictureScreen() {
     );
   }
 
+  // Check if current photo is already captured
+  const hasCurrentPhoto = capturedPhotos[currentModeIndex] !== null;
+
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
       <SafeAreaView style={styles.safeArea}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={handleBack}
+            style={styles.backButton}
+            activeOpacity={0.6}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
             <Ionicons name="arrow-back" size={24} color="#8D5241" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Take a Picture</Text>
           <View style={{ width: 40 }} />
+        </View>
+
+        {/* Progress Indicator */}
+        <View style={styles.progressContainer}>
+          {CAPTURE_MODES.map((mode, index) => {
+            const isCompleted = capturedPhotos[index] !== null && index < currentModeIndex;
+            const isActive = index === currentModeIndex;
+
+            return (
+              <View key={mode.id} style={styles.progressItem}>
+                <View
+                  style={[
+                    styles.progressDot,
+                    isCompleted && styles.progressDotCompleted,
+                    isActive && styles.progressDotActive,
+                  ]}
+                >
+                  {isCompleted ? (
+                    <Ionicons name="checkmark" size={16} color="#FFF" />
+                  ) : (
+                    <Text style={styles.progressNumber}>{index + 1}</Text>
+                  )}
+                </View>
+                <Text style={[
+                  styles.progressLabel,
+                  isActive && styles.progressLabelActive
+                ]}>
+                  {mode.title}
+                </Text>
+              </View>
+            );
+          })}
         </View>
 
         {/* Camera Container */}
@@ -137,33 +219,48 @@ export default function TakePictureScreen() {
                 style={styles.instructionBadgeTopInner}
               >
                 <View style={styles.badgeIconContainer}>
-                  <Image source={cameraIcon} style={styles.badgeIcon} />
+                  <Ionicons name={currentMode.icon} size={22} color="#FFF2DA" />
                 </View>
                 <View>
-                  <Text style={styles.badgeTitle}>Front Face</Text>
+                  <Text style={styles.badgeTitle}>{currentMode.title}</Text>
                   <Text style={styles.badgeSubtitle}>
-                    Look directly at the camera
+                    {currentMode.subtitle}
                   </Text>
                 </View>
               </BlurView>
             </View>
 
-            {/* Camera View */}
-            <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
+            {/* Camera View or Preview */}
+            {hasCurrentPhoto ? (
+              <Image
+                source={{ uri: capturedPhotos[currentModeIndex]! }}
+                style={styles.camera}
+                resizeMode="cover"
+              />
+            ) : (
+              <CameraView
+                key={cameraKey}
+                ref={cameraRef}
+                style={styles.camera}
+                facing="front"
+              />
+            )}
 
-            {/* Face Frame Overlay - positioned absolutely on top of camera */}
-            <View style={styles.faceFrame}>
-              {/* Top left corner */}
-              <View style={[styles.corner, styles.cornerTopLeft]} />
-              {/* Top right corner */}
-              <View style={[styles.corner, styles.cornerTopRight]} />
-              {/* Bottom left corner */}
-              <View style={[styles.corner, styles.cornerBottomLeft]} />
-              {/* Bottom right corner */}
-              <View style={[styles.corner, styles.cornerBottomRight]} />
-            </View>
+            {/* Face Frame Overlay */}
+            {!hasCurrentPhoto && (
+              <View style={styles.faceFrame}>
+                {/* Top left corner */}
+                <View style={[styles.corner, styles.cornerTopLeft]} />
+                {/* Top right corner */}
+                <View style={[styles.corner, styles.cornerTopRight]} />
+                {/* Bottom left corner */}
+                <View style={[styles.corner, styles.cornerBottomLeft]} />
+                {/* Bottom right corner */}
+                <View style={[styles.corner, styles.cornerBottomRight]} />
+              </View>
+            )}
 
-            {/* Instruction Badge - Bottom */}
+            {/* Lighting Reminder Badge - Bottom */}
             <BlurView
               intensity={25}
               tint="light"
@@ -189,44 +286,115 @@ export default function TakePictureScreen() {
           </LinearGradient>
         </View>
 
-        {/* Camera Mode Selector - commented out for now */}
-        {/* <View style={styles.modeSelector}>
-          {CAPTURE_MODES.map((mode, index) => (
-            <TouchableOpacity
-              key={mode.id}
-              style={[
-                styles.modeButton,
-                styles.modeButtonInactive,
-                selectedMode === index && styles.modeButtonActive,
-              ]}
-              onPress={() => handleModeSelect(index)}
-            >
-              {capturedPhotos[index] ? (
-                <Ionicons name="checkmark" size={28} color="#FFF2DA" />
-              ) : (
-                <Image source={cameraIcon} style={styles.modeIcon} />
-              )}
-            </TouchableOpacity>
-          ))}
-        </View> */}
-
         {/* Bottom Controls */}
         <View style={styles.bottomControls}>
-          {/* <TouchableOpacity onPress={handleBack}>
-            <Image source={resetIcon} style={styles.resetIcon} />
-          </TouchableOpacity> */}
+          {/* Previous Button - show on step 2+ */}
+          {currentModeIndex > 0 ? (
+            <TouchableOpacity
+              style={styles.navButton}
+              onPress={handlePreviousStep}
+            >
+              <Ionicons name="chevron-back" size={24} color="#8D5241" />
+              <Text style={styles.navButtonText}>Previous</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.navButtonPlaceholder} />
+          )}
 
-          {/* Capture Button */}
-          <TouchableOpacity 
-            style={[styles.captureButton, isProcessing && { opacity: 0.5 }]} 
-            onPress={takePicture}
-            disabled={isProcessing}
-          >
-            <View style={styles.captureButtonInner} />
-          </TouchableOpacity>
+          {/* Center: Capture or Retake */}
+          {hasCurrentPhoto ? (
+            <TouchableOpacity
+              style={styles.retakeButton}
+              onPress={retakePhoto}
+            >
+              <Ionicons name="refresh" size={28} color="#8D5241" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={[styles.captureButton, isProcessing && { opacity: 0.5 }]}
+              onPress={takePicture}
+              disabled={isProcessing}
+            >
+              <View style={styles.captureButtonInner} />
+            </TouchableOpacity>
+          )}
 
-          {/* <View style={{ width: 40 }} /> */}
+          {/* Next/Finish Button */}
+          {hasCurrentPhoto ? (
+            <TouchableOpacity
+              style={styles.navButton}
+              onPress={() => {
+                if (currentModeIndex === CAPTURE_MODES.length - 1) {
+                  // Finish - process all photos
+                  setIsProcessing(true);
+
+                  // Prepare request payload with all captured photos
+                  const requestPayload = {
+                    photos: [
+                      {
+                        type: 'front_face',
+                        uri: capturedPhotos[0],
+                        label: 'Front Face',
+                      },
+                      {
+                        type: 'right_profile',
+                        uri: capturedPhotos[1],
+                        label: 'Right Profile',
+                      },
+                      {
+                        type: 'left_profile',
+                        uri: capturedPhotos[2],
+                        label: 'Left Profile',
+                      },
+                    ],
+                    capturedAt: new Date().toISOString(),
+                    deviceInfo: {
+                      platform: 'mobile',
+                      cameraFacing: 'front',
+                    },
+                  };
+
+                  // Log the payload for backend preparation
+                  console.log('=== MAKEUP SCAN REQUEST PAYLOAD ===');
+                  console.log(JSON.stringify(requestPayload, null, 2));
+                  console.log('===================================');
+
+                  // TODO: Send requestPayload to backend API
+                  // const response = await api.analyzeMakeup(requestPayload);
+
+                  // Show processing for a moment, then navigate
+                  setTimeout(() => {
+                    const frontFaceUri = capturedPhotos[0]!;
+                    setCapturedImageUri(frontFaceUri);
+                    router.push({
+                      pathname: "/scan-score",
+                      params: { imageUri: frontFaceUri, from: "camera" },
+                    });
+                  }, 1500);
+                } else {
+                  // Move to next step
+                  setCurrentModeIndex(currentModeIndex + 1);
+                }
+              }}
+            >
+              <Text style={styles.navButtonText}>
+                {currentModeIndex === CAPTURE_MODES.length - 1 ? "Finish" : "Next"}
+              </Text>
+              <Ionicons
+                name={currentModeIndex === CAPTURE_MODES.length - 1 ? "checkmark" : "chevron-forward"}
+                size={24}
+                color="#8D5241"
+              />
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.navButtonPlaceholder} />
+          )}
         </View>
+
+        {/* Step indicator text */}
+        <Text style={styles.stepText}>
+          Step {currentModeIndex + 1} of {CAPTURE_MODES.length}
+        </Text>
       </SafeAreaView>
     </View>
   );
@@ -272,24 +440,66 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     justifyContent: "center",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 24,
     fontFamily: "Inter_600SemiBold",
     color: "#8D5241",
   },
+  progressContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingBottom: 12,
+    gap: 20,
+  },
+  progressItem: {
+    alignItems: "center",
+    gap: 4,
+  },
+  progressDot: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#E3BCB5",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  progressDotActive: {
+    backgroundColor: "#8D5241",
+    transform: [{ scale: 1.1 }],
+  },
+  progressDotCompleted: {
+    backgroundColor: "#4CAF50",
+  },
+  progressNumber: {
+    color: "#FFF",
+    fontSize: 14,
+    fontFamily: "Inter_600SemiBold",
+  },
+  progressLabel: {
+    fontSize: 10,
+    fontFamily: "Inter_500Medium",
+    color: "#A67B5B",
+  },
+  progressLabelActive: {
+    color: "#8D5241",
+    fontFamily: "Inter_600SemiBold",
+  },
   cameraContainer: {
     paddingHorizontal: 26,
-    paddingTop: 8,
+    paddingTop: 4,
     paddingBottom: 12,
     alignItems: "center",
   },
   cameraWrapper: {
     width: 338,
-    height: 441,
+    height: 400,
     borderRadius: 20,
     borderWidth: 6,
     borderColor: "#E3BCB5",
@@ -308,33 +518,33 @@ const styles = StyleSheet.create({
   },
   corner: {
     position: "absolute",
-    width: 20,
-    height: 20,
+    width: 24,
+    height: 24,
     borderColor: "#C4A68D",
   },
   cornerTopLeft: {
     top: 0,
     left: 0,
-    borderLeftWidth: 2,
-    borderTopWidth: 2,
+    borderLeftWidth: 3,
+    borderTopWidth: 3,
   },
   cornerTopRight: {
     top: 0,
     right: 0,
-    borderRightWidth: 2,
-    borderTopWidth: 2,
+    borderRightWidth: 3,
+    borderTopWidth: 3,
   },
   cornerBottomLeft: {
     bottom: 0,
     left: 0,
-    borderLeftWidth: 2,
-    borderBottomWidth: 2,
+    borderLeftWidth: 3,
+    borderBottomWidth: 3,
   },
   cornerBottomRight: {
     bottom: 0,
     right: 0,
-    borderRightWidth: 2,
-    borderBottomWidth: 2,
+    borderRightWidth: 3,
+    borderBottomWidth: 3,
   },
   instructionBadgeTopWrapper: {
     position: "absolute",
@@ -393,42 +603,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Inter_400Regular",
   },
-  modeSelector: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-  },
-  modeButton: {
-    width: 70,
-    height: 70,
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modeButtonInactive: {
-    backgroundColor: "#A67B5B",
-  },
-  modeButtonActive: {
-    backgroundColor: "#8D5241",
-  },
-  modeIcon: {
-    width: 24,
-    height: 24,
-    tintColor: "#FFF2DA",
-  },
   bottomControls: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 24,
-    paddingTop: 12,
-    gap: 60,
+    paddingBottom: 16,
+    paddingTop: 8,
+    paddingHorizontal: 20,
   },
-  resetIcon: {
-    width: 50,
-    height: 50,
+  navButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF2DA",
+    borderWidth: 2,
+    borderColor: "#8D5241",
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    gap: 4,
+    minWidth: 100,
+    justifyContent: "center",
+  },
+  navButtonText: {
+    color: "#8D5241",
+    fontSize: 14,
+    fontFamily: "Inter_600SemiBold",
+  },
+  navButtonPlaceholder: {
+    minWidth: 100,
   },
   captureButton: {
     width: 72,
@@ -436,6 +638,16 @@ const styles = StyleSheet.create({
     borderRadius: 36,
     backgroundColor: "#FFF2DA",
     borderWidth: 5,
+    borderColor: "#8D5241",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  retakeButton: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "#FFF2DA",
+    borderWidth: 3,
     borderColor: "#8D5241",
     justifyContent: "center",
     alignItems: "center",
@@ -458,5 +670,12 @@ const styles = StyleSheet.create({
     color: "#8D5241",
     fontSize: 18,
     fontFamily: "Inter_600SemiBold",
+  },
+  stepText: {
+    textAlign: "center",
+    color: "#A67B5B",
+    fontSize: 14,
+    fontFamily: "Inter_500Medium",
+    paddingBottom: 8,
   },
 });
