@@ -104,12 +104,13 @@ function TypingDots({ visible }: TypingDotsProps) {
     <View style={{ alignSelf: 'flex-start', marginBottom: 8 }}>
       <View
         style={{
-          backgroundColor: '#FFEDCC',
+          backgroundColor: '#e9e9eb',
           paddingHorizontal: 16,
           paddingVertical: 12,
+          borderTopLeftRadius: 0,
           borderTopRightRadius: 20,
-          borderBottomRightRadius: 20,
           borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
           flexDirection: 'row',
           gap: 4,
         }}
@@ -121,7 +122,7 @@ function TypingDots({ visible }: TypingDotsProps) {
               width: 6,
               height: 6,
               borderRadius: 3,
-              backgroundColor: '#8D5241',
+              backgroundColor: 'rgba(0,0,0,0.4)',
               opacity: dot,
             }}
           />
@@ -166,25 +167,20 @@ function MessageBubble({ message }: MessageBubbleProps) {
       <View
         style={{
           maxWidth: '75%',
-          paddingHorizontal: 14,
-          paddingVertical: 10,
-          backgroundColor: message.isOutgoing ? '#8D5241' : '#FFEDCC',
-          borderTopLeftRadius: message.isOutgoing ? 20 : 4,
-          borderTopRightRadius: message.isOutgoing ? 4 : 20,
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          backgroundColor: message.isOutgoing ? '#007aff' : '#e9e9eb',
+          borderTopLeftRadius: message.isOutgoing ? 20 : 0,
+          borderTopRightRadius: message.isOutgoing ? 0 : 20,
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 2,
         }}
       >
         <Text
           style={{
             fontSize: 15,
             lineHeight: 20,
-            color: message.isOutgoing ? '#FFF2DA' : '#8D5241',
+            color: message.isOutgoing ? '#FFFFFF' : '#000000',
             fontFamily: 'Inter_400Regular',
           }}
         >
@@ -277,8 +273,23 @@ export function ChatAnimation({ compact = false }: ChatAnimationProps) {
   const [isMUATyping, setIsMUATyping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeKey, setActiveKey] = useState<string | null>(null);
+  const [currentTime, setCurrentTime] = useState('');
   const scrollViewRef = useRef<ScrollView>(null);
   const cursorAnim = useRef(new Animated.Value(1)).current;
+
+  // Update current time
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      setCurrentTime(`${hours}:${minutes}`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Cursor blink animation
   useEffect(() => {
@@ -385,28 +396,97 @@ export function ChatAnimation({ compact = false }: ChatAnimationProps) {
       <View
         style={{
           position: 'absolute',
-          top: compact ? 6 : 8,
+          top: compact ? 4 : 8,
           left: '50%',
-          marginLeft: compact ? -40 : -50,
-          width: compact ? 80 : 100,
-          height: compact ? 22 : 28,
+          marginLeft: compact ? -50 : -60,
+          width: compact ? 100 : 120,
+          height: compact ? 26 : 35,
           backgroundColor: '#000',
-          borderRadius: compact ? 11 : 14,
+          borderRadius: compact ? 13 : 20,
           zIndex: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
-      />
+      >
+        <View
+          style={{
+            width: compact ? 36 : 48,
+            height: compact ? 3 : 4,
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            borderRadius: 2,
+          }}
+        />
+      </View>
+
+      {/* Status Bar */}
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: compact ? 32 : 44,
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          paddingHorizontal: compact ? 24 : 32,
+          paddingBottom: compact ? 4 : 6,
+          zIndex: 40,
+          backgroundColor: '#FFFFFF',
+        }}
+      >
+        <Text style={{ fontSize: compact ? 12 : 14, fontWeight: '600', color: '#000' }}>{currentTime}</Text>
+        {/* Battery Icon */}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{
+              width: compact ? 18 : 22,
+              height: compact ? 9 : 11,
+              borderRadius: 2,
+              borderWidth: 1,
+              borderColor: 'rgba(0,0,0,0.4)',
+              position: 'relative',
+            }}
+          >
+            {/* Battery nub */}
+            <View
+              style={{
+                position: 'absolute',
+                right: -3,
+                top: compact ? 2 : 3,
+                width: 2,
+                height: compact ? 4 : 5,
+                backgroundColor: 'rgba(0,0,0,0.4)',
+                borderRadius: 1,
+              }}
+            />
+            {/* Battery fill */}
+            <View
+              style={{
+                position: 'absolute',
+                left: 1,
+                top: 1,
+                bottom: 1,
+                width: '80%',
+                backgroundColor: '#000',
+                borderRadius: 1,
+              }}
+            />
+          </View>
+        </View>
+      </View>
 
       {/* Chat Header */}
       <View
         style={{
           position: 'absolute',
-          top: compact ? 30 : 40,
+          top: compact ? 32 : 44,
           left: 0,
           right: 0,
-          height: compact ? 40 : 50,
-          backgroundColor: '#FFF2DA',
+          height: compact ? 44 : 60,
+          backgroundColor: '#FFFFFF',
           borderBottomWidth: 1,
-          borderBottomColor: 'rgba(0,0,0,0.1)',
+          borderBottomColor: 'rgba(0,0,0,0.05)',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
@@ -416,31 +496,35 @@ export function ChatAnimation({ compact = false }: ChatAnimationProps) {
       >
         <View
           style={{
-            width: compact ? 22 : 28,
-            height: compact ? 22 : 28,
-            borderRadius: compact ? 11 : 14,
+            width: compact ? 26 : 32,
+            height: compact ? 26 : 32,
+            borderRadius: compact ? 13 : 16,
             backgroundColor: '#8D5241',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <Text style={{ color: '#FFF2DA', fontSize: compact ? 10 : 12, fontWeight: 'bold' }}>M</Text>
+          <Text style={{ color: '#FFFFFF', fontSize: compact ? 10 : 12, fontWeight: 'bold' }}>M</Text>
         </View>
-        <Text style={{ fontWeight: 'bold', fontSize: compact ? 12 : 14, color: '#000' }}>MUA</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: compact ? 14 : 16, color: '#000' }}>MUA</Text>
       </View>
 
-      {/* Messages Container */}
+      {/* Messages Container - fills entire screen like web version */}
       <ScrollView
         ref={scrollViewRef}
         style={{
           position: 'absolute',
-          top: compact ? 70 : 90,
+          top: 0,
           left: 0,
           right: 0,
           bottom: compact ? 20 : 180,
-          backgroundColor: '#FFF2DA',
+          backgroundColor: '#FFFFFF',
         }}
-        contentContainerStyle={{ padding: compact ? 8 : 12 }}
+        contentContainerStyle={{
+          paddingTop: compact ? 76 : 112,
+          paddingHorizontal: compact ? 8 : 16,
+          paddingBottom: compact ? 8 : 16,
+        }}
         showsVerticalScrollIndicator={false}
       >
         {visibleMessages.map((msg) => (
@@ -487,7 +571,7 @@ export function ChatAnimation({ compact = false }: ChatAnimationProps) {
                 style={{
                   width: 2,
                   height: 16,
-                  backgroundColor: '#8D5241',
+                  backgroundColor: '#007aff',
                   marginLeft: 1,
                   opacity: cursorAnim,
                 }}
@@ -499,7 +583,7 @@ export function ChatAnimation({ compact = false }: ChatAnimationProps) {
               width: 22,
               height: 22,
               borderRadius: 11,
-              backgroundColor: '#8D5241',
+              backgroundColor: '#007aff',
               alignItems: 'center',
               justifyContent: 'center',
               marginLeft: 8,
@@ -554,20 +638,28 @@ export function ChatAnimation({ compact = false }: ChatAnimationProps) {
           <Key letter="return" isActive={activeKey === 'return'} flex={2} isSpecial />
         </View>
 
-        {/* Home Indicator */}
+        </View>}
+
+      {/* Home Indicator - at bottom of phone */}
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 8,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+          zIndex: 60,
+        }}
+      >
         <View
           style={{
-            position: 'absolute',
-            bottom: 6,
-            left: '50%',
-            marginLeft: -40,
-            width: 80,
+            width: 100,
             height: 4,
             backgroundColor: '#000',
             borderRadius: 2,
           }}
         />
-      </View>}
+      </View>
     </View>
   );
 }
