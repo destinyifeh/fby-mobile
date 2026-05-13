@@ -40,7 +40,7 @@ export default function ContactUsScreen() {
     setIsSending(true);
     try {
       const userEmail = user?.email || "anonymous@user.com";
-      const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || "App User";
+      const userName = user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Anonymous User";
 
       await emailService.sendSupportEmail(
         type || "contact",
