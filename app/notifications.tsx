@@ -19,7 +19,7 @@ function NotificationItem({
   isNew = false,
 }: NotificationItemProps) {
   return (
-    <View className="flex-row items-center bg-v2-card-cream-subtle h-24 rounded-3xl mb-4 px-5 border border-v2-shadow-dark shadow-md">
+    <View className="flex-row items-center bg-v2-bg-base h-24 rounded-3xl mb-4 px-5 border border-v2-shadow-dark shadow-md">
       <View className="w-14 h-14 rounded-2xl bg-v2-purple items-center justify-center">
         <Ionicons name={icon} size={28} color="#f4f0e8" />
       </View>

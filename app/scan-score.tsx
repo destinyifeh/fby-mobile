@@ -7,6 +7,7 @@ import React, { useCallback, useState } from "react";
 import {
   Dimensions,
   Image,
+  ImageSourcePropType,
   Modal,
   ScrollView,
   StyleSheet,
@@ -22,9 +23,10 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 interface ScoreItemProps {
   label: string;
   score: number;
+  icon: ImageSourcePropType;
 }
 
-function ScoreItem({ label, score }: ScoreItemProps) {
+function ScoreItem({ label, score, icon }: ScoreItemProps) {
   const radius = 22;
   const strokeWidth = 3;
   const circumference = 2 * Math.PI * radius;
@@ -41,7 +43,8 @@ function ScoreItem({ label, score }: ScoreItemProps) {
             r={radius}
             stroke="rgba(184,145,247,0.2)"
             strokeWidth={strokeWidth}
-            fill="transparent"
+            //fill="transparent"
+            fill="#F2EAFF"
           />
           {/* Progress circle */}
           <Circle
@@ -57,6 +60,9 @@ function ScoreItem({ label, score }: ScoreItemProps) {
             transform={`rotate(${-90 - (score / 100) * 360} 27 27)`}
           />
         </Svg>
+        <View style={styles.centerIcon}>
+          <Image source={icon} style={{ width: 20, height: 20 }} />
+        </View>
       </View>
       <View style={styles.scoreTextContainer}>
         <Text style={styles.scoreLabel} numberOfLines={1}>
@@ -101,12 +107,36 @@ export default function ScanScoreScreen() {
   };
 
   const scores = [
-    { label: "Contour", score: 66 },
-    { label: "Blend Quality", score: 71 },
-    { label: "Foundation", score: 79 },
-    { label: "Base finish", score: 71 },
-    { label: "Symmetry", score: 88 },
-    { label: "Color Balance", score: 63 },
+    {
+      label: "Contour",
+      score: 66,
+      icon: require("@/assets/icons/color-face-icon.png"),
+    },
+    {
+      label: "Blend Quality",
+      score: 71,
+      icon: require("@/assets/icons/color-blend-icon.png"),
+    },
+    {
+      label: "Foundation",
+      score: 79,
+      icon: require("@/assets/icons/color-foundation-icon.png"),
+    },
+    {
+      label: "Base finish",
+      score: 71,
+      icon: require("@/assets/icons/color-base-finish-icon.png"),
+    },
+    {
+      label: "Symmetry",
+      score: 88,
+      icon: require("@/assets/icons/color-face-icon.png"),
+    },
+    {
+      label: "Color Balance",
+      score: 63,
+      icon: require("@/assets/icons/color-balance-icon.png"),
+    },
   ];
 
   return (
@@ -288,7 +318,12 @@ export default function ScanScoreScreen() {
         <View style={styles.scoresContainer}>
           <View style={styles.scoresGrid}>
             {scores.map((item, index) => (
-              <ScoreItem key={index} label={item.label} score={item.score} />
+              <ScoreItem
+                key={index}
+                label={item.label}
+                score={item.score}
+                icon={item.icon}
+              />
             ))}
           </View>
 
@@ -535,14 +570,15 @@ const styles = StyleSheet.create({
   },
   scoreItem: {
     width: (SCREEN_WIDTH - 44) / 2,
-    backgroundColor: "rgba(201,168,255,0.2)",
+    backgroundColor: "#f4f0e8",
     borderRadius: 20,
     borderWidth: 1.5,
-    borderColor: "#b891f7",
+    borderColor: "#f4f0e8",
     padding: 8,
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
+    elevation: 2,
   },
   scoreCircleContainer: {
     width: 54,
@@ -592,5 +628,10 @@ const styles = StyleSheet.create({
     color: "#f4f0e8",
     fontSize: 20,
     fontFamily: "Inter_600SemiBold",
+  },
+  centerIcon: {
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

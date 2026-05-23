@@ -4,14 +4,14 @@
     "slug": "face-by-you",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon-v2.png",
     "scheme": "fbymobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/splash-v2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FFF2DA"
+      "backgroundColor": "#f4f0e8"
     },
     "ios": {
       "supportsTablet": true
@@ -19,7 +19,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#FFF2DA"
+        "backgroundColor": "#b891f7"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,

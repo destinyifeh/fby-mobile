@@ -1,4 +1,5 @@
 import { getCapturedImageUri } from "@/store/capturedImageStore";
+import { fbyIcons } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { useFocusEffect, useRouter } from "expo-router";
@@ -15,7 +16,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Circle, Line, Path } from "react-native-svg";
-import { fbyIcons } from "@/types";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 

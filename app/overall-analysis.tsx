@@ -142,7 +142,7 @@ function SkillBar({
   warning?: boolean;
 }) {
   return (
-    <View className="bg-v2-purple-subtle rounded-2xl p-4 shadow-sm">
+    <View className="bg-v2-bg-base rounded-2xl p-4 shadow-sm">
       <View className="flex-row justify-between items-center mb-2">
         <Text className="font-inter-bold text-v2-text-body text-base">
           {label}
