@@ -10,6 +10,7 @@ interface AvatarProps {
   onEdit?: () => void;
   bgColor?: string;
   borderColor?: string;
+  initialColor?: string;
 }
 
 export function Avatar({
@@ -21,6 +22,7 @@ export function Avatar({
   onEdit,
   bgColor,
   borderColor,
+  initialColor,
 }: AvatarProps) {
   const sizeClasses = {
     sm: "w-8 h-8",
@@ -78,6 +80,7 @@ export function Avatar({
               font-abhaya-bold
               ${textSizeClasses[size]}
             `}
+            style={initialColor ? { color: initialColor } : undefined}
           >
             {name ? getInitials(name) : "U"}
           </Text>

@@ -132,6 +132,7 @@ export default function HistoryScreen() {
                 name={userName}
                 bgColor="#FD988E4D"
                 borderColor="#FF7A6D"
+                initialColor="#1C1B22"
               />
             </View>
             <View
