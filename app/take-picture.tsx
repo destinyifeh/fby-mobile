@@ -167,7 +167,7 @@ export default function TakePictureScreen() {
             activeOpacity={0.6}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Take a Picture</Text>
           <View style={{ width: 40 }} />
@@ -208,7 +208,7 @@ export default function TakePictureScreen() {
         {/* Camera Container */}
         <View style={styles.cameraContainer}>
           <LinearGradient
-            colors={["rgba(255,242,218,0.8)", "rgba(249,188,153,0.8)"]}
+            colors={["rgba(220,202,249,0.8)", "rgba(226,211,245,0.8)"]}
             style={styles.cameraWrapper}
           >
             {/* Instruction Badge - Top */}
@@ -219,7 +219,7 @@ export default function TakePictureScreen() {
                 style={styles.instructionBadgeTopInner}
               >
                 <View style={styles.badgeIconContainer}>
-                  <Ionicons name={currentMode.icon} size={22} color="#FFF2DA" />
+                  <Ionicons name={currentMode.icon} size={22} color="#f4f0e8" />
                 </View>
                 <View>
                   <Text style={styles.badgeTitle}>{currentMode.title}</Text>
@@ -279,7 +279,7 @@ export default function TakePictureScreen() {
             {isProcessing && (
               <View style={styles.processingOverlay}>
                 <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
-                <ActivityIndicator size="large" color="#8D5241" />
+                <ActivityIndicator size="large" color="#383643" />
                 <Text style={styles.processingText}>Processing Look...</Text>
               </View>
             )}
@@ -294,7 +294,7 @@ export default function TakePictureScreen() {
               style={styles.navButton}
               onPress={handlePreviousStep}
             >
-              <Ionicons name="chevron-back" size={24} color="#8D5241" />
+              <Ionicons name="chevron-back" size={24} color="#383643" />
               <Text style={styles.navButtonText}>Previous</Text>
             </TouchableOpacity>
           ) : (
@@ -307,7 +307,7 @@ export default function TakePictureScreen() {
               style={styles.retakeButton}
               onPress={retakePhoto}
             >
-              <Ionicons name="refresh" size={28} color="#8D5241" />
+              <Ionicons name="refresh" size={28} color="#383643" />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -383,7 +383,7 @@ export default function TakePictureScreen() {
               <Ionicons
                 name={currentModeIndex === CAPTURE_MODES.length - 1 ? "checkmark" : "chevron-forward"}
                 size={24}
-                color="#8D5241"
+                color="#383643"
               />
             </TouchableOpacity>
           ) : (
@@ -403,7 +403,7 @@ export default function TakePictureScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF2DA",
+    backgroundColor: "#f4f0e8",
   },
   safeArea: {
     flex: 1,
@@ -415,20 +415,20 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   permissionText: {
-    color: "#8D5241",
+    color: "#383643",
     fontSize: 16,
     textAlign: "center",
     marginBottom: 20,
     fontFamily: "Inter_500Medium",
   },
   permissionButton: {
-    backgroundColor: "#8D5241",
+    backgroundColor: "#b891f7",
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 20,
   },
   permissionButtonText: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 16,
     fontFamily: "Inter_600SemiBold",
   },
@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
   },
   progressContainer: {
     flexDirection: "row",
@@ -466,12 +466,12 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: "#E3BCB5",
+    backgroundColor: "rgba(184,145,247,0.3)",
     alignItems: "center",
     justifyContent: "center",
   },
   progressDotActive: {
-    backgroundColor: "#8D5241",
+    backgroundColor: "#b891f7",
     transform: [{ scale: 1.1 }],
   },
   progressDotCompleted: {
@@ -485,10 +485,10 @@ const styles = StyleSheet.create({
   progressLabel: {
     fontSize: 10,
     fontFamily: "Inter_500Medium",
-    color: "#A67B5B",
+    color: "#565364",
   },
   progressLabelActive: {
-    color: "#8D5241",
+    color: "#383643",
     fontFamily: "Inter_600SemiBold",
   },
   cameraContainer: {
@@ -502,7 +502,7 @@ const styles = StyleSheet.create({
     height: 400,
     borderRadius: 20,
     borderWidth: 6,
-    borderColor: "#E3BCB5",
+    borderColor: "#b891f7",
     overflow: "hidden",
     position: "relative",
   },
@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 24,
     height: 24,
-    borderColor: "#C4A68D",
+    borderColor: "#b891f7",
   },
   cornerTopLeft: {
     top: 0,
@@ -563,7 +563,7 @@ const styles = StyleSheet.create({
     width: 288,
     height: 60,
     overflow: "hidden",
-    backgroundColor: "rgba(166, 123, 91, 0.30)",
+    backgroundColor: "rgba(184, 145, 247, 0.30)",
   },
   instructionBadgeBottom: {
     position: "absolute",
@@ -577,13 +577,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 10,
     overflow: "hidden",
-    backgroundColor: "rgba(166, 123, 91, 0.30)",
+    backgroundColor: "rgba(184, 145, 247, 0.30)",
   },
   badgeIconContainer: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#8D5241",
+    backgroundColor: "#b891f7",
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10,
@@ -591,15 +591,15 @@ const styles = StyleSheet.create({
   badgeIcon: {
     width: 22,
     height: 22,
-    tintColor: "#FFF2DA",
+    tintColor: "#f4f0e8",
   },
   badgeTitle: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 20,
     fontFamily: "Inter_600SemiBold",
   },
   badgeSubtitle: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 16,
     fontFamily: "Inter_400Regular",
   },
@@ -614,9 +614,9 @@ const styles = StyleSheet.create({
   navButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FFF2DA",
+    backgroundColor: "#f4f0e8",
     borderWidth: 2,
-    borderColor: "#8D5241",
+    borderColor: "#b891f7",
     borderRadius: 24,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   navButtonText: {
-    color: "#8D5241",
+    color: "#383643",
     fontSize: 14,
     fontFamily: "Inter_600SemiBold",
   },
@@ -636,9 +636,9 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: "#FFF2DA",
+    backgroundColor: "#f4f0e8",
     borderWidth: 5,
-    borderColor: "#8D5241",
+    borderColor: "#b891f7",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -646,9 +646,9 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: "#FFF2DA",
+    backgroundColor: "#f4f0e8",
     borderWidth: 3,
-    borderColor: "#8D5241",
+    borderColor: "#b891f7",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -656,7 +656,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#C4A68D",
+    backgroundColor: "#b891f7",
   },
   processingOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -667,13 +667,13 @@ const styles = StyleSheet.create({
   },
   processingText: {
     marginTop: 16,
-    color: "#8D5241",
+    color: "#383643",
     fontSize: 18,
     fontFamily: "Inter_600SemiBold",
   },
   stepText: {
     textAlign: "center",
-    color: "#A67B5B",
+    color: "#565364",
     fontSize: 14,
     fontFamily: "Inter_500Medium",
     paddingBottom: 8,

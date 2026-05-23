@@ -32,7 +32,7 @@ export function Input({
       {label && (
         <Text
           style={{
-            color: '#8D5241',
+            color: '#737080',
             fontFamily: 'Inter_500Medium',
             fontSize: 16,
             marginBottom: 8,
@@ -46,7 +46,7 @@ export function Input({
           flexDirection: 'row',
           alignItems: 'center',
           borderWidth: 1,
-          borderColor: error ? '#EF4444' : '#8D5241',
+          borderColor: error ? '#EF4444' : '#737080',
           borderRadius: 20,
           paddingHorizontal: 16,
           height: 48,
@@ -59,24 +59,24 @@ export function Input({
             {
               flex: 1,
               height: 48,
-              color: '#8D5241',
+              color: '#565364',
               fontSize: 14,
             },
             style,
           ]}
-          placeholderTextColor="rgba(166, 123, 91, 0.5)"
+          placeholderTextColor="rgba(140, 138, 157, 0.5)"
           secureTextEntry={isSecure}
           {...props}
         />
         {secureTextEntry && (
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
             style={{ padding: 4 }}
           >
-            <Ionicons 
-              name={isPasswordVisible ? "eye-off-outline" : "eye-outline"} 
-              size={20} 
-              color="#A67B5B" 
+            <Ionicons
+              name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
+              size={20}
+              color="#737080"
             />
           </TouchableOpacity>
         )}

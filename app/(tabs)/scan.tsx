@@ -13,12 +13,12 @@ export default function ScanScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
         <View className="px-6 py-4">
-          <Text className="font-abhaya-bold text-3xl text-primary-brown text-center">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body text-center">
             Scan & score
           </Text>
         </View>
@@ -27,18 +27,18 @@ export default function ScanScreen() {
           {/* Viewfinder Container */}
           <View className="w-[300px] h-[300px] relative items-center justify-center">
             {/* Viewfinder Corners */}
-            <View className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-primary-brown/40 rounded-tl-lg" />
-            <View className="absolute top-0 right-0 w-12 h-12 border-r-2 border-t-2 border-primary-brown/40 rounded-tr-lg" />
-            <View className="absolute bottom-0 left-0 w-12 h-12 border-l-2 border-b-2 border-primary-brown/40 rounded-bl-lg" />
-            <View className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 border-primary-brown/40 rounded-br-lg" />
+            <View className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-v2-purple/40 rounded-tl-lg" />
+            <View className="absolute top-0 right-0 w-12 h-12 border-r-2 border-t-2 border-v2-purple/40 rounded-tr-lg" />
+            <View className="absolute bottom-0 left-0 w-12 h-12 border-l-2 border-b-2 border-v2-purple/40 rounded-bl-lg" />
+            <View className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 border-v2-purple/40 rounded-br-lg" />
 
             {/* Score your look Button */}
             <TouchableOpacity
               onPress={handleScoreYourLook}
-              className="bg-primary-brown h-16 px-8 rounded-full flex-row items-center justify-center absolute bottom-12 shadow-lg"
+              className="bg-v2-purple h-16 px-8 rounded-full flex-row items-center justify-center absolute bottom-12 shadow-lg"
             >
-              <Ionicons name="camera-outline" size={24} color="#FFF2DA" />
-              <Text className="text-cream text-xl font-abhaya-bold ml-3 pt-1">
+              <Ionicons name="camera-outline" size={24} color="#f4f0e8" />
+              <Text className="text-v2-bg-base text-xl font-abhaya-bold ml-3 pt-1">
                 Score your look
               </Text>
             </TouchableOpacity>

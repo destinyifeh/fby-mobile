@@ -19,13 +19,13 @@ export default function PrivacySettingsScreen() {
     value: boolean;
     onToggle: (v: boolean) => void;
   }) => (
-    <View className="flex-row items-center justify-between bg-cream-light h-20 rounded-3xl mb-4 px-8 shadow-sm border border-primary-brown/5">
-      <Text className="font-inter-medium text-primary-brown-light text-xl flex-1 pr-4">
+    <View className="flex-row items-center justify-between bg-v2-card-cream-subtle h-20 rounded-3xl mb-4 px-8 shadow-sm border border-v2-shadow-dark">
+      <Text className="font-inter-medium text-v2-text-muted text-xl flex-1 pr-4">
         {title}
       </Text>
       <Switch
-        trackColor={{ false: "#D1D1D1", true: "#8D5241" }}
-        thumbColor={value ? "#FFF2DA" : "#f4f3f4"}
+        trackColor={{ false: "#D1D1D1", true: "#b891f7" }}
+        thumbColor={value ? "#f4f0e8" : "#f4f3f4"}
         onValueChange={onToggle}
         value={value}
       />
@@ -33,7 +33,7 @@ export default function PrivacySettingsScreen() {
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -42,9 +42,9 @@ export default function PrivacySettingsScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Privacy Settings
           </Text>
           <View className="w-10" />

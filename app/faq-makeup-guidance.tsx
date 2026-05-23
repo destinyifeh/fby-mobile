@@ -19,21 +19,21 @@ export default function MakeupGuidanceScreen() {
   }) => (
     <View className="mb-10">
       <View className="flex-row items-center mb-4">
-        <View className="w-10 h-10 rounded-xl bg-primary-brown items-center justify-center mr-4">
-          <Ionicons name={icon} size={20} color="#FFF2DA" />
+        <View className="w-10 h-10 rounded-xl bg-v2-purple items-center justify-center mr-4">
+          <Ionicons name={icon} size={20} color="#f4f0e8" />
         </View>
-        <Text className="font-inter-bold text-2xl text-primary-brown-light flex-1 pr-2">
+        <Text className="font-inter-bold text-2xl text-v2-text-muted flex-1 pr-2">
           {title}
         </Text>
       </View>
-      <Text className="font-inter text-xl text-primary-brown-light leading-8 pl-1">
+      <Text className="font-inter text-xl text-v2-text-muted leading-8 pl-1">
         {content}
       </Text>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -42,9 +42,9 @@ export default function MakeupGuidanceScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Makeup Guidance
           </Text>
           <View className="w-10" />
@@ -56,8 +56,8 @@ export default function MakeupGuidanceScreen() {
           contentContainerStyle={{ paddingBottom: 70 }}
         >
           {/* Intro Card */}
-          <View className="bg-primary-brown/5 p-8 rounded-4xl mb-10 border border-primary-brown/10 shadow-sm">
-            <Text className="font-abhaya-bold text-3xl text-primary-brown text-center leading-9">
+          <View className="bg-v2-purple-subtle p-8 rounded-4xl mb-10 border border-v2-purple-soft shadow-sm">
+            <Text className="font-abhaya-bold text-3xl text-v2-text-body text-center leading-9">
               Discover how Face By You analyzes your makeup and builds guidance
               that truly works for you.
             </Text>

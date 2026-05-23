@@ -54,18 +54,26 @@ interface HistoryCardProps {
   onPress?: () => void;
 }
 
+const LOOK_COLORS: Record<string, string> = {
+  "full glam": "#ff85af",
+  "soft glam": "#ffebbb",
+};
+
 function HistoryCard({ item, onPress }: HistoryCardProps) {
+  const cardBg = LOOK_COLORS[item.lookName.toLowerCase()] ?? "#f4f0e8";
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.8}
-      className="bg-[#A67B5B4D] h-24 rounded-[12px] flex-row items-center px-4 mb-4 shadow-md"
       style={{
-        shadowColor: "#FFF2DA",
-        // shadowOffset: { width: 0, height: 2 },
-        // shadowOpacity: 0.25,
+        backgroundColor: cardBg,
+        shadowColor: "#e9dcfe",
         shadowRadius: 12,
+        shadowOpacity: 0.6,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 4,
       }}
+      className="h-24 rounded-[12px] flex-row items-center px-4 mb-4"
     >
       {/* Thumbnail */}
       <View className="w-16 h-16 rounded-2xl overflow-hidden">
@@ -78,16 +86,16 @@ function HistoryCard({ item, onPress }: HistoryCardProps) {
 
       {/* Info */}
       <View className="flex-1 ml-4">
-        <Text className="font-abhaya-bold text-2xl text-primary-brown leading-6">
+        <Text className="font-abhaya-bold text-2xl text-v2-text-body leading-6">
           {item.lookName}
         </Text>
-        <Text className="font-inter text-primary-brown-light text-base mt-1">
+        <Text className="font-inter text-v2-text-muted text-base mt-1">
           {item.date}
         </Text>
       </View>
 
       {/* Score */}
-      <Text className="font-abhaya-bold text-3xl text-primary-brown-light opacity-80 mr-2">
+      <Text className="font-abhaya-bold text-3xl text-v2-purple mr-2">
         {item.score}
       </Text>
     </TouchableOpacity>
@@ -100,7 +108,7 @@ export default function HistoryScreen() {
   const { user } = useAuthStore();
   const userName = capitalize(user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina");
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         <ScrollView
@@ -117,13 +125,16 @@ export default function HistoryScreen() {
               <Avatar size="lg" name={userName} />
             </View>
             <View
-              className="bg-[#8D524133] px-5 justify-center items-center"
               style={{
                 borderRadius: 50,
                 height: 30,
+                backgroundColor: "rgba(184,145,247,0.2)",
+                paddingHorizontal: 20,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Text className="font-inter-bold text-primary-brown text-base text-center">
+              <Text className="font-inter-bold text-v2-text-body text-base text-center">
                 Avg Make up score: 64%
               </Text>
             </View>
@@ -133,19 +144,19 @@ export default function HistoryScreen() {
 
           {/* <View className="mt8 rounded-[40px] shadow-lg">
             <View
-              style={{ backgroundColor: "#FFF2DA" }}
+              style={{ backgroundColor: "#f4f0e8" }}
               className="rounded-[40px] h-[210px] overflow-hidden flex-row"
             >
               <View className="flex-1 pl-10 py-8 justify-center">
-                <Text className="font-inter-medium text-primary-brown text-base mb-1">
+                <Text className="font-inter-medium text-v2-text-body text-base mb-1">
                   Last Make up score:
                 </Text>
 
-                <Text className="font-abhaya-bold text-[72px] text-primary-brown leading-[76px]">
+                <Text className="font-abhaya-bold text-[72px] text-v2-text-body leading-[76px]">
                   75%
                 </Text>
 
-                <Text className="font-inter-medium text-primary-brown-light text-base mt-2">
+                <Text className="font-inter-medium text-v2-text-muted text-base mt-2">
                   Last score: 2 days ago
                 </Text>
               </View>
@@ -184,9 +195,9 @@ export default function HistoryScreen() {
           <View
             className="mt-8 rounded-[40px]"
             style={{
-              backgroundColor: "#FFF2DA", // 👈 base color to prevent transparency issues
-              shadowColor: "#8D5241",
-              shadowOpacity: 0.25,
+              backgroundColor: "#f4f0e8",
+              shadowColor: "#e9dcfe",
+              shadowOpacity: 0.6,
               shadowOffset: { width: 0, height: 4 },
               shadowRadius: 6,
               elevation: 6,
@@ -194,9 +205,9 @@ export default function HistoryScreen() {
           >
             <LinearGradient
               colors={[
-                "rgba(141,82,65,0.3)",
-                "rgba(255,242,218,0.4)",
-                "rgba(166,123,91,0.3)",
+                "rgba(255,122,109,0.5)",
+                "rgba(255,223,220,0.5)",
+                "rgba(255,174,166,0.5)",
               ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0.3 }}
@@ -209,15 +220,15 @@ export default function HistoryScreen() {
             >
               {/* LEFT CONTENT */}
               <View className="flex-1 pl-10 py-8 justify-center">
-                <Text className="font-inter-medium text-primary-brown text-base mb-1">
+                <Text className="font-inter-medium text-v2-text-body text-base mb-1">
                   Last Make up score:
                 </Text>
 
-                <Text className="font-abhaya-bold text-[72px] text-primary-brown leading-[76px]">
+                <Text className="font-abhaya-bold text-[72px] text-v2-text-body leading-[76px]">
                   75%
                 </Text>
 
-                <Text className="font-inter-medium text-primary-brown-light text-base mt-2">
+                <Text className="font-inter-medium text-v2-text-muted text-base mt-2">
                   Last score: 2 days ago
                 </Text>
               </View>
@@ -245,7 +256,7 @@ export default function HistoryScreen() {
                 {/* CTA Button */}
                 <TouchableOpacity 
                   onPress={() => router.push("/full-analysis")}
-                  className="absolute bottom-4 right-4 bg-primary-brown/40 px-4 py-1.5 rounded-full"
+                  className="absolute bottom-4 right-4 bg-v2-purple/40 px-4 py-1.5 rounded-full"
                 >
                   <Text className="text-white font-inter-medium text-sm">
                     View full details
@@ -268,17 +279,17 @@ export default function HistoryScreen() {
 
           {/* Daily Tips */}
           <View className="mt-4 mb-8">
-            <Text className="font-abhaya-bold text-xl text-primary-brown text-center leading-7">
+            <Text className="font-abhaya-bold text-xl text-v2-text-body text-center leading-7">
               Daily tips: Blend upward for a lifted effect
             </Text>
           </View>
 
           {/* Overall Analysis Button */}
           <TouchableOpacity
-            className="bg-primary-brown h-16 rounded-[40px] items-center justify-center shadow-lg active:opacity-90 mx-auto px-10"
+            className="bg-v2-purple h-16 rounded-[40px] items-center justify-center shadow-lg active:opacity-90 mx-auto px-10"
             onPress={() => router.push("/overall-analysis")}
           >
-            <Text className="text-cream text-2xl font-abhaya-bold">
+            <Text className="text-v2-bg-base text-2xl font-abhaya-bold">
               See Overall analysis
             </Text>
           </TouchableOpacity>

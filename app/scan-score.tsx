@@ -1,7 +1,7 @@
 import { getCapturedImageUri } from "@/store/capturedImageStore";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { useFocusEffect, useRouter, useLocalSearchParams } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useState } from "react";
 import {
@@ -39,7 +39,7 @@ function ScoreItem({ label, score }: ScoreItemProps) {
             cx={27}
             cy={27}
             r={radius}
-            stroke="rgba(141, 82, 65, 0.1)"
+            stroke="rgba(184,145,247,0.2)"
             strokeWidth={strokeWidth}
             fill="transparent"
           />
@@ -48,7 +48,7 @@ function ScoreItem({ label, score }: ScoreItemProps) {
             cx={27}
             cy={27}
             r={radius}
-            stroke="#E3BCB5"
+            stroke="#b891f7"
             strokeWidth={strokeWidth}
             fill="transparent"
             strokeDasharray={`${progress} ${circumference}`}
@@ -68,7 +68,7 @@ function ScoreItem({ label, score }: ScoreItemProps) {
             <Ionicons
               name="information-circle-outline"
               size={18}
-              color="#8D5241"
+              color="#383643"
             />
           </TouchableOpacity>
         </View>
@@ -121,7 +121,7 @@ export default function ScanScoreScreen() {
         <SafeAreaView style={styles.safeArea} edges={["top"]}>
           <View style={styles.header}>
             <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-              <Ionicons name="arrow-back" size={24} color="#8D5241" />
+              <Ionicons name="arrow-back" size={24} color="#383643" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Scan & score</Text>
             <View style={{ width: 40 }} />
@@ -131,7 +131,9 @@ export default function ScanScoreScreen() {
         <View style={styles.imageSection}>
           <Image
             source={
-              imageUri ? { uri: imageUri } : require("@/assets/images/user.png")
+              imageUri
+                ? { uri: imageUri }
+                : require("@/assets/images/user-v2.png")
             }
             style={styles.capturedImage}
             resizeMode="cover"
@@ -163,14 +165,14 @@ export default function ScanScoreScreen() {
                 <View style={styles.sheetHandle} />
                 <View style={styles.demoHeader}>
                   <View style={styles.sparkleIcon}>
-                    <Ionicons name="sparkles" size={24} color="#8D5241" />
+                    <Ionicons name="sparkles" size={24} color="#383643" />
                   </View>
                   <Text style={styles.demoTitle}>Proof of Concept</Text>
                   <TouchableOpacity
                     onPress={() => setShowAiDemo(false)}
                     style={styles.closeIcon}
                   >
-                    <Ionicons name="close" size={24} color="#8D5241" />
+                    <Ionicons name="close" size={24} color="#383643" />
                   </TouchableOpacity>
                 </View>
 
@@ -305,7 +307,7 @@ export default function ScanScoreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAF3E8",
+    backgroundColor: "#f4f0e8",
   },
   safeArea: {
     position: "absolute",
@@ -330,7 +332,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
     textAlign: "center",
   },
   scrollView: {
@@ -338,7 +340,7 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     height: SCREEN_WIDTH * 1.3,
-    backgroundColor: "#E3BCB5",
+    backgroundColor: "#e2d3f5",
     position: "relative",
   },
   capturedImage: {
@@ -354,16 +356,16 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   detectedBadge: {
-    backgroundColor: "rgba(100, 50, 40, 0.3)",
+    backgroundColor: "rgba(255,79,139,0.2)",
     borderRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "rgba(251, 230, 211, 0.4)",
+    borderColor: "rgba(201,168,255,0.2)",
     overflow: "hidden",
   },
   detectedText: {
-    color: "#E8D4C4",
+    color: "#383643",
     fontSize: 14,
     fontFamily: "Inter_500Medium",
   },
@@ -385,7 +387,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   aiMessageText: {
-    color: "#8D5241",
+    color: "#383643",
     fontSize: 13,
     fontFamily: "Inter_500Medium",
     flex: 1,
@@ -398,7 +400,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   demoSheet: {
-    backgroundColor: "#FAF3E8",
+    backgroundColor: "#f4f0e8",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     paddingHorizontal: 24,
@@ -408,7 +410,7 @@ const styles = StyleSheet.create({
   sheetHandle: {
     width: 40,
     height: 4,
-    backgroundColor: "rgba(141,82,65,0.2)",
+    backgroundColor: "rgba(184,145,247,0.3)",
     borderRadius: 2,
     alignSelf: "center",
     marginBottom: 20,
@@ -422,7 +424,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#E3BCB533",
+    backgroundColor: "rgba(184,145,247,0.2)",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -431,20 +433,20 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 22,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
   },
   closeIcon: {
     padding: 8,
   },
   demoSheetText: {
     fontSize: 16,
-    color: "#8D5241",
+    color: "#383643",
     fontFamily: "Inter_400Regular",
     lineHeight: 24,
     marginBottom: 30,
   },
   gotItButton: {
-    backgroundColor: "#8D5241",
+    backgroundColor: "#b891f7",
     height: 60,
     borderRadius: 30,
     alignItems: "center",
@@ -456,7 +458,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   gotItText: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 18,
     fontFamily: "Inter_600SemiBold",
   },
@@ -476,7 +478,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   calloutBubble: {
-    backgroundColor: "rgba(100, 50, 40, 0.3)",
+    backgroundColor: "rgba(201,168,255,0.2)",
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 10,
@@ -486,7 +488,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   calloutText: {
-    color: "#E8D4C4",
+    color: "#f4f0e8",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 20,
@@ -518,7 +520,7 @@ const styles = StyleSheet.create({
     right: "23%",
   },
   scoresContainer: {
-    backgroundColor: "#FAF3E8",
+    backgroundColor: "#f4f0e8",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     marginTop: -40,
@@ -533,10 +535,10 @@ const styles = StyleSheet.create({
   },
   scoreItem: {
     width: (SCREEN_WIDTH - 44) / 2,
-    backgroundColor: "#E3BCB533",
+    backgroundColor: "rgba(201,168,255,0.2)",
     borderRadius: 20,
     borderWidth: 1.5,
-    borderColor: "#8D5241",
+    borderColor: "#b891f7",
     padding: 8,
     flexDirection: "row",
     alignItems: "center",
@@ -555,7 +557,7 @@ const styles = StyleSheet.create({
   scoreLabel: {
     fontSize: 15,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
     marginBottom: 2,
   },
   scoreValueRow: {
@@ -567,14 +569,14 @@ const styles = StyleSheet.create({
   scoreValue: {
     fontSize: 14,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
   },
   infoButtonContainer: {
     padding: 2,
     marginRight: 4,
   },
   analysisButton: {
-    backgroundColor: "#8D5241",
+    backgroundColor: "#b891f7",
     borderRadius: 35,
     paddingVertical: 20,
     marginTop: 20,
@@ -587,7 +589,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   analysisButtonText: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 20,
     fontFamily: "Inter_600SemiBold",
   },

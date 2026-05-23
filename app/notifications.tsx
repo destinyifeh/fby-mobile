@@ -19,22 +19,22 @@ function NotificationItem({
   isNew = false,
 }: NotificationItemProps) {
   return (
-    <View className="flex-row items-center bg-cream-light h-24 rounded-3xl mb-4 px-5 border border-primary-brown/5 shadow-md">
-      <View className="w-14 h-14 rounded-2xl bg-primary-brown items-center justify-center">
-        <Ionicons name={icon} size={28} color="#FFF2DA" />
+    <View className="flex-row items-center bg-v2-card-cream-subtle h-24 rounded-3xl mb-4 px-5 border border-v2-shadow-dark shadow-md">
+      <View className="w-14 h-14 rounded-2xl bg-v2-purple items-center justify-center">
+        <Ionicons name={icon} size={28} color="#f4f0e8" />
       </View>
       <View className="flex-1 ml-4 justify-center">
         <Text
-          className="font-inter-medium text-lg text-primary-brown leading-6"
+          className="font-inter-medium text-lg text-v2-text-body leading-6"
           numberOfLines={2}
         >
           {title}
         </Text>
-        <Text className="font-inter text-sm text-primary-brown-light mt-1">
+        <Text className="font-inter text-sm text-v2-text-muted mt-1">
           {time}
         </Text>
       </View>
-      {isNew && <View className="w-3 h-3 rounded-full bg-accent-pink ml-2" />}
+      {isNew && <View className="w-3 h-3 rounded-full bg-v2-coral ml-2" />}
     </View>
   );
 }
@@ -43,7 +43,7 @@ export default function NotificationsScreen() {
   const router = useRouter();
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -52,9 +52,9 @@ export default function NotificationsScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Notifications
           </Text>
           <View className="w-10" />
@@ -67,7 +67,7 @@ export default function NotificationsScreen() {
         >
           {/* New Section */}
           <View className="mt-6">
-            <Text className="font-inter-bold text-xl text-primary-brown mb-5">
+            <Text className="font-inter-bold text-xl text-v2-text-body mb-5">
               New
             </Text>
             <NotificationItem
@@ -86,7 +86,7 @@ export default function NotificationsScreen() {
 
           {/* Earlier Section */}
           <View className="mt-8">
-            <Text className="font-inter-bold text-xl text-primary-brown mb-5">
+            <Text className="font-inter-bold text-xl text-v2-text-body mb-5">
               Earlier
             </Text>
             <NotificationItem

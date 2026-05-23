@@ -14,8 +14,8 @@ export function Card({
   ...props
 }: CardProps) {
   const variantClasses = {
-    default: 'bg-cream',
-    elevated: 'bg-cream shadow-md',
+    default: 'bg-v2-bg-base',
+    elevated: 'bg-v2-bg-base shadow-md',
     outlined: 'bg-transparent border border-accent-pink',
   };
 

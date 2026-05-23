@@ -10,17 +10,17 @@ export default function TermOfUseScreen() {
 
   const Section = ({ title, content }: { title: string; content: string }) => (
     <View className="mb-8">
-      <Text className="font-inter-bold text-2xl text-primary-brown-light mb-3">
+      <Text className="font-inter-bold text-2xl text-v2-text-muted mb-3">
         {title}
       </Text>
-      <Text className="font-inter text-xl text-primary-brown-light leading-8">
+      <Text className="font-inter text-xl text-v2-text-muted leading-8">
         {content}
       </Text>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -29,9 +29,9 @@ export default function TermOfUseScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Term of use
           </Text>
           <View className="w-10" />

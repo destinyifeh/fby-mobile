@@ -32,7 +32,7 @@ export default function OverallAnalysisScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -41,9 +41,9 @@ export default function OverallAnalysisScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Overall Analysis
           </Text>
           <View className="w-10" />
@@ -56,12 +56,12 @@ export default function OverallAnalysisScreen() {
         >
           {/* Average Score Big Circle */}
           <View className="items-center mt-6">
-            <View className="w-56 h-56 rounded-full border-8 border-primary-brown/10 items-center justify-center relative">
-              <View className="w-48 h-48 rounded-full border-8 border-primary-brown items-center justify-center bg-white shadow-xl">
-                <Text className="font-abhaya-bold text-[64px] text-primary-brown">
+            <View className="w-56 h-56 rounded-full border-8 border-v2-purple/10 items-center justify-center relative">
+              <View className="w-48 h-48 rounded-full border-8 border-v2-purple items-center justify-center bg-white shadow-xl">
+                <Text className="font-abhaya-bold text-[64px] text-v2-text-body">
                   64%
                 </Text>
-                <Text className="font-inter-medium text-primary-brown-light text-base -mt-2">
+                <Text className="font-inter-medium text-v2-text-muted text-base -mt-2">
                   Average Score
                 </Text>
               </View>
@@ -95,7 +95,7 @@ export default function OverallAnalysisScreen() {
 
           {/* Detailed Breakdown */}
           <View className="mt-8">
-            <Text className="font-abhaya-bold text-2xl text-primary-brown mb-6">
+            <Text className="font-abhaya-bold text-2xl text-v2-text-body mb-6">
               Skill Breakdown
             </Text>
 
@@ -108,11 +108,11 @@ export default function OverallAnalysisScreen() {
           </View>
 
           {/* Recommendation Card */}
-          <View className="mt-8 bg-primary-brown rounded-[32px] p-8 shadow-lg">
-            <Text className="text-cream text-2xl font-abhaya-bold mb-3">
+          <View className="mt-8 bg-v2-purple rounded-[32px] p-8 shadow-lg">
+            <Text className="text-v2-bg-base text-2xl font-abhaya-bold mb-3">
               Daily Focus
             </Text>
-            <Text className="text-cream/90 text-lg font-inter leading-6">
+            <Text className="text-v2-bg-base/90 text-lg font-inter leading-6">
               Your foundation work is exceptional! For your next scan, focus on
               blending your eye transitions to boost your overall score beyond
               70%.
@@ -120,9 +120,9 @@ export default function OverallAnalysisScreen() {
           </View>
 
           {/* Share Button */}
-          <TouchableOpacity className="flex-row items-center justify-center mt-10 bg-primary-brown-light h-16 rounded-[32px] shadow-md">
-            <Ionicons name="share-social-outline" size={24} color="#FFF2DA" />
-            <Text className="text-cream text-xl font-abhaya-bold ml-3">
+          <TouchableOpacity className="flex-row items-center justify-center mt-10 bg-v2-card-dark h-16 rounded-[32px] shadow-md">
+            <Ionicons name="share-social-outline" size={24} color="#f4f0e8" />
+            <Text className="text-v2-bg-base text-xl font-abhaya-bold ml-3">
               Share Report
             </Text>
           </TouchableOpacity>
@@ -142,20 +142,20 @@ function SkillBar({
   warning?: boolean;
 }) {
   return (
-    <View className="bg-[#FFEAD1] rounded-2xl p-4 shadow-sm">
+    <View className="bg-v2-purple-subtle rounded-2xl p-4 shadow-sm">
       <View className="flex-row justify-between items-center mb-2">
-        <Text className="font-inter-bold text-primary-brown text-base">
+        <Text className="font-inter-bold text-v2-text-body text-base">
           {label}
         </Text>
         <Text
-          className={`font-inter-bold ${warning ? "text-[#E88282]" : "text-primary-brown"} text-base`}
+          className={`font-inter-bold ${warning ? "text-[#E88282]" : "text-v2-text-body"} text-base`}
         >
           {score}%
         </Text>
       </View>
-      <View className="h-3 bg-cream-light rounded-full overflow-hidden">
+      <View className="h-3 bg-v2-bg-base rounded-full overflow-hidden">
         <View
-          className={`h-full ${warning ? "bg-[#E88282]" : "bg-primary-brown"} rounded-full`}
+          className={`h-full ${warning ? "bg-[#E88282]" : "bg-v2-purple"} rounded-full`}
           style={{ width: `${score}%` }}
         />
       </View>

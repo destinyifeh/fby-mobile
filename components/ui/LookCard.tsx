@@ -13,7 +13,7 @@ export function LookCard({ name, image, onPress }: LookCardProps) {
       onPress={onPress}
       activeOpacity={0.8}
       className="
-        bg-accent-tan
+        bg-v2-purple-subtle
         rounded-xl
         w-[90px]
         h-[111px]
@@ -29,7 +29,7 @@ export function LookCard({ name, image, onPress }: LookCardProps) {
       </View>
       <Text
         className="
-          text-primary-brown-light
+          text-v2-text-muted
           font-inter-semibold
           text-base
           px-1.5

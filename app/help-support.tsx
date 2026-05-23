@@ -17,17 +17,17 @@ export default function HelpSupportScreen() {
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center h-20 rounded-3xl mb-4 px-8 justify-between bg-cream-light shadow-md"
+      className="flex-row items-center h-20 rounded-3xl mb-4 px-8 justify-between bg-v2-card-cream-faint shadow-md"
     >
-      <Text className="font-inter-medium text-primary-brown-light text-lg flex-1 pr-4">
+      <Text className="font-inter-medium text-v2-text-body text-lg flex-1 pr-4">
         {question}
       </Text>
-      <Ionicons name="chevron-forward" size={24} color="#A67B5B" />
+      <Ionicons name="chevron-forward" size={24} color="#b891f7" />
     </TouchableOpacity>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -36,9 +36,9 @@ export default function HelpSupportScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Help & Support
           </Text>
           <View className="w-10" />
@@ -51,7 +51,7 @@ export default function HelpSupportScreen() {
         >
           {/* FAQs Section */}
           <View className="mt-8">
-            <Text className="font-inter-bold text-2xl text-primary-brown-light mb-6">
+            <Text className="font-inter-bold text-2xl text-v2-text-muted mb-6">
               FAQs
             </Text>
             <FAQItem
@@ -66,25 +66,25 @@ export default function HelpSupportScreen() {
 
           {/* Contact Section */}
           <View className="mt-12 items-center">
-            <Text className="font-inter-semibold text-xl text-primary-brown-light mb-6 self-start">
+            <Text className="font-inter-semibold text-xl text-v2-text-muted mb-6 self-start">
               Need more help?
             </Text>
             <TouchableOpacity 
               onPress={() => router.push({ pathname: "/contact-us", params: { type: "contact" } })}
-              className="flex-row items-center bg-primary-brown w-full h-[50px] rounded-[50px] justify-center shadow-lg"
+              className="flex-row items-center bg-v2-purple w-full h-[50px] rounded-[50px] justify-center shadow-lg"
             >
               <View className="mr-4">
                 {/* <Ionicons
                   name="shield-checkmark-outline"
                   size={36}
-                  color="#FFF2DA"
+                  color="#f4f0e8"
                 /> */}
                 <Image
                   source={require("../assets/icons/shield-heart.png")}
                   resizeMode="contain"
                 />
               </View>
-              <Text className="text-cream text-2xl font-abhaya-bold">
+              <Text className="text-v2-bg-base text-2xl font-abhaya-bold">
                 Contact us
               </Text>
             </TouchableOpacity>
@@ -93,7 +93,7 @@ export default function HelpSupportScreen() {
               onPress={() => router.push({ pathname: "/contact-us", params: { type: "issue" } })}
               className="mt-8"
             >
-              <Text className="text-primary-brown-light text-2xl font-abhaya-bold opacity-80">
+              <Text className="text-v2-text-muted text-2xl font-abhaya-bold opacity-80">
                 Report an issue
               </Text>
             </TouchableOpacity>

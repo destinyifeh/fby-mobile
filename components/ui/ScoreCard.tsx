@@ -11,7 +11,7 @@ export function ScoreCard({ name, score, iconUrl }: ScoreCardProps) {
   return (
     <View
       className="
-        bg-accent-pink-light
+        bg-v2-badge-pink
         border
         border-cream
         rounded-xl
@@ -32,10 +32,10 @@ export function ScoreCard({ name, score, iconUrl }: ScoreCardProps) {
         </View>
       )}
       <View className="flex-1">
-        <Text className="text-cream font-inter-medium text-base text-center">
+        <Text className="text-v2-bg-base font-inter-medium text-base text-center">
           {name}
         </Text>
-        <Text className="text-cream font-inter-semibold text-sm">
+        <Text className="text-v2-bg-base font-inter-semibold text-sm">
           {score}%
         </Text>
       </View>

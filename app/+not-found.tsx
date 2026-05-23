@@ -6,11 +6,11 @@ export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
-      <View className="flex-1 bg-cream items-center justify-center px-6">
-        <Text className="font-inter-semibold text-2xl text-primary-brown mb-2">
+      <View className="flex-1 bg-v2-bg-base items-center justify-center px-6">
+        <Text className="font-inter-semibold text-2xl text-v2-text-body mb-2">
           Page Not Found
         </Text>
-        <Text className="font-inter text-base text-primary-brown-light text-center mb-6">
+        <Text className="font-inter text-base text-v2-text-muted text-center mb-6">
           The page you're looking for doesn't exist.
         </Text>
         <Link href="/" asChild>

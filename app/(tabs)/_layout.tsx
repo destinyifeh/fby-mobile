@@ -22,7 +22,7 @@ function TabBarIcon({ focused, icon }: TabBarIconProps) {
         borderRadius: 25,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: focused ? "#8D5241" : "transparent",
+        backgroundColor: focused ? "#b891f7" : "transparent",
       }}
     >
       <Image
@@ -30,7 +30,7 @@ function TabBarIcon({ focused, icon }: TabBarIconProps) {
         style={{
           width: 25,
           height: 25,
-          tintColor: "#FFF2DA",
+          tintColor: focused ? "#f4f0e8" : "#737080",
         }}
         resizeMode="contain"
       />
@@ -47,7 +47,7 @@ function TabBarBackground() {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "rgba(166, 123, 91, 0.5)",
+        backgroundColor: "rgba(184, 145, 247, 0.25)",
         borderTopLeftRadius: 52,
         borderTopRightRadius: 52,
       }}
@@ -61,8 +61,8 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#8D5241",
-        tabBarInactiveTintColor: "#8D5241",
+        tabBarActiveTintColor: "#b891f7",
+        tabBarInactiveTintColor: "#737080",
         tabBarShowLabel: false,
         tabBarBackground: () => <TabBarBackground />,
         tabBarStyle: {

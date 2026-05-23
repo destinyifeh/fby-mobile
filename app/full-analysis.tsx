@@ -47,7 +47,7 @@ export default function FullAnalysisScreen() {
           {/* Header */}
           <View style={styles.header}>
             <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-              <Ionicons name="arrow-back" size={24} color="#8D5241" />
+              <Ionicons name="arrow-back" size={24} color="#383643" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Scan & score</Text>
             <View style={{ width: 40 }} />
@@ -170,7 +170,7 @@ export default function FullAnalysisScreen() {
               <Ionicons
                 name="information-circle-outline"
                 size={24}
-                color="#A67B5B"
+                color="#b891f7"
               />
             </TouchableOpacity>
           </View>
@@ -266,7 +266,7 @@ export default function FullAnalysisScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAF3E8",
+    backgroundColor: "#f4f0e8",
   },
   safeArea: {
     position: "absolute",
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 28,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
     textAlign: "center",
   },
   scrollView: {
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     height: SCREEN_WIDTH * 1.3,
-    backgroundColor: "#E3BCB5",
+    backgroundColor: "#e2d3f5",
     position: "relative",
   },
   capturedImage: {
@@ -317,16 +317,16 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   detectedBadge: {
-    backgroundColor: "rgba(100, 50, 40, 0.3)",
+    backgroundColor: "rgba(255,79,139,0.2)",
     borderRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "rgba(251, 230, 211, 0.4)",
+    borderColor: "rgba(201,168,255,0.2)",
     overflow: "hidden",
   },
   detectedText: {
-    color: "#E8D4C4",
+    color: "#383643",
     fontSize: 14,
     fontFamily: "Inter_500Medium",
   },
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   calloutBubble: {
-    backgroundColor: "rgba(100, 50, 40, 0.3)",
+    backgroundColor: "rgba(201,168,255,0.2)",
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 10,
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   calloutText: {
-    color: "#E8D4C4",
+    color: "#f4f0e8",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 20,
@@ -388,14 +388,14 @@ const styles = StyleSheet.create({
     right: "23%",
   },
   analysisCard: {
-    backgroundColor: "#FAF3E8",
+    backgroundColor: "#f4f0e8",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     marginTop: -40,
     paddingHorizontal: 20,
     paddingTop: 30,
     paddingBottom: 80,
-    shadowColor: "#8D5241",
+    shadowColor: "#b891f7",
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
   analysisTitle: {
     fontSize: 24,
     fontFamily: "Inter_600SemiBold",
-    color: "#8D5241",
+    color: "#383643",
     textAlign: "center",
   },
   infoButton: {
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   overallScoreBadge: {
-    backgroundColor: "#E3BCB5",
+    backgroundColor: "rgba(201,168,255,0.2)",
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -427,24 +427,24 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   overallScoreText: {
-    color: "#8D5241",
+    color: "#b891f7",
     fontSize: 14,
     fontFamily: "Inter_600SemiBold",
   },
   summaryCard: {
-    backgroundColor: "#8D52411A",
+    backgroundColor: "rgba(244,240,232,0.2)",
     borderRadius: 10,
     padding: 16,
     marginBottom: 12,
   },
   summaryText: {
-    color: "#8D5241",
+    color: "#383643",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 22,
   },
   sectionBadge: {
-    backgroundColor: "#A67B5B",
+    backgroundColor: "#b891f7",
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 8,
@@ -453,25 +453,25 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   sectionBadgeWarning: {
-    backgroundColor: "#A67B5B",
+    backgroundColor: "#b891f7",
   },
   sectionBadgeTip: {
-    backgroundColor: "#A67B5B",
+    backgroundColor: "#b891f7",
   },
   sectionBadgeText: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 13,
     fontFamily: "Inter_600SemiBold",
   },
   feedbackCard: {
-    backgroundColor: "#8D52411A",
+    backgroundColor: "rgba(244,240,232,0.2)",
     borderRadius: 10,
     padding: 16,
     marginBottom: 20,
     gap: 8,
   },
   feedbackText: {
-    color: "#8D5241",
+    color: "#383643",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 22,
@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
   },
   doneButton: {
-    backgroundColor: "#8D5241",
+    backgroundColor: "#b891f7",
     borderRadius: 35,
     paddingVertical: 20,
     marginTop: 20,
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   doneButtonText: {
-    color: "#FFF2DA",
+    color: "#f4f0e8",
     fontSize: 20,
     fontFamily: "Inter_600SemiBold",
   },

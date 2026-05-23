@@ -69,9 +69,9 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
-      <SafeAreaView className="flex-1 bg-cream" edges={["top", "bottom"]}>
+      <SafeAreaView className="flex-1 bg-v2-bg-base" edges={["top", "bottom"]}>
         <ScrollView
           className="flex-1"
           contentContainerStyle={{
@@ -84,8 +84,8 @@ export default function HomeScreen() {
           <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
             <View className="flex-row items-center">
               <Avatar size="md" name={userName} />
-              <View className="ml-3 bg-accent-tan-light rounded-full px-3 py-1.5">
-                <Text className="font-inter-semibold text-sm text-primary-brown">
+              <View className="ml-3 bg-v2-badge-pink rounded-full px-3 py-1.5">
+                <Text className="font-inter-semibold text-sm text-v2-text-body">
                   Make up score:{makeupScore}%
                 </Text>
               </View>
@@ -94,17 +94,17 @@ export default function HomeScreen() {
               <Ionicons
                 name="notifications-outline"
                 size={24}
-                color="#8D5241"
+                color="#383643"
               />
             </TouchableOpacity>
           </View>
 
           {/* Greeting */}
           <View className="px-6 mt-4">
-            <Text className="font-inter text-2xl text-primary-brown">
+            <Text className="font-inter text-2xl text-v2-text-body">
               Hello <Text className="font-inter-semibold">{userName}</Text>,
             </Text>
-            <Text className="font-inter text-base text-primary-brown-light mt-1">
+            <Text className="font-inter text-base text-v2-text-muted mt-1">
               Ready for today's glam check?
             </Text>
           </View>
@@ -113,8 +113,8 @@ export default function HomeScreen() {
           <View className="mx-6 mt-6">
             <View
               className="
-                bg-accent-tan
-                border-2 border-accent-pink
+                bg-v2-purple-subtle
+                border-2 border-v2-tag-blush
                 rounded-[20px]
                 h-[318px]
                 items-center
@@ -124,13 +124,13 @@ export default function HomeScreen() {
               {/* Camera viewfinder corners */}
               <View className="w-[173px] h-[160px] items-center justify-center">
                 {/* Top left corner */}
-                <View className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-primary-brown-light" />
+                <View className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-v2-purple" />
                 {/* Top right corner */}
-                <View className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-primary-brown-light" />
+                <View className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-v2-purple" />
                 {/* Bottom left corner */}
-                <View className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-primary-brown-light" />
+                <View className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-v2-purple" />
                 {/* Bottom right corner */}
-                <View className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-primary-brown-light" />
+                <View className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-v2-purple" />
               </View>
 
               {/* Score Button */}
@@ -138,21 +138,15 @@ export default function HomeScreen() {
                 onPress={handleScoreYourLook}
                 className="
                   mt-6
-                  bg-primary-brown
+                  bg-v2-purple
                   rounded-full
                   px-6 py-3
                   flex-row items-center
                 "
               >
-                <Ionicons name="camera-outline" size={20} color="#FFF2DA" />
+                <Ionicons name="camera-outline" size={20} color="#f4f0e8" />
 
-                {/* <Image
-                  source={fbyIcons.camera}
-                  className="w-6 h-6"
-                  resizeMode="contain"
-                /> */}
-
-                <Text className="ml-2 font-abhaya-extrabold text-base text-cream">
+                <Text className="ml-2 font-abhaya-extrabold text-base text-v2-bg-base">
                   Score your look
                 </Text>
               </TouchableOpacity>
@@ -161,14 +155,14 @@ export default function HomeScreen() {
 
           {/* Recent Looks Section */}
           <View className="mx-6 mt-6">
-            <View className="bg-accent-tan rounded-[20px] px-5 pt-4 pb-5">
+            <View className="bg-v2-purple-subtle rounded-[20px] px-5 pt-4 pb-5">
               {/* Header */}
               <View className="flex-row items-center justify-between mb-4">
-                <Text className="font-inter-semibold text-xl text-primary-brown">
+                <Text className="font-inter-semibold text-xl text-v2-text-body">
                   Recent Looks
                 </Text>
                 <TouchableOpacity onPress={handleViewMore}>
-                  <Text className="font-inter text-sm text-primary-brown-light">
+                  <Text className="font-inter text-sm text-v2-text-muted">
                     View more
                   </Text>
                 </TouchableOpacity>
@@ -177,20 +171,20 @@ export default function HomeScreen() {
               {/* Scan First Look CTA */}
               <TouchableOpacity
                 onPress={handleScanFirstLook}
-                className="flex-row items-center bg-primary-brown/10 rounded-2xl px-4 py-3 mb-4"
+                className="flex-row items-center bg-v2-purple-soft rounded-2xl px-4 py-3 mb-4"
               >
-                <View className="w-10 h-10 bg-primary-brown rounded-full items-center justify-center mr-3">
-                  <Ionicons name="camera-outline" size={20} color="#FFF2DA" />
+                <View className="w-10 h-10 bg-v2-purple rounded-full items-center justify-center mr-3">
+                  <Ionicons name="camera-outline" size={20} color="#f4f0e8" />
                 </View>
                 <View className="flex-1">
-                  <Text className="font-inter-semibold text-base text-primary-brown">
+                  <Text className="font-inter-semibold text-base text-v2-text-body">
                     Scan your first look
                   </Text>
-                  <Text className="font-inter text-sm text-primary-brown-light">
+                  <Text className="font-inter text-sm text-v2-text-muted">
                     Take a photo to get your makeup score
                   </Text>
                 </View>
-                <Ionicons name="chevron-forward" size={20} color="#8D5241" />
+                <Ionicons name="chevron-forward" size={20} color="#b891f7" />
               </TouchableOpacity>
 
               {/* Looks Grid */}
@@ -229,40 +223,40 @@ export default function HomeScreen() {
           />
           
           <View 
-            className="bg-cream rounded-t-[40px] px-8 pt-10 pb-12 shadow-2xl"
+            className="bg-v2-bg-base rounded-t-[40px] px-8 pt-10 pb-12 shadow-2xl"
             style={{ maxHeight: SCREEN_HEIGHT * 0.7 }}
           >
-            <View className="w-12 h-1.5 bg-primary-brown/10 rounded-full self-center mb-8" />
-            
+            <View className="w-12 h-1.5 bg-v2-purple/10 rounded-full self-center mb-8" />
+
             <View className="items-center mb-6">
-              <View className="w-20 h-20 bg-accent-tan rounded-full items-center justify-center mb-4 border-4 border-white/50">
-                <Ionicons name="sparkles" size={40} color="#8D5241" />
+              <View className="w-20 h-20 bg-v2-purple-subtle rounded-full items-center justify-center mb-4 border-4 border-white/50">
+                <Ionicons name="sparkles" size={40} color="#b891f7" />
               </View>
-              <Text className="font-abhaya-bold text-4xl text-primary-brown text-center">
+              <Text className="font-abhaya-bold text-4xl text-v2-text-body text-center">
                 A Glimpse of the Future!
               </Text>
             </View>
 
-            <Text className="font-inter text-lg text-primary-brown-light text-center mb-8 leading-7">
+            <Text className="font-inter text-lg text-v2-text-muted text-center mb-8 leading-7">
               This is just a preview, real data isn’t live yet. We wanted to
               give you a feel for what we’re building at Face By You.
             </Text>
 
             <View className="gap-y-4 mb-8">
-              <View className="flex-row items-center bg-[#A67B5B12] p-4 rounded-2xl">
-                <View className="w-10 h-10 bg-primary-brown rounded-full items-center justify-center mr-4">
-                  <Ionicons name="scan" size={20} color="#FFF2DA" />
+              <View className="flex-row items-center bg-v2-purple-soft p-4 rounded-2xl">
+                <View className="w-10 h-10 bg-v2-purple rounded-full items-center justify-center mr-4">
+                  <Ionicons name="scan" size={20} color="#f4f0e8" />
                 </View>
-                <Text className="flex-1 font-inter-semibold text-primary-brown text-base">
+                <Text className="flex-1 font-inter-semibold text-v2-text-body text-base">
                   Real-time Makeup Scoring & Feedback
                 </Text>
               </View>
               
-              <View className="flex-row items-center bg-[#A67B5B12] p-4 rounded-2xl">
-                <View className="w-10 h-10 bg-primary-brown rounded-full items-center justify-center mr-4">
-                  <Ionicons name="color-palette" size={20} color="#FFF2DA" />
+              <View className="flex-row items-center bg-v2-purple-soft p-4 rounded-2xl">
+                <View className="w-10 h-10 bg-v2-purple rounded-full items-center justify-center mr-4">
+                  <Ionicons name="color-palette" size={20} color="#f4f0e8" />
                 </View>
-                <Text className="flex-1 font-inter-semibold text-primary-brown text-base">
+                <Text className="flex-1 font-inter-semibold text-v2-text-body text-base">
                   Symmetry & Color Balance Analysis
                 </Text>
               </View>

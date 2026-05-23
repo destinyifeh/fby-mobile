@@ -60,7 +60,7 @@ export default function ContactUsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -69,9 +69,9 @@ export default function ContactUsScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             {title}
           </Text>
           <View className="w-10" />
@@ -85,21 +85,21 @@ export default function ContactUsScreen() {
             className="flex-1 px-6"
             contentContainerStyle={{ paddingTop: 20, paddingBottom: 40 }}
           >
-            <Text className="font-inter text-primary-brown-light text-lg mb-6 leading-6">
+            <Text className="font-inter text-v2-text-muted text-lg mb-6 leading-6">
               {isIssue
                 ? "Help us improve Face By You by reporting any bugs or issues you encounter."
                 : "Have a question or feedback? We'd love to hear from you."}
             </Text>
 
-            <View className="bg-accent-tan-light rounded-3xl p-4 border border-accent-tan mb-8">
+            <View className="bg-v2-purple-subtle rounded-3xl p-4 border border-v2-purple-soft mb-8">
               <TextInput
                 multiline
                 numberOfLines={10}
                 placeholder={placeholder}
-                placeholderTextColor="#A67B5B"
+                placeholderTextColor="#737080"
                 value={message}
                 onChangeText={setMessage}
-                className="font-inter text-primary-brown text-lg h-60 text-top"
+                className="font-inter text-v2-text-muted text-lg h-60 text-top"
                 textAlignVertical="top"
                 style={{ textAlignVertical: "top" }}
               />

@@ -33,10 +33,10 @@ export default function PrivacyDataScreen() {
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center h-20 rounded-[10px] mb-4 px-4 bg-cream-light shadow-md"
+      className="flex-row items-center h-20 rounded-[10px] mb-4 px-4 bg-v2-card-cream-subtle shadow-md"
     >
       <View
-        className={`w-12 h-12 rounded-2xl items-center justify-center ${isDanger ? "bg-red-500" : "bg-primary-brown"}`}
+        className={`w-12 h-12 rounded-2xl items-center justify-center ${isDanger ? "bg-v2-danger" : "bg-v2-purple"}`}
       >
         <Image
           source={fbyIcons[imgIcon]}
@@ -46,18 +46,18 @@ export default function PrivacyDataScreen() {
         {/* <Ionicons name={icon} size={24} color="#FFF2DA" /> */}
       </View>
       <Text
-        className={`flex-1 ml-4 font-inter text-xl ${isDanger ? "text-red-500" : "text-primary-brown-light"}`}
+        className={`flex-1 ml-4 font-inter text-xl ${isDanger ? "text-v2-danger" : "text-v2-text-muted"}`}
       >
         {title}
       </Text>
       {!isDanger && (
-        <Ionicons name="chevron-forward" size={24} color="#A67B5B" />
+        <Ionicons name="chevron-forward" size={24} color="#b891f7" />
       )}
     </TouchableOpacity>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -66,9 +66,9 @@ export default function PrivacyDataScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Privacy & Data
           </Text>
           <View className="w-10" />
@@ -81,7 +81,7 @@ export default function PrivacyDataScreen() {
         >
           {/* Account Privacy Section */}
           <View className="mt-8">
-            <Text className="font-inter-bold text-2xl text-primary-brown-light mb-6">
+            <Text className="font-inter-bold text-2xl text-v2-text-muted mb-6">
               Account Privacy
             </Text>
             <MenuItem
@@ -100,7 +100,7 @@ export default function PrivacyDataScreen() {
 
           {/* Legal Section */}
           <View className="mt-8">
-            <Text className="font-inter-bold text-2xl text-primary-brown-light mb-6">
+            <Text className="font-inter-bold text-2xl text-v2-text-muted mb-6">
               Legal
             </Text>
             <MenuItem
@@ -127,7 +127,7 @@ export default function PrivacyDataScreen() {
           {/* Logo Section */}
           <View className="items-center mt-12">
             <Image
-              source={require("@/assets/images/fby-logo.png")}
+              source={require("@/assets/images/fby-logo-v2.png")}
               className="w-48 h-12"
               resizeMode="contain"
             />

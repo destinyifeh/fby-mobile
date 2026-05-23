@@ -38,7 +38,7 @@ export default function InviteFriendScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -47,9 +47,9 @@ export default function InviteFriendScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Invite a friend
           </Text>
           <View className="w-10" />
@@ -77,8 +77,8 @@ export default function InviteFriendScreen() {
               style={[
                 StyleSheet.absoluteFillObject,
                 {
-                  backgroundColor: "#A67B5B",
-                  opacity: 0.7,
+                  backgroundColor: "#383643",
+                  opacity: 0.9,
                   borderRadius: 20,
                 },
               ]}
@@ -87,10 +87,10 @@ export default function InviteFriendScreen() {
 
           {/* Invitation Text */}
           <View className="mt-12 items-center px-4">
-            <Text className="font-abhaya-bold text-3xl text-primary-brown text-center leading-9">
+            <Text className="font-abhaya-bold text-3xl text-v2-text-body text-center leading-9">
               Invite friends to Face By You and help them become their own MUA.
             </Text>
-            <Text className="font-inter text-primary-brown-light text-xl mt-6">
+            <Text className="font-inter text-v2-purple text-xl mt-6">
               Scan QR code to invite friends
             </Text>
           </View>
@@ -99,7 +99,7 @@ export default function InviteFriendScreen() {
           <View className="flex-row w-full mt-12 gap-x-4 pb-10">
             <TouchableOpacity 
               onPress={handleShare}
-              className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md active:opacity-80"
+              className="flex-1 bg-v2-card-dark h-24 rounded-3xl items-center justify-center shadow-md active:opacity-80"
             >
               <View className="flex-row items-center mb-1">
                 <Image
@@ -108,12 +108,12 @@ export default function InviteFriendScreen() {
                   resizeMode="contain"
                 />
               </View>
-              <Text className="text-cream text-xl font-abhaya-bold">Share</Text>
+              <Text className="text-v2-bg-base text-xl font-abhaya-bold">Share</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
               onPress={handleCopy}
-              className="flex-1 bg-primary-brown-light h-24 rounded-3xl items-center justify-center shadow-md active:opacity-80"
+              className="flex-1 bg-v2-card-dark h-24 rounded-3xl items-center justify-center shadow-md active:opacity-80"
             >
               <View className="flex-row items-center mb-1">
                 <Image
@@ -122,7 +122,7 @@ export default function InviteFriendScreen() {
                   resizeMode="contain"
                 />
               </View>
-              <Text className="text-cream text-xl font-abhaya-bold">
+              <Text className="text-v2-bg-base text-xl font-abhaya-bold">
                 Copy link
               </Text>
             </TouchableOpacity>

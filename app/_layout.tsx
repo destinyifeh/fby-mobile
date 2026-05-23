@@ -44,16 +44,16 @@ const FaceByYouTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#8D5241",
-    background: "#FFF2DA",
-    card: "#FFF2DA",
-    text: "#8D5241",
+    primary: "#b891f7",
+    background: "#f4f0e8",
+    card: "#f4f0e8",
+    text: "#383643",
     border: "rgba(0, 0, 0, 0.12)",
-    notification: "#8D5241",
+    notification: "#b891f7",
   },
 };
 
-const fbyLogo = require("../assets/images/fby-logo.png");
+const fbyLogo = require("../assets/images/fby-logo-v2.png");
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -97,7 +97,7 @@ export default function RootLayout() {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#FFF2DA",
+          backgroundColor: "#f4f0e8",
           alignItems: "center",
           justifyContent: "center",
         }}

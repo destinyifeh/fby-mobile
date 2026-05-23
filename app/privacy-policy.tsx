@@ -10,17 +10,17 @@ export default function PrivacyPolicyScreen() {
 
   const Section = ({ title, content }: { title: string; content: string }) => (
     <View className="mb-8">
-      <Text className="font-inter-bold text-2xl text-primary-brown-light mb-3">
+      <Text className="font-inter-bold text-2xl text-v2-text-muted mb-3">
         {title}
       </Text>
-      <Text className="font-inter text-xl text-primary-brown-light leading-8">
+      <Text className="font-inter text-xl text-v2-text-muted leading-8">
         {content}
       </Text>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -29,9 +29,9 @@ export default function PrivacyPolicyScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Privacy Policy
           </Text>
           <View className="w-10" />
@@ -42,7 +42,7 @@ export default function PrivacyPolicyScreen() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         >
-          <Text className="font-inter-semibold text-lg text-primary-brown-light mb-6">
+          <Text className="font-inter-semibold text-lg text-v2-text-muted mb-6">
             Last Updated: April 04, 2024
           </Text>
           <Section
@@ -50,24 +50,24 @@ export default function PrivacyPolicyScreen() {
             content="When you use Face By You, we may collect information that you provide directly to us, such as your email address. We also collect data related to your interactions with our platform to improve your experience."
           />
           <View className="mb-8">
-            <Text className="font-inter-bold text-2xl text-primary-brown-light mb-3">
+            <Text className="font-inter-bold text-2xl text-v2-text-muted mb-3">
               2. How We Use Your Information
             </Text>
-            <Text className="font-inter text-xl text-primary-brown-light leading-8 mb-4">
+            <Text className="font-inter text-xl text-v2-text-muted leading-8 mb-4">
               We use the information we collect to:
             </Text>
             <View className="pl-4">
-              <Text className="font-inter text-xl text-primary-brown-light leading-8 mb-2">
+              <Text className="font-inter text-xl text-v2-text-muted leading-8 mb-2">
                 • Provide, maintain, and improve our services;
               </Text>
-              <Text className="font-inter text-xl text-primary-brown-light leading-8 mb-2">
+              <Text className="font-inter text-xl text-v2-text-muted leading-8 mb-2">
                 • Send you technical notices, updates, and waitlist
                 notifications;
               </Text>
-              <Text className="font-inter text-xl text-primary-brown-light leading-8 mb-2">
+              <Text className="font-inter text-xl text-v2-text-muted leading-8 mb-2">
                 • Respond to your comments and questions;
               </Text>
-              <Text className="font-inter text-xl text-primary-brown-light leading-8">
+              <Text className="font-inter text-xl text-v2-text-muted leading-8">
                 • Monitor and analyze trends, usage, and activities.
               </Text>
             </View>

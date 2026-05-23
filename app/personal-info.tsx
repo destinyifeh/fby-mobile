@@ -195,7 +195,7 @@ export default function PersonalInfoScreen() {
   };
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -204,9 +204,9 @@ export default function PersonalInfoScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Personal Info
           </Text>
           <View className="w-10" />
@@ -233,7 +233,7 @@ export default function PersonalInfoScreen() {
                 onEdit={() => console.log("Edit avatar")}
               />
               <TouchableOpacity className="mt-4">
-                <Text className="font-abhaya-bold text-2xl text-primary-brown">
+                <Text className="font-abhaya-bold text-2xl text-v2-purple">
                   Edit
                 </Text>
               </TouchableOpacity>
@@ -242,45 +242,45 @@ export default function PersonalInfoScreen() {
             {/* Form Fields */}
             <View className="gap-y-6">
               <View>
-                <Text className="font-inter-medium text-lg text-primary-brown mb-2 ml-1">
+                <Text className="font-inter-medium text-lg text-v2-text-body mb-2 ml-1">
                   Username
                 </Text>
                 <TextInput
                   value={username}
                   onChangeText={setUsername}
                   placeholder="Enter username"
-                  placeholderTextColor="#A67B5B"
-                  className="bg-[#A67B5B1A] h-16 rounded-[20px] px-6 font-inter-medium text-primary-brown-light text-lg border border-primary-brown/5"
+                  placeholderTextColor="#737080"
+                  className="bg-v2-purple-subtle h-16 rounded-[20px] px-6 font-inter-medium text-v2-text-muted text-lg border border-v2-purple-soft"
                 />
               </View>
 
               <View>
-                <Text className="font-inter-medium text-lg text-primary-brown mb-2 ml-1">
+                <Text className="font-inter-medium text-lg text-v2-text-body mb-2 ml-1">
                   Email
                 </Text>
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
                   placeholder="Enter email"
-                  placeholderTextColor="#A67B5B"
+                  placeholderTextColor="#737080"
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  className="bg-[#A67B5B1A] h-16 rounded-[20px] px-6 font-inter-medium text-primary-brown-light text-lg border border-primary-brown/5"
+                  className="bg-v2-purple-subtle h-16 rounded-[20px] px-6 font-inter-medium text-v2-text-muted text-lg border border-v2-purple-soft"
                 />
               </View>
 
               <View>
-                <Text className="font-inter-medium text-lg text-primary-brown mb-2 ml-1">
+                <Text className="font-inter-medium text-lg text-v2-text-body mb-2 ml-1">
                   Date of birth
                 </Text>
                 <TextInput
                   value={dob}
                   onChangeText={(val) => setDob(formatDateOfBirth(val))}
                   placeholder="DD/MM/YYYY"
-                  placeholderTextColor="#A67B5B"
+                  placeholderTextColor="#737080"
                   keyboardType="number-pad"
                   maxLength={10}
-                  className="bg-[#A67B5B1A] h-16 rounded-[20px] px-6 font-inter-medium text-primary-brown-light text-lg border border-primary-brown/5"
+                  className="bg-v2-purple-subtle h-16 rounded-[20px] px-6 font-inter-medium text-v2-text-muted text-lg border border-v2-purple-soft"
                 />
               </View>
             </View>
@@ -289,12 +289,12 @@ export default function PersonalInfoScreen() {
             <TouchableOpacity
               onPress={handleUpdate}
               disabled={isUpdating || isChecking}
-              className={`bg-primary-brown h-16 rounded-[40px] items-center justify-center mt-12 mb-8 shadow-lg active:opacity-90 ${isUpdating || isChecking ? "opacity-70" : ""}`}
+              className={`bg-v2-purple h-16 rounded-[40px] items-center justify-center mt-12 mb-8 shadow-lg active:opacity-90 ${isUpdating || isChecking ? "opacity-70" : ""}`}
             >
               {isUpdating || isChecking ? (
                 <ActivityIndicator color="#F5F5DC" />
               ) : (
-                <Text className="text-cream text-2xl font-abhaya-bold">
+                <Text className="text-v2-bg-base text-2xl font-abhaya-bold">
                   Update Profile
                 </Text>
               )}
@@ -309,11 +309,11 @@ export default function PersonalInfoScreen() {
             tint="dark"
             className="flex-1 justify-center px-6"
           >
-            <View className="bg-cream-light rounded-[32px] p-8 shadow-2xl border border-primary-brown/10">
-              <Text className="font-abhaya-bold text-3xl text-primary-brown text-center mb-2">
+            <View className="bg-v2-bg-base rounded-[32px] p-8 shadow-2xl border border-v2-shadow-dark">
+              <Text className="font-abhaya-bold text-3xl text-v2-text-body text-center mb-2">
                 Verify Email
               </Text>
-              <Text className="font-inter-regular text-lg text-primary-brown-light text-center mb-8">
+              <Text className="font-inter-regular text-lg text-v2-text-muted text-center mb-8">
                 Enter the 8-digit code sent to{"\n"}
                 <Text className="font-inter-bold">{pendingEmail}</Text>
               </Text>
@@ -323,22 +323,22 @@ export default function PersonalInfoScreen() {
                   value={verificationCode}
                   onChangeText={setVerificationCode}
                   placeholder="00000000"
-                  placeholderTextColor="#A67B5B"
+                  placeholderTextColor="#737080"
                   keyboardType="number-pad"
                   maxLength={8}
-                  className="bg-[#A67B5B1A] h-20 rounded-[20px] px-6 font-abhaya-bold text-primary-brown text-4xl text-center tracking-[10px] border border-primary-brown/5 mb-8"
+                  className="bg-v2-purple-subtle h-20 rounded-[20px] px-6 font-abhaya-bold text-v2-text-body text-4xl text-center tracking-[10px] border border-v2-purple-soft mb-8"
                 />
               </View>
 
               <TouchableOpacity
                 onPress={handleVerifyEmailCode}
                 disabled={isUpdating}
-                className={`bg-primary-brown h-16 rounded-[40px] items-center justify-center shadow-lg active:opacity-90 mb-4 ${isUpdating ? "opacity-70" : ""}`}
+                className={`bg-v2-purple h-16 rounded-[40px] items-center justify-center shadow-lg active:opacity-90 mb-4 ${isUpdating ? "opacity-70" : ""}`}
               >
                 {isUpdating ? (
                   <ActivityIndicator color="#F5F5DC" />
                 ) : (
-                  <Text className="text-cream text-xl font-abhaya-bold">
+                  <Text className="text-v2-bg-base text-xl font-abhaya-bold">
                     Verify & Update
                   </Text>
                 )}
@@ -349,7 +349,7 @@ export default function PersonalInfoScreen() {
                 disabled={isUpdating}
                 className="h-12 items-center justify-center"
               >
-                <Text className="text-primary-brown-light font-inter-medium text-lg">
+                <Text className="text-v2-text-muted font-inter-medium text-lg">
                   Cancel
                 </Text>
               </TouchableOpacity>

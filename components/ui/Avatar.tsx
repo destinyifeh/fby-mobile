@@ -49,12 +49,12 @@ export function Avatar({
         className={`
           ${sizeClasses[size]}
           rounded-full
-          bg-primary-brown
+          bg-v2-purple
           items-center
           justify-center
           overflow-hidden
           border-2
-          border-primary-brown/20
+          border-v2-purple/20
         `}
       >
         {source ? (
@@ -66,7 +66,7 @@ export function Avatar({
         ) : (
           <Text
             className={`
-              text-cream
+              text-v2-bg-base
               font-abhaya-bold
               ${textSizeClasses[size]}
             `}
@@ -85,14 +85,14 @@ export function Avatar({
             bg-green-500
             rounded-full
             border-2
-            border-cream
+            border-v2-bg-base
           `}
         />
       )}
       {showEdit && (
         <TouchableOpacity
           onPress={onEdit}
-          className="absolute bottom-0 right-0 w-10 h-10 bg-primary-brown-light rounded-full border-2 border-primary-brown-light items-center justify-center shadow-sm p-5"
+          className="absolute bottom-0 right-0 w-10 h-10 bg-v2-purple rounded-full border-2 border-v2-purple items-center justify-center shadow-sm p-5"
         >
           {/* <Ionicons name="pencil-outline" size={20} color="#FFF2DA" /> */}
           <Image

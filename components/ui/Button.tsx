@@ -30,9 +30,9 @@ export function Button({
   const baseClasses = 'flex-row items-center justify-center rounded-[44px]';
 
   const variantClasses = {
-    primary: 'bg-primary-brown',
-    secondary: 'bg-accent-tan-light',
-    outline: 'border-2 border-primary-brown bg-transparent',
+    primary: 'bg-v2-purple',
+    secondary: 'bg-v2-purple-subtle',
+    outline: 'border-2 border-v2-purple bg-transparent',
   };
 
   const sizeClasses = {
@@ -42,9 +42,9 @@ export function Button({
   };
 
   const textVariantClasses = {
-    primary: 'text-cream',
-    secondary: 'text-primary-brown',
-    outline: 'text-primary-brown',
+    primary: 'text-v2-bg-base',
+    secondary: 'text-v2-text-body',
+    outline: 'text-v2-purple',
   };
 
   const textSizeClasses = {
@@ -70,7 +70,7 @@ export function Button({
     >
       {loading ? (
         <ActivityIndicator
-          color={variant === 'primary' ? '#FFF2DA' : '#8D5241'}
+          color={variant === 'primary' ? '#f4f0e8' : '#b891f7'}
           size="small"
         />
       ) : (

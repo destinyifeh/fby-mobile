@@ -27,13 +27,13 @@ function NavItem({ name, icon, isActive, onPress }: NavItemProps) {
         rounded-full
         items-center
         justify-center
-        ${isActive ? 'bg-primary-brown' : 'bg-transparent'}
+        ${isActive ? 'bg-v2-purple' : 'bg-transparent'}
       `}
     >
       <Ionicons
         name={icon}
         size={24}
-        color={isActive ? '#FFF2DA' : '#8D5241'}
+        color={isActive ? '#f4f0e8' : '#737080'}
       />
     </TouchableOpacity>
   );
@@ -55,7 +55,7 @@ export function BottomNav({ activeTab, onTabPress }: BottomNavProps) {
         left-0
         right-0
         h-[77px]
-        bg-accent-tan-medium
+        bg-v2-bg-base
         rounded-t-[52px]
         flex-row
         items-center

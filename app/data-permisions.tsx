@@ -21,26 +21,26 @@ export default function DataPermisionsScreen() {
     onToggle: (v: boolean) => void;
     description: string;
   }) => (
-    <View className="bg-cream-light rounded-3xl mb-4 p-8 shadow-sm border border-primary-brown/5">
+    <View className="bg-v2-card-cream-subtle rounded-3xl mb-4 p-8 shadow-sm border border-v2-shadow-dark">
       <View className="flex-row items-center justify-between mb-2">
-        <Text className="font-inter-bold text-xl text-primary-brown-light flex-1 pr-4">
+        <Text className="font-inter-bold text-xl text-v2-text-muted flex-1 pr-4">
           {title}
         </Text>
         <Switch
-          trackColor={{ false: "#D1D1D1", true: "#8D5241" }}
-          thumbColor={value ? "#FFF2DA" : "#f4f3f4"}
+          trackColor={{ false: "#D1D1D1", true: "#b891f7" }}
+          thumbColor={value ? "#f4f0e8" : "#f4f3f4"}
           onValueChange={onToggle}
           value={value}
         />
       </View>
-      <Text className="font-inter text-lg text-primary-brown-light">
+      <Text className="font-inter text-lg text-v2-text-muted">
         {description}
       </Text>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -49,9 +49,9 @@ export default function DataPermisionsScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             Data Permisions
           </Text>
           <View className="w-10" />

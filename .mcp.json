@@ -2,17 +2,11 @@
   "mcpServers": {
     "filesystem": {
       "type": "stdio",
-      "command": "npx",
+      "command": "/Users/destiny.ifehor/.nvm/versions/node/v20.20.2/bin/mcp-server-filesystem",
       "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
         "/Users/destiny.ifehor/Desktop/personal/fby-mobile"
       ],
       "env": {}
-    },
-    "figma": {
-      "type": "http",
-      "url": "https://mcp.figma.com/mcp"
     }
   }
 }

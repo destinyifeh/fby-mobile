@@ -6,7 +6,7 @@ interface IconProps {
   color?: string;
 }
 
-export function HomeIcon({ size = 24, color = '#8D5241' }: IconProps) {
+export function HomeIcon({ size = 24, color = '#737080' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
@@ -27,7 +27,7 @@ export function HomeIcon({ size = 24, color = '#8D5241' }: IconProps) {
   );
 }
 
-export function ScanIcon({ size = 24, color = '#8D5241' }: IconProps) {
+export function ScanIcon({ size = 24, color = '#737080' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       {/* Top left corner */}
@@ -75,7 +75,7 @@ export function ScanIcon({ size = 24, color = '#8D5241' }: IconProps) {
   );
 }
 
-export function HistoryIcon({ size = 24, color = '#8D5241' }: IconProps) {
+export function HistoryIcon({ size = 24, color = '#737080' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       {/* Calendar body */}
@@ -115,7 +115,7 @@ export function HistoryIcon({ size = 24, color = '#8D5241' }: IconProps) {
   );
 }
 
-export function ProfileIcon({ size = 24, color = '#8D5241' }: IconProps) {
+export function ProfileIcon({ size = 24, color = '#737080' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Circle

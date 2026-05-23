@@ -16,17 +16,17 @@ export default function HowItWorksScreen() {
     text: string;
   }) => (
     <View className="flex-row items-center mb-8 px-2">
-      <View className="w-12 h-12 rounded-2xl bg-primary-brown items-center justify-center mr-5 shadow-sm">
-        <Ionicons name={icon} size={24} color="#FFF2DA" />
+      <View className="w-12 h-12 rounded-2xl bg-v2-purple items-center justify-center mr-5 shadow-sm">
+        <Ionicons name={icon} size={24} color="#f4f0e8" />
       </View>
-      <Text className="flex-1 font-inter-semibold text-xl text-primary-brown-light leading-7">
+      <Text className="flex-1 font-inter-semibold text-xl text-v2-text-muted leading-7">
         {text}
       </Text>
     </View>
   );
 
   return (
-    <View className="flex-1 bg-cream-light">
+    <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
       <SafeAreaView className="flex-1" edges={["top"]}>
         {/* Header */}
@@ -35,9 +35,9 @@ export default function HowItWorksScreen() {
             onPress={() => router.back()}
             className="w-10 h-10 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#8D5241" />
+            <Ionicons name="arrow-back" size={24} color="#383643" />
           </TouchableOpacity>
-          <Text className="font-abhaya-bold text-3xl text-primary-brown">
+          <Text className="font-abhaya-bold text-3xl text-v2-text-body">
             How it works
           </Text>
           <View className="w-10" />

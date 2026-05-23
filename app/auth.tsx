@@ -29,10 +29,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
 
-const fbyLogo = require("@/assets/images/fby-logo.png");
-const userIcon = require("@/assets/images/user.png");
-const lockedIcon = require("@/assets/images/locked.png");
-const calendarIcon = require("@/assets/images/calendar.png");
+const fbyLogo = require("@/assets/images/fby-logo-v2.png");
+const userIcon = require("@/assets/images/user-v2.png");
+const lockedIcon = require("@/assets/images/locked-v2.png");
+const calendarIcon = require("@/assets/images/calendar-v2.png");
 
 const GoogleLogo = ({ size = 28 }: { size?: number }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
@@ -70,32 +70,30 @@ const SocialLogins = () => {
     <>
       {/* Divider */}
       <View className="flex-row items-center my-2">
-        <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
-        <Text className="mx-4 text-primary-brown-light font-inter text-base">
-          Or
-        </Text>
-        <View className="flex-1 h-[1px] bg-primary-brown-light/30" />
+        <View className="flex-1 h-[1px] bg-v2-purple/20" />
+        <Text className="mx-4 text-v2-purple/60 font-inter text-base">Or</Text>
+        <View className="flex-1 h-[1px] bg-v2-purple/20" />
       </View>
 
       {/* Social Login */}
       <View className="flex-row justify-center gap-6 mt-2">
         <TouchableOpacity
           onPress={() => handleSocialLogin("google")}
-          className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
+          className="w-[60px] h-[60px] rounded-full bg-v2-purple-subtle items-center justify-center border border-v2-purple-soft"
         >
           <GoogleLogo size={30} />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => handleSocialLogin("apple")}
-          className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
+          className="w-[60px] h-[60px] rounded-full bg-v2-purple-subtle items-center justify-center border border-v2-purple-soft"
         >
-          <Ionicons name="logo-apple" size={32} color="#000000" />
+          <Ionicons name="logo-apple" size={32} color="#1c1b22" />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => handleSocialLogin("facebook")}
-          className="w-[60px] h-[60px] rounded-full bg-[#A67B5B1A] items-center justify-center border border-primary-brown/5"
+          className="w-[60px] h-[60px] rounded-full bg-v2-purple-subtle items-center justify-center border border-v2-purple-soft"
         >
           <Ionicons name="logo-facebook" size={32} color="#1877F2" />
         </TouchableOpacity>
@@ -190,7 +188,7 @@ const LoginForm = ({
         className="self-start"
         onPress={() => router.push("/forgot-password" as any)}
       >
-        <Text className="text-primary-brown font-inter-medium text-base">
+        <Text className="text-v2-purple font-inter-medium text-base">
           Forgot password?
         </Text>
       </TouchableOpacity>
@@ -249,13 +247,13 @@ const VerificationForm = ({
   return (
     <View className="gap-6 py-4">
       <View className="items-center">
-        <View className="w-16 h-16 bg-primary-brown/10 rounded-full items-center justify-center mb-4">
-          <Ionicons name="mail-unread-outline" size={32} color="#8D5241" />
+        <View className="w-16 h-16 bg-v2-purple-subtle rounded-full items-center justify-center mb-4">
+          <Ionicons name="mail-unread-outline" size={32} color="#b891f7" />
         </View>
-        <Text className="font-abhaya-bold text-3xl text-primary-brown mb-2 text-center">
+        <Text className="font-abhaya-bold text-3xl text-v2-text-body mb-2 text-center">
           Verify your email
         </Text>
-        <Text className="text-primary-brown font-inter text-base text-center mt-3 px-4">
+        <Text className="text-v2-text-body font-inter text-base text-center mt-3 px-4">
           We've sent a verification code to{"\n"}
           <Text className="font-inter-bold">{email}</Text>.{"\n"}
           Please enter it below to activate your account.
@@ -301,9 +299,9 @@ const VerificationForm = ({
       </View>
 
       <TouchableOpacity onPress={onBack} className="items-center mt-2">
-        <Text className="text-primary-brown-light font-inter-medium text-base">
+        <Text className="text-v2-text-muted font-inter-medium text-base">
           Incorrect email?{" "}
-          <Text className="text-primary-brown underline">Go back</Text>
+          <Text className="text-v2-text-body underline">Go back</Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -440,18 +438,18 @@ const SignUpForm = ({
             height: 20,
             borderRadius: 4,
             borderWidth: 1.5,
-            borderColor: "#8D5241",
-            backgroundColor: agreeToTerms ? "#8D5241" : "transparent",
+            borderColor: "#b891f7",
+            backgroundColor: agreeToTerms ? "#b891f7" : "transparent",
             alignItems: "center",
             justifyContent: "center",
             marginRight: 10,
           }}
         >
           {agreeToTerms && (
-            <Ionicons name="checkmark" size={14} color="#FFF2DA" />
+            <Ionicons name="checkmark" size={14} color="#f4f0e8" />
           )}
         </View>
-        <Text className="text-primary-brown font-inter text-sm">
+        <Text className="text-v2-purple font-inter text-sm">
           I agree with the terms and conditions
         </Text>
       </TouchableOpacity>
@@ -491,16 +489,16 @@ export default function AuthScreen() {
       <View className="flex-1">
         <StatusBar style="dark" />
         <LinearGradient
-          colors={["#E3BCB5", "#FFF2DA", "#E6CDB3", "#CDA78B", "#E3BCB5"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          colors={["#dccaf9", "#f4f0e8", "#e2d3f5", "#f4f0e8", "#dccaf9"]}
+          start={{ x: 1, y: 0 }}
+          end={{ x: 0, y: 1 }}
           className="absolute inset-0"
         />
         <SafeAreaView className="flex-1">
           <View
-            className="flex-1 bg-cream rounded-t-[30px] px-7 pt-10 mt-20"
+            className="flex-1 bg-v2-bg-base rounded-t-[30px] px-7 pt-10 mt-20"
             style={{
-              shadowColor: "#A67B5B",
+              shadowColor: "#b891f7",
               shadowOffset: { width: 0, height: -4 },
               shadowOpacity: 0.2,
               shadowRadius: 4,
@@ -523,9 +521,9 @@ export default function AuthScreen() {
 
       {/* Background gradient */}
       <LinearGradient
-        colors={["#E3BCB5", "#FFF2DA", "#E6CDB3", "#CDA78B", "#E3BCB5"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+        colors={["#dccaf9", "#f4f0e8", "#e2d3f5", "#f4f0e8", "#dccaf9"]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}
         className="absolute inset-0"
       />
 
@@ -541,7 +539,7 @@ export default function AuthScreen() {
               resizeMode="contain"
             />
           </View>
-          <Text className="font-inter-semibold text-xl text-primary-brown-dark mb-4">
+          <Text className="font-inter-semibold text-xl text-v2-text-body mb-4">
             AI powered MUA assistant
           </Text>
           <View
@@ -560,9 +558,9 @@ export default function AuthScreen() {
 
         {/* Auth Form Card */}
         <View
-          className="flex-1 bg-cream rounded-t-[30px] px-7 pt-6"
+          className="flex-1 bg-v2-bg-base rounded-t-[30px] px-7 pt-6"
           style={{
-            shadowColor: "#A67B5B",
+            shadowColor: "#b891f7",
             shadowOffset: { width: 0, height: -4 },
             shadowOpacity: 0.2,
             shadowRadius: 4,
@@ -581,23 +579,23 @@ export default function AuthScreen() {
               keyboardShouldPersistTaps="handled"
             >
               {/* Tab Switcher */}
-              <View className="bg-accent-tan-light rounded-[30px] h-[55px] flex-row items-center p-1.5 mb-4">
+              <View className="bg-v2-text-nav rounded-[30px] h-[55px] flex-row items-center p-1.5 mb-4">
                 <TouchableOpacity
                   onPress={() => setMode("login")}
-                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "login" ? "bg-cream" : ""}`}
+                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "login" ? "bg-v2-bg-base" : ""}`}
                 >
                   <Text
-                    className={`font-inter-medium text-base ${mode === "login" ? "text-primary-brown" : "text-primary-brown-light"}`}
+                    className={`font-inter-medium text-base ${mode === "login" ? "text-v2-purple" : "text-v2-purple/60"}`}
                   >
                     Login
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => setMode("signup")}
-                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "signup" ? "bg-cream" : ""}`}
+                  className={`flex-1 h-[43px] rounded-[20px] items-center justify-center ${mode === "signup" ? "bg-v2-bg-base" : ""}`}
                 >
                   <Text
-                    className={`font-inter-medium text-base ${mode === "signup" ? "text-primary-brown" : "text-primary-brown-light"}`}
+                    className={`font-inter-medium text-base ${mode === "signup" ? "text-v2-purple" : "text-v2-purple/60"}`}
                   >
                     Sign up
                   </Text>
