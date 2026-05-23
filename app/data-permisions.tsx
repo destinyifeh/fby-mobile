@@ -21,7 +21,7 @@ export default function DataPermisionsScreen() {
     onToggle: (v: boolean) => void;
     description: string;
   }) => (
-    <View className="bg-v2-card-cream-subtle rounded-3xl mb-4 p-8 shadow-sm border border-v2-shadow-dark">
+    <View className="bg-v2-bg-base rounded-3xl mb-4 p-8 shadow-sm border border-v2-shadow-dark">
       <View className="flex-row items-center justify-between mb-2">
         <Text className="font-inter-bold text-xl text-v2-text-muted flex-1 pr-4">
           {title}

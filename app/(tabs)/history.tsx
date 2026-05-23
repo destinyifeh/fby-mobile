@@ -127,7 +127,12 @@ export default function HistoryScreen() {
           {/* Header Row */}
           <View className="flex-row items-center mt-4">
             <View className="mr-4">
-              <Avatar size="lg" name={userName} />
+              <Avatar
+                size="lg"
+                name={userName}
+                bgColor="#FD988E4D"
+                borderColor="#FF7A6D"
+              />
             </View>
             <View
               style={{

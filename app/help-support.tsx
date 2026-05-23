@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View, Linking } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HelpSupportScreen() {
@@ -17,12 +17,12 @@ export default function HelpSupportScreen() {
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center h-20 rounded-3xl mb-4 px-8 justify-between bg-v2-card-cream-faint shadow-md"
+      className="flex-row items-center h-20 rounded-3xl mb-4 px-8 justify-between bg-v2-bg-base shadow-md"
     >
       <Text className="font-inter-medium text-v2-text-body text-lg flex-1 pr-4">
         {question}
       </Text>
-      <Ionicons name="chevron-forward" size={24} color="#b891f7" />
+      <Ionicons name="chevron-forward" size={24} color="#1C1B22" />
     </TouchableOpacity>
   );
 
@@ -69,8 +69,13 @@ export default function HelpSupportScreen() {
             <Text className="font-inter-semibold text-xl text-v2-text-muted mb-6 self-start">
               Need more help?
             </Text>
-            <TouchableOpacity 
-              onPress={() => router.push({ pathname: "/contact-us", params: { type: "contact" } })}
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/contact-us",
+                  params: { type: "contact" },
+                })
+              }
               className="flex-row items-center bg-v2-purple w-full h-[50px] rounded-[50px] justify-center shadow-lg"
             >
               <View className="mr-4">
@@ -89,8 +94,13 @@ export default function HelpSupportScreen() {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
-              onPress={() => router.push({ pathname: "/contact-us", params: { type: "issue" } })}
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: "/contact-us",
+                  params: { type: "issue" },
+                })
+              }
               className="mt-8"
             >
               <Text className="text-v2-text-muted text-2xl font-abhaya-bold opacity-80">

@@ -19,7 +19,7 @@ export default function PrivacySettingsScreen() {
     value: boolean;
     onToggle: (v: boolean) => void;
   }) => (
-    <View className="flex-row items-center justify-between bg-v2-card-cream-subtle h-20 rounded-3xl mb-4 px-8 shadow-sm border border-v2-shadow-dark">
+    <View className="flex-row items-center justify-between bg-v2-bg-base h-20 rounded-3xl mb-4 px-8 shadow-sm border border-v2-shadow-dark">
       <Text className="font-inter-medium text-v2-text-muted text-xl flex-1 pr-4">
         {title}
       </Text>

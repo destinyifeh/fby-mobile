@@ -56,7 +56,7 @@ export default function MakeupGuidanceScreen() {
           contentContainerStyle={{ paddingBottom: 70 }}
         >
           {/* Intro Card */}
-          <View className="bg-v2-purple-subtle p-8 rounded-4xl mb-10 border border-v2-purple-soft shadow-sm">
+          <View className="bg-v2-bg-base p-8 rounded-4xl mb-10 border border-v2-purple-soft shadow-sm">
             <Text className="font-abhaya-bold text-3xl text-v2-text-body text-center leading-9">
               Discover how Face By You analyzes your makeup and builds guidance
               that truly works for you.

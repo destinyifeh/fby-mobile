@@ -8,6 +8,8 @@ interface AvatarProps {
   showOnline?: boolean;
   showEdit?: boolean;
   onEdit?: () => void;
+  bgColor?: string;
+  borderColor?: string;
 }
 
 export function Avatar({
@@ -17,6 +19,8 @@ export function Avatar({
   showOnline = false,
   showEdit = false,
   onEdit,
+  bgColor,
+  borderColor,
 }: AvatarProps) {
   const sizeClasses = {
     sm: "w-8 h-8",
@@ -56,6 +60,10 @@ export function Avatar({
           border-2
           border-v2-purple/20
         `}
+        style={bgColor || borderColor ? {
+          backgroundColor: bgColor,
+          borderColor: borderColor,
+        } : undefined}
       >
         {source ? (
           <Image

@@ -1,4 +1,6 @@
 import { Avatar } from "@/components/ui/Avatar";
+import { capitalize } from "@/constants/utils";
+import { useAuthStore } from "@/src/store/useAuthStore";
 import { FbyIconName, fbyIcons } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -6,8 +8,6 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuthStore } from "@/src/store/useAuthStore";
-import { capitalize } from "@/constants/utils";
 
 interface ProfileMenuItemProps {
   icon: keyof typeof Ionicons.glyphMap;
@@ -25,7 +25,7 @@ function ProfileMenuItem({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center bg-v2-card-cream-subtle h-20 rounded-3xl mb-4 px-4 shadow-md"
+      className="flex-row items-center bg-v2-bg-base h-20 rounded-3xl mb-4 px-4 shadow-md"
       activeOpacity={0.7}
     >
       <View className="w-12 h-12 rounded-2xl bg-v2-purple items-center justify-center">
@@ -38,7 +38,7 @@ function ProfileMenuItem({
       <Text className="flex-1 ml-4 font-inter text-xl text-v2-text-muted">
         {title}
       </Text>
-      <Ionicons name="chevron-forward" size={24} color="#b891f7" />
+      <Ionicons name="chevron-forward" size={24} color="#1C1B22" />
     </TouchableOpacity>
   );
 }
@@ -46,7 +46,11 @@ function ProfileMenuItem({
 export default function ProfileScreen() {
   const router = useRouter();
   const { user } = useAuthStore();
-  const rawName = user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina Joy";
+  const rawName =
+    user?.user_metadata?.username ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    "Tina Joy";
   const userName = capitalize(rawName);
   const userEmail = user?.email || "tinajoy@gmail.com";
   const makeupScore = 64;
@@ -82,6 +86,8 @@ export default function ProfileScreen() {
               //source={require("@/assets/images/profile.png")}
               showEdit={true}
               onEdit={() => router.push("/personal-info")}
+              bgColor="#FD988E4D"
+              borderColor="#FF7A6D"
             />
             <Text className="font-abhaya-bold text-4xl text-v2-text-body mt-4">
               {userName}

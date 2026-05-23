@@ -1,11 +1,18 @@
+import { useAuth } from "@/src/hooks/useAuth";
 import { FbyIconName, fbyIcons } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Alert, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "@/src/hooks/useAuth";
 
 export default function PrivacyDataScreen() {
   const router = useRouter();
@@ -14,7 +21,7 @@ export default function PrivacyDataScreen() {
   const handleLogout = () => {
     Alert.alert("Log Out", "Are you sure you want to log out?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Log Out", style: "destructive", onPress: () => logout() }
+      { text: "Log Out", style: "destructive", onPress: () => logout() },
     ]);
   };
 
@@ -33,7 +40,7 @@ export default function PrivacyDataScreen() {
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center h-20 rounded-[10px] mb-4 px-4 bg-v2-card-cream-subtle shadow-md"
+      className="flex-row items-center h-20 rounded-[10px] mb-4 px-4 bg-v2-bg-base shadow-md"
     >
       <View
         className={`w-12 h-12 rounded-2xl items-center justify-center ${isDanger ? "bg-v2-danger" : "bg-v2-purple"}`}
@@ -51,7 +58,7 @@ export default function PrivacyDataScreen() {
         {title}
       </Text>
       {!isDanger && (
-        <Ionicons name="chevron-forward" size={24} color="#b891f7" />
+        <Ionicons name="chevron-forward" size={24} color="#1C1B22" />
       )}
     </TouchableOpacity>
   );
