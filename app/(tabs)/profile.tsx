@@ -88,7 +88,7 @@ export default function ProfileScreen() {
               onEdit={() => router.push("/personal-info")}
               bgColor="#FD988E4D"
               borderColor="#FF7A6D"
-              initialColor="#1C1B22"
+              //initialColor="#1C1B22"
             />
             <Text className="font-abhaya-bold text-4xl text-v2-text-body mt-4">
               {userName}

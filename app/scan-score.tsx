@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     height: SCREEN_WIDTH * 1.3,
-    backgroundColor: "#e2d3f5",
+    backgroundColor: "#F4F0E8",
     position: "relative",
   },
   capturedImage: {
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   detectedBadge: {
-    backgroundColor: "rgba(255,79,139,0.2)",
+    backgroundColor: "rgba(255, 79, 139, 0.20)",
     borderRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 8,
@@ -513,17 +513,17 @@ const styles = StyleSheet.create({
     right: 20,
   },
   calloutBubble: {
-    backgroundColor: "rgba(201,168,255,0.2)",
+    backgroundColor: "rgba(115, 112, 128, 0.20)",
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    borderColor: "rgba(115, 112, 128, 0.20)",
     maxWidth: 160,
     overflow: "hidden",
   },
   calloutText: {
-    color: "#f4f0e8",
+    color: "#F4F0E8",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 20,

@@ -1,5 +1,4 @@
 import { getCapturedImageUri } from "@/store/capturedImageStore";
-import { fbyIcons } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { useFocusEffect, useRouter } from "expo-router";
@@ -56,7 +55,12 @@ export default function FullAnalysisScreen() {
         {/* Image Section with Overlays */}
         <View style={styles.imageSection}>
           <Image
-            source={imageUri ? { uri: imageUri } : fbyIcons.makeupLady}
+            source={
+              imageUri
+                ? { uri: imageUri }
+                : //fbyIcons.makeupLady
+                  require("@/assets/images/user-v2.png")
+            }
             style={styles.capturedImage}
             resizeMode="cover"
           />
@@ -301,7 +305,8 @@ const styles = StyleSheet.create({
   },
   imageSection: {
     height: SCREEN_WIDTH * 1.3,
-    backgroundColor: "#e2d3f5",
+    //backgroundColor: "#e2d3f5",
+    backgroundColor: "#F4F0E8",
     position: "relative",
   },
   capturedImage: {

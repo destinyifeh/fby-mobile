@@ -231,9 +231,12 @@ export default function PersonalInfoScreen() {
                 // source={require("@/assets/images/profile.png")}
                 showEdit={!true}
                 onEdit={() => console.log("Edit avatar")}
+                bgColor="#FD988E4D"
+                borderColor="#FF7A6D"
+                //initialColor="#1C1B22"
               />
               <TouchableOpacity className="mt-4">
-                <Text className="font-abhaya-bold text-2xl text-v2-purple">
+                <Text className="font-abhaya-bold text-2xl text-v2-text-dark">
                   Edit
                 </Text>
               </TouchableOpacity>
