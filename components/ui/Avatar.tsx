@@ -92,7 +92,7 @@ export function Avatar({
       {showEdit && (
         <TouchableOpacity
           onPress={onEdit}
-          className="absolute bottom-0 right-0 w-10 h-10 bg-v2-purple rounded-full border-2 border-v2-purple items-center justify-center shadow-sm p-5"
+          className="absolute bottom-0 right-0 w-10 h-10 bg-v2-text-dark rounded-full border-2 border-v2-text-dark items-center justify-center shadow-sm p-5"
         >
           {/* <Ionicons name="pencil-outline" size={20} color="#FFF2DA" /> */}
           <Image
