@@ -1,3 +1,6 @@
+import { Avatar } from "@/components/ui/Avatar";
+import { capitalize } from "@/constants/utils";
+import { useAuthStore } from "@/src/store/useAuthStore";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -14,9 +17,6 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Avatar } from "@/components/ui/Avatar";
-import { useAuthStore } from "@/src/store/useAuthStore";
-import { capitalize } from "@/constants/utils";
 
 // Mock history data
 const HISTORY_ITEMS = [
@@ -95,7 +95,7 @@ function HistoryCard({ item, onPress }: HistoryCardProps) {
       </View>
 
       {/* Score */}
-      <Text className="font-abhaya-bold text-3xl text-v2-purple mr-2">
+      <Text className="font-abhaya-bold text-3xl text-v2-text-dark mr-2">
         {item.score}
       </Text>
     </TouchableOpacity>
@@ -106,7 +106,12 @@ export default function HistoryScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const { user } = useAuthStore();
-  const userName = capitalize(user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina");
+  const userName = capitalize(
+    user?.user_metadata?.username ||
+      user?.user_metadata?.full_name ||
+      user?.user_metadata?.name ||
+      "Tina",
+  );
   return (
     <View className="flex-1 bg-v2-bg-base">
       <StatusBar style="dark" />
@@ -128,13 +133,13 @@ export default function HistoryScreen() {
               style={{
                 borderRadius: 50,
                 height: 30,
-                backgroundColor: "rgba(184,145,247,0.2)",
+                backgroundColor: "rgba(253, 152, 142, 0.30)",
                 paddingHorizontal: 20,
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Text className="font-inter-bold text-v2-text-body text-base text-center">
+              <Text className="font-inter text-v2-text-body text-base text-center">
                 Avg Make up score: 64%
               </Text>
             </View>
@@ -224,7 +229,7 @@ export default function HistoryScreen() {
                   Last Make up score:
                 </Text>
 
-                <Text className="font-abhaya-bold text-[72px] text-v2-text-body leading-[76px]">
+                <Text className="font-abhaya-bold text-[72px] text-v2-purple leading-[76px]">
                   75%
                 </Text>
 
@@ -254,11 +259,14 @@ export default function HistoryScreen() {
                 />
 
                 {/* CTA Button */}
-                <TouchableOpacity 
+                <TouchableOpacity
                   onPress={() => router.push("/full-analysis")}
                   className="absolute bottom-4 right-4 bg-v2-purple/40 px-4 py-1.5 rounded-full"
+                  style={{
+                    backgroundColor: "rgba(253, 152, 142, 0.30)",
+                  }}
                 >
-                  <Text className="text-white font-inter-medium text-sm">
+                  <Text className="text-v2-text-dark font-inter-medium text-sm">
                     View full details
                   </Text>
                 </TouchableOpacity>

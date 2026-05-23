@@ -1,18 +1,25 @@
-import { Avatar, LookCard, Button } from "@/components/ui";
+import { Avatar, Button, LookCard } from "@/components/ui";
+import { capitalize } from "@/constants/utils";
+import { useAuthStore } from "@/src/store/useAuthStore";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { BlurView } from "expo-blur";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View, Modal, Dimensions } from "react-native";
+import {
+  Dimensions,
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useAuthStore } from "@/src/store/useAuthStore";
-import { capitalize } from "@/constants/utils";
-import { BlurView } from "expo-blur";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 // Placeholder images - in production these would come from an API
 const RECENT_LOOKS = [
@@ -38,17 +45,21 @@ export default function HomeScreen() {
   const params = useLocalSearchParams();
   const insets = useSafeAreaInsets();
   const { user } = useAuthStore();
-  const rawName = user?.user_metadata?.username || user?.user_metadata?.full_name || user?.user_metadata?.name || "Tina";
+  const rawName =
+    user?.user_metadata?.username ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    "Tina";
   const userName = capitalize(rawName);
   const makeupScore = 64;
 
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    if (params.login === 'true') {
+    if (params.login === "true") {
       setShowWelcome(true);
       // Clean up the URL param
-      router.setParams({ login: '' });
+      router.setParams({ login: "" });
     }
   }, [params.login]);
 
@@ -84,7 +95,10 @@ export default function HomeScreen() {
           <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
             <View className="flex-row items-center">
               <Avatar size="md" name={userName} />
-              <View className="ml-3 rounded-full px-3 py-1.5" style={{ backgroundColor: 'rgba(115,112,128,0.03)' }}>
+              <View
+                className="ml-3 rounded-full px-3 py-1.5"
+                style={{ backgroundColor: "rgba(115,112,128,0.03)" }}
+              >
                 <Text className="font-inter-semibold text-sm text-v2-text-muted">
                   Make up score:{makeupScore}%
                 </Text>
@@ -102,7 +116,11 @@ export default function HomeScreen() {
           {/* Greeting */}
           <View className="px-6 mt-4">
             <Text className="font-inter text-2xl text-v2-text-body">
-              Hello <Text className="font-inter-semibold text-v2-purple">{userName}</Text>,
+              Hello{" "}
+              <Text className="font-inter-semibold text-v2-purple">
+                {userName}
+              </Text>
+              ,
             </Text>
             <Text className="font-inter text-base text-v2-text-muted mt-1">
               Ready for today's glam check?
@@ -155,7 +173,18 @@ export default function HomeScreen() {
 
           {/* Recent Looks Section */}
           <View className="mx-6 mt-6">
-            <View className="bg-v2-bg-base rounded-[20px] px-5 pt-4 pb-5">
+            <View
+              className="bg-v2-bg-base rounded-[20px] px-5 pt-4 pb-5"
+              style={{
+                borderWidth: 1,
+                borderColor: "rgba(115,112,128,0.15)",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.06,
+                shadowRadius: 8,
+                elevation: 2,
+              }}
+            >
               {/* Header */}
               <View className="flex-row items-center justify-between mb-4">
                 <Text className="font-inter-semibold text-xl text-v2-text-body">
@@ -216,13 +245,13 @@ export default function HomeScreen() {
       >
         <View className="flex-1 justify-end">
           <BlurView intensity={20} tint="dark" className="absolute inset-0" />
-          <TouchableOpacity 
-            className="flex-1" 
-            activeOpacity={1} 
-            onPress={() => setShowWelcome(false)} 
+          <TouchableOpacity
+            className="flex-1"
+            activeOpacity={1}
+            onPress={() => setShowWelcome(false)}
           />
-          
-          <View 
+
+          <View
             className="bg-v2-bg-base rounded-t-[40px] px-8 pt-10 pb-12 shadow-2xl"
             style={{ maxHeight: SCREEN_HEIGHT * 0.7 }}
           >
@@ -251,7 +280,7 @@ export default function HomeScreen() {
                   Real-time Makeup Scoring & Feedback
                 </Text>
               </View>
-              
+
               <View className="flex-row items-center bg-v2-purple-soft p-4 rounded-2xl">
                 <View className="w-10 h-10 bg-v2-purple rounded-full items-center justify-center mr-4">
                   <Ionicons name="color-palette" size={20} color="#f4f0e8" />
@@ -262,11 +291,11 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            <Button 
-              title="Let's Start Glowing!" 
-              variant="primary" 
-              size="lg" 
-              fullWidth 
+            <Button
+              title="Let's Start Glowing!"
+              variant="primary"
+              size="lg"
+              fullWidth
               onPress={() => setShowWelcome(false)}
             />
           </View>
