@@ -1,6 +1,6 @@
 import { getCapturedImageUri } from "@/store/capturedImageStore";
 import { Ionicons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useState } from "react";
@@ -20,8 +20,6 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function FullAnalysisScreen() {
   const router = useRouter();
-  // const { imageUri } = useLocalSearchParams<{ imageUri: string }>();
-
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   useFocusEffect(
@@ -29,10 +27,6 @@ export default function FullAnalysisScreen() {
       setImageUri(getCapturedImageUri());
     }, []),
   );
-
-  const handleBack = () => {
-    router.back();
-  };
 
   return (
     <View style={styles.container}>
@@ -42,24 +36,41 @@ export default function FullAnalysisScreen() {
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
-        <SafeAreaView style={styles.safeArea} edges={["top"]}>
-          {/* Header */}
-          <View style={styles.header}>
-            <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-              <Ionicons name="arrow-back" size={24} color="#383643" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Scan & score</Text>
-            <View style={{ width: 40 }} />
-          </View>
-        </SafeAreaView>
-        {/* Image Section with Overlays */}
+        {/* Image Section with conic-approximated gradient */}
         <View style={styles.imageSection}>
+          {/* Base sweep: cream top → purple bottom (matches 0deg → 150deg arc) */}
+          <LinearGradient
+            colors={["#F4F0E8", "#DCCAF9", "#F4F0E8"]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={StyleSheet.absoluteFillObject}
+          />
+          {/* Overlay sweep: purple top-left → light-purple bottom-right (matches the -77deg rotation) */}
+          <LinearGradient
+            colors={["#DCCAF9", "transparent", "#E2D3F5"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[StyleSheet.absoluteFillObject, { opacity: 0.6 }]}
+          />
+          {/* Header overlay */}
+          <SafeAreaView style={styles.safeArea} edges={["top"]}>
+            <View style={styles.header}>
+              <TouchableOpacity
+                onPress={() => router.back()}
+                style={styles.backButton}
+              >
+                <Ionicons name="arrow-back" size={24} color="#383643" />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>Scan & score</Text>
+              <View style={{ width: 40 }} />
+            </View>
+          </SafeAreaView>
+
           <Image
             source={
               imageUri
                 ? { uri: imageUri }
-                : //fbyIcons.makeupLady
-                  require("@/assets/images/user-v2.png")
+                : require("@/assets/images/user-v2.png")
             }
             style={styles.capturedImage}
             resizeMode="cover"
@@ -67,22 +78,21 @@ export default function FullAnalysisScreen() {
 
           {/* Detected Look Badge */}
           <View style={styles.detectedBadgeWrapper}>
-            <BlurView intensity={40} tint="dark" style={styles.detectedBadge}>
+            <View style={styles.detectedBadge}>
               <Text style={styles.detectedText}>
                 Detected look is full glam
               </Text>
-            </BlurView>
+            </View>
           </View>
 
           {/* Callout 1: Top Right */}
           <View style={[styles.callout1Wrapper, { zIndex: 10 }]}>
-            <BlurView intensity={40} tint="dark" style={styles.calloutBubble}>
+            <View style={styles.calloutBubble}>
               <Text style={styles.calloutText}>
                 This worked well,{"\n"}but isn't blended{"\n"}properly
               </Text>
-            </BlurView>
+            </View>
             <Svg height="80" width="100" style={styles.calloutLine1}>
-              {/* Path from bottom-left of bubble (80,0) gently diagonally to the cheek (30,50), then straight left to (15,50) */}
               <Path
                 d="M 80 0 L 30 50 L 15 50"
                 stroke="white"
@@ -98,7 +108,6 @@ export default function FullAnalysisScreen() {
           {/* Callout 2: Bottom Left */}
           <View style={[styles.callout2Wrapper, { zIndex: 10 }]}>
             <Svg height="80" width="100" style={styles.calloutLine2}>
-              {/* Path from top-right of bubble (20,80) diagonally up-right to cheek (70,30), then right to (85,30) */}
               <Path
                 d="M 20 80 L 70 30 L 85 30"
                 stroke="white"
@@ -109,22 +118,21 @@ export default function FullAnalysisScreen() {
               <Circle cx="85" cy="30" r="10" fill="rgba(255,255,255,0.4)" />
               <Circle cx="85" cy="30" r="4" fill="#E88282" />
             </Svg>
-            <BlurView intensity={40} tint="dark" style={styles.calloutBubble}>
+            <View style={styles.calloutBubble}>
               <Text style={styles.calloutText}>
                 Your blush{"\n"}looks amazing
               </Text>
-            </BlurView>
+            </View>
           </View>
 
           {/* Callout 3: Bottom Right */}
           <View style={[styles.callout3Wrapper, { zIndex: 10 }]}>
-            <BlurView intensity={40} tint="dark" style={styles.calloutBubble}>
+            <View style={styles.calloutBubble}>
               <Text style={styles.calloutText}>
                 Try lining your{"\n"}lips more
               </Text>
-            </BlurView>
+            </View>
             <Svg height="40" width="100" style={styles.calloutLine3}>
-              {/* Straight path left horizontally from bubble middle-left (100,20) to lip (20,20) */}
               <Line
                 x1="100"
                 y1="20"
@@ -139,30 +147,6 @@ export default function FullAnalysisScreen() {
               <Circle cx="20" cy="20" r="4" fill="#E88282" />
             </Svg>
           </View>
-
-          {/* Dotted Cheek / Under-Eye Highlights - Commented out for now */}
-          {/* <View style={styles.cheekHighlightLeft} pointerEvents="none">
-            <Svg height="80" width="100">
-              <Path
-                d="M 15 20 Q -5 40 20 60 Q 50 80 80 60 Q 100 40 85 25 Q 70 15 50 25 Q 30 35 15 20"
-                fill="none"
-                stroke="rgba(255, 255, 255, 0.7)"
-                strokeWidth="1.5"
-                strokeDasharray="4, 4"
-              />
-            </Svg>
-          </View>
-          <View style={styles.cheekHighlightRight} pointerEvents="none">
-            <Svg height="80" width="100">
-              <Path
-                d="M 85 20 Q 105 40 80 60 Q 50 80 20 60 Q 0 40 15 25 Q 30 15 50 25 Q 70 35 85 20"
-                fill="none"
-                stroke="rgba(255, 255, 255, 0.7)"
-                strokeWidth="1.5"
-                strokeDasharray="4, 4"
-              />
-            </Svg>
-          </View> */}
         </View>
 
         {/* Analysis Card */}
@@ -201,7 +185,7 @@ export default function FullAnalysisScreen() {
             </Text>
           </View>
 
-          {/* What You Did Well Section */}
+          {/* What You Did Well */}
           <View style={styles.sectionBadge}>
             <Text style={styles.sectionBadgeText}>What You Did Well</Text>
           </View>
@@ -217,8 +201,8 @@ export default function FullAnalysisScreen() {
             </Text>
           </View>
 
-          {/* Areas to Improve Section */}
-          <View style={[styles.sectionBadge, styles.sectionBadgeWarning]}>
+          {/* Areas to Improve */}
+          <View style={styles.sectionBadge}>
             <Text style={styles.sectionBadgeText}>Areas to Improve</Text>
           </View>
 
@@ -237,8 +221,8 @@ export default function FullAnalysisScreen() {
             </Text>
           </View>
 
-          {/* Pro Tips Section */}
-          <View style={[styles.sectionBadge, styles.sectionBadgeTip]}>
+          {/* Pro Tips */}
+          <View style={styles.sectionBadge}>
             <Text style={styles.sectionBadgeText}>Pro Tips</Text>
           </View>
 
@@ -300,13 +284,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  scrollContent: {
-    paddingBottom: 40,
-  },
   imageSection: {
     height: SCREEN_WIDTH * 1.3,
-    //backgroundColor: "#e2d3f5",
-    backgroundColor: "#F4F0E8",
     position: "relative",
   },
   capturedImage: {
@@ -322,13 +301,12 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   detectedBadge: {
-    backgroundColor: "rgba(255,79,139,0.2)",
+    backgroundColor: "rgba(255, 79, 139, 0.20)",
     borderRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "rgba(201,168,255,0.2)",
-    overflow: "hidden",
+    borderColor: "rgba(255, 79, 139, 0.20)",
   },
   detectedText: {
     color: "#383643",
@@ -351,17 +329,16 @@ const styles = StyleSheet.create({
     right: 20,
   },
   calloutBubble: {
-    backgroundColor: "rgba(201,168,255,0.2)",
+    backgroundColor: "transparent",
     borderRadius: 16,
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    borderColor: "rgba(255,255,255,0.6)",
     maxWidth: 160,
-    overflow: "hidden",
   },
   calloutText: {
-    color: "#f4f0e8",
+    color: "#383643",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 20,
@@ -382,16 +359,6 @@ const styles = StyleSheet.create({
     top: "50%",
     marginTop: -20,
   },
-  cheekHighlightLeft: {
-    position: "absolute",
-    top: "50%",
-    left: "23%",
-  },
-  cheekHighlightRight: {
-    position: "absolute",
-    top: "50%",
-    right: "23%",
-  },
   analysisCard: {
     backgroundColor: "#f4f0e8",
     borderTopLeftRadius: 40,
@@ -400,11 +367,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 30,
     paddingBottom: 80,
-    shadowColor: "#b891f7",
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
   },
   analysisTitleRow: {
     flexDirection: "row",
@@ -437,8 +399,8 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
   },
   summaryCard: {
-    backgroundColor: "rgba(244,240,232,0.2)",
-    borderRadius: 10,
+    backgroundColor: "rgba(201,168,255,0.1)",
+    borderRadius: 12,
     padding: 16,
     marginBottom: 12,
   },
@@ -457,20 +419,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 12,
   },
-  sectionBadgeWarning: {
-    backgroundColor: "#b891f7",
-  },
-  sectionBadgeTip: {
-    backgroundColor: "#b891f7",
-  },
   sectionBadgeText: {
     color: "#f4f0e8",
     fontSize: 13,
     fontFamily: "Inter_600SemiBold",
   },
   feedbackCard: {
-    backgroundColor: "rgba(244,240,232,0.2)",
-    borderRadius: 10,
+    backgroundColor: "rgba(201,168,255,0.1)",
+    borderRadius: 12,
     padding: 16,
     marginBottom: 20,
     gap: 8,
@@ -498,7 +454,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   doneButtonText: {
-    color: "#f4f0e8",
+    color: "#fff2da",
     fontSize: 20,
     fontFamily: "Inter_600SemiBold",
   },

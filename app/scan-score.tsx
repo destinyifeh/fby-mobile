@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderWidth: 1,
-    borderColor: "rgba(201,168,255,0.2)",
+    borderColor: "rgba(255, 79, 139, 0.20)",
     overflow: "hidden",
   },
   detectedText: {
