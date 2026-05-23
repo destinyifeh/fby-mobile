@@ -84,8 +84,8 @@ export default function HomeScreen() {
           <View className="flex-row items-center justify-between px-6 pt-4 pb-2">
             <View className="flex-row items-center">
               <Avatar size="md" name={userName} />
-              <View className="ml-3 bg-v2-badge-pink rounded-full px-3 py-1.5">
-                <Text className="font-inter-semibold text-sm text-v2-text-body">
+              <View className="ml-3 rounded-full px-3 py-1.5" style={{ backgroundColor: 'rgba(115,112,128,0.03)' }}>
+                <Text className="font-inter-semibold text-sm text-v2-text-muted">
                   Make up score:{makeupScore}%
                 </Text>
               </View>
@@ -102,7 +102,7 @@ export default function HomeScreen() {
           {/* Greeting */}
           <View className="px-6 mt-4">
             <Text className="font-inter text-2xl text-v2-text-body">
-              Hello <Text className="font-inter-semibold">{userName}</Text>,
+              Hello <Text className="font-inter-semibold text-v2-purple">{userName}</Text>,
             </Text>
             <Text className="font-inter text-base text-v2-text-muted mt-1">
               Ready for today's glam check?
@@ -113,9 +113,9 @@ export default function HomeScreen() {
           <View className="mx-6 mt-6">
             <View
               className="
-                bg-v2-purple-subtle
-                border-2 border-v2-tag-blush
-                rounded-[20px]
+                bg-v2-bg-base
+                border-2 border-v2-purple
+                rounded-[40px]
                 h-[318px]
                 items-center
                 justify-center
@@ -155,7 +155,7 @@ export default function HomeScreen() {
 
           {/* Recent Looks Section */}
           <View className="mx-6 mt-6">
-            <View className="bg-v2-purple-subtle rounded-[20px] px-5 pt-4 pb-5">
+            <View className="bg-v2-bg-base rounded-[20px] px-5 pt-4 pb-5">
               {/* Header */}
               <View className="flex-row items-center justify-between mb-4">
                 <Text className="font-inter-semibold text-xl text-v2-text-body">

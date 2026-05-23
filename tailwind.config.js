@@ -29,54 +29,55 @@ module.exports = {
         // V2 palette
         v2: {
           bg: {
-            base: "#f4f0e8",        // main screen background (all screens)
-            "purple-1": "#dccaf9",  // conic gradient colour 1 (analysis screens)
-            "purple-2": "#e2d3f5",  // conic gradient colour 2
+            base: "#f4f0e8", // main screen background (all screens)
+            "purple-1": "#dccaf9", // conic gradient colour 1 (analysis screens)
+            "purple-2": "#e2d3f5", // conic gradient colour 2
           },
           purple: {
-            DEFAULT: "#b891f7",                  // primary accent – buttons, active nav, progress arcs
-            subtle: "rgba(201,168,255,0.2)",     // score chips, callout overlays, input bg
-            soft: "rgba(184,145,247,0.2)",       // improve/recommendation tags, input borders
+            DEFAULT: "#b891f7", // primary accent – buttons, active nav, progress arcs
+            subtle: "rgba(201,168,255,0.2)", // score chips, callout overlays, input bg
+            soft: "rgba(184,145,247,0.2)",
+            light: "rgba(233, 220, 254, 0.40)", // improve/recommendation tags, input borders
           },
           text: {
-            dark: "#1c1b22",    // headings, bold labels
-            body: "#383643",    // body copy, card titles
-            muted: "#565364",   // email, secondary labels, placeholder guide
-            nav: "#737080",     // bottom nav bar background / inactive icons
+            dark: "#1c1b22", // headings, bold labels
+            body: "#383643", // body copy, card titles
+            muted: "#565364", // email, secondary labels, placeholder guide
+            nav: "#737080", // bottom nav bar background / inactive icons
           },
           card: {
             "cream-subtle": "rgba(255,242,218,0.3)", // menu items, help cards
-            "cream-faint": "rgba(255,242,218,0.2)",  // FAQ item backgrounds
-            glass: "rgba(244,240,232,0.2)",           // score / analysis content cards
-            dark: "#383643",                          // QR card, action button cards
+            "cream-faint": "rgba(255,242,218,0.2)", // FAQ item backgrounds
+            glass: "rgba(244,240,232,0.2)", // score / analysis content cards
+            dark: "#383643", // QR card, action button cards
           },
           coral: {
-            DEFAULT: "#ff7a6d",                   // avatar ring, icon accent
-            subtle: "rgba(255,122,109,0.2)",      // avatar ring background
-            "grad-1": "rgba(255,122,109,0.5)",    // history featured card gradient
-            "grad-2": "rgba(255,223,220,0.5)",    // history featured card gradient
-            "grad-3": "rgba(255,174,166,0.5)",    // history featured card gradient
+            DEFAULT: "#ff7a6d", // avatar ring, icon accent
+            subtle: "rgba(255,122,109,0.2)", // avatar ring background
+            "grad-1": "rgba(255,122,109,0.5)", // history featured card gradient
+            "grad-2": "rgba(255,223,220,0.5)", // history featured card gradient
+            "grad-3": "rgba(255,174,166,0.5)", // history featured card gradient
           },
           history: {
-            pink: "#ff85af",    // Full glam card accent
-            yellow: "#ffebbb",  // Soft glam card accent
+            pink: "#ff85af", // Full glam card accent
+            yellow: "#ffebbb", // Soft glam card accent
           },
           badge: {
-            pink: "rgba(253,152,142,0.3)",       // avg score badge
-            "hot-pink": "rgba(255,79,139,0.2)",  // detected look badge
+            pink: "rgba(253,152,142,0.3)", // avg score badge
+            "hot-pink": "rgba(255,79,139,0.2)", // detected look badge
           },
           tag: {
-            border: "#8d5241",  // analysis tag borders (V1 brown kept in V2)
-            blush: "#e3bcb5",   // contour / blush tag borders
+            border: "#8d5241", // analysis tag borders (V1 brown kept in V2)
+            blush: "#e3bcb5", // contour / blush tag borders
           },
           shadow: {
-            "brown-light": "rgba(141,82,65,0.06)",  // soft card drop shadows
-            "brown-medium": "rgba(141,82,65,0.3)",  // profile card shadow
-            dark: "rgba(28,27,34,0.1)",             // menu item shadow
-            lavender: "#e9dcfe",                     // history featured card shadow
+            "brown-light": "rgba(141,82,65,0.06)", // soft card drop shadows
+            "brown-medium": "rgba(141,82,65,0.3)", // profile card shadow
+            dark: "rgba(28,27,34,0.1)", // menu item shadow
+            lavender: "#e9dcfe", // history featured card shadow
           },
-          danger: "#ff4a44",       // log out / destructive action icon bg
-          "edit-dark": "#1c1b22",  // profile edit circle (near-black)
+          danger: "#ff4a44", // log out / destructive action icon bg
+          "edit-dark": "#1c1b22", // profile edit circle (near-black)
         },
       },
       fontFamily: {

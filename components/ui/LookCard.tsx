@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 interface LookCardProps {
   name: string;
@@ -13,7 +13,7 @@ export function LookCard({ name, image, onPress }: LookCardProps) {
       onPress={onPress}
       activeOpacity={0.8}
       className="
-        bg-v2-purple-subtle
+        bg-v2-purple-light
         rounded-xl
         w-[90px]
         h-[111px]
