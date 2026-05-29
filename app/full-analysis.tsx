@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     maxWidth: 160,
   },
   calloutText: {
-    color: "#383643",
+    color: "#F4F0E8",
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     lineHeight: 20,
