@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.facebyyou.tech"
+      "bundleIdentifier": "com.facebyyou.mobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +24,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.facebyyou.tech"
+      "package": "com.facebyyou.mobile"
     },
     "web": {
       "bundler": "metro",
