@@ -65,7 +65,7 @@ export const useAuth = () => {
     onSuccess: (data) => {
       setSession(data.session);
       setUser(data.user);
-      
+
       // Safety net: ensures user is in the public table
       authService.syncProfile(data.user);
 
@@ -91,7 +91,6 @@ export const useAuth = () => {
       setSession(null);
       setUser(null);
       queryClient.clear();
-      // Removed router.replace to allow AuthGate autonomous control
     },
     onError: (error: any) => {
       Alert.alert("Logout Failed", error.message || "Error logging out");
@@ -100,7 +99,7 @@ export const useAuth = () => {
 
   const forgotPasswordMutation = useMutation({
     mutationFn: (email: string) => authService.forgotPassword(email),
-    // onSuccess handled natively in UI state now
+
     onError: (error: any) => {
       Alert.alert("Error", error.message || "Failed to send reset code.");
     },
@@ -134,14 +133,20 @@ export const useAuth = () => {
   });
 
   const updateProfileMutation = useMutation({
-    mutationFn: (updates: { username?: string; dob?: string; nationality?: string }) =>
-      authService.updateProfile(updates),
+    mutationFn: (updates: {
+      username?: string;
+      dob?: string;
+      nationality?: string;
+    }) => authService.updateProfile(updates),
     onSuccess: (data) => {
       setUser(data.user);
       Alert.alert("Success", "Profile updated successfully!");
     },
     onError: (error: any) => {
-      Alert.alert("Update Failed", error.message || "Failed to update profile.");
+      Alert.alert(
+        "Update Failed",
+        error.message || "Failed to update profile.",
+      );
     },
   });
 

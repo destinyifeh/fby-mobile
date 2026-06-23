@@ -59,7 +59,7 @@ export default function PersonalInfoScreen() {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleUpdate = async () => {
-    // 1. Strict DOB validation using the main schema
+    //  Strict DOB validation using the main schema
     const dobValidation = dobSchema.safeParse(dob);
     if (!dobValidation.success) {
       console.log("DOB VALIDATION ERROR:", dobValidation.error);
@@ -73,7 +73,7 @@ export default function PersonalInfoScreen() {
     setIsChecking(true);
     setIsUpdating(true);
     try {
-      // 2. Check Username Uniqueness (if changed)
+      // heck Username Uniqueness (if changed)
       if (username.toLowerCase() !== initialUsername) {
         const isAvailable = await authService.checkUsernameAvailability(
           username,
@@ -90,7 +90,7 @@ export default function PersonalInfoScreen() {
         }
       }
 
-      // 3. Check Email Uniqueness (if changed)
+      // Check Email Uniqueness (if changed)
       const emailChanged = email.toLowerCase() !== initialEmail;
       if (emailChanged) {
         const isEmailAvailable = await authService.checkEmailAvailability(
@@ -108,7 +108,7 @@ export default function PersonalInfoScreen() {
         }
       }
 
-      // 4. Perform Update
+      // Perform Update
       const updateData: any = {
         data: { username, dob },
       };

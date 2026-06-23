@@ -4,9 +4,9 @@ import { BlurView } from "expo-blur";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import * as ImageManipulator from "expo-image-manipulator";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter, useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState, useCallback } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -24,23 +24,23 @@ const cameraIcon = require("@/assets/images/camera.png");
 const CAPTURE_MODES = [
   {
     id: 0,
-    title: 'Front Face',
-    subtitle: 'Look directly at the camera',
-    icon: 'person-outline' as const,
+    title: "Front Face",
+    subtitle: "Look directly at the camera",
+    icon: "person-outline" as const,
     guideImage: null,
   },
   {
     id: 1,
-    title: 'Right Profile',
-    subtitle: 'Turn your head to the right',
-    icon: 'arrow-forward-outline' as const,
+    title: "Right Profile",
+    subtitle: "Turn your head to the right",
+    icon: "arrow-forward-outline" as const,
     guideImage: null,
   },
   {
     id: 2,
-    title: 'Left Profile',
-    subtitle: 'Turn your head to the left',
-    icon: 'arrow-back-outline' as const,
+    title: "Left Profile",
+    subtitle: "Turn your head to the left",
+    icon: "arrow-back-outline" as const,
     guideImage: null,
   },
 ];
@@ -50,7 +50,11 @@ export default function TakePictureScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentModeIndex, setCurrentModeIndex] = useState(0);
-  const [capturedPhotos, setCapturedPhotos] = useState<(string | null)[]>([null, null, null]);
+  const [capturedPhotos, setCapturedPhotos] = useState<(string | null)[]>([
+    null,
+    null,
+    null,
+  ]);
   const cameraRef = useRef<CameraView>(null);
 
   const currentMode = CAPTURE_MODES[currentModeIndex];
@@ -63,21 +67,24 @@ export default function TakePictureScreen() {
       setIsProcessing(false);
       setCurrentModeIndex(0);
       setCapturedPhotos([null, null, null]);
-      setCameraKey(prev => prev + 1); // Force camera remount
-    }, [])
+      setCameraKey((prev) => prev + 1); // Force camera remount
+    }, []),
   );
 
   const handleBack = () => {
-    // Always exit the screen - with confirmation if photos were taken
-    const hasAnyPhoto = capturedPhotos.some(p => p !== null);
+    const hasAnyPhoto = capturedPhotos.some((p) => p !== null);
     if (hasAnyPhoto) {
       Alert.alert(
         "Discard Photos?",
         "You have captured photos. Are you sure you want to go back?",
         [
           { text: "Cancel", style: "cancel" },
-          { text: "Discard", style: "destructive", onPress: () => router.back() }
-        ]
+          {
+            text: "Discard",
+            style: "destructive",
+            onPress: () => router.back(),
+          },
+        ],
       );
     } else {
       router.back();
@@ -176,7 +183,8 @@ export default function TakePictureScreen() {
         {/* Progress Indicator */}
         <View style={styles.progressContainer}>
           {CAPTURE_MODES.map((mode, index) => {
-            const isCompleted = capturedPhotos[index] !== null && index < currentModeIndex;
+            const isCompleted =
+              capturedPhotos[index] !== null && index < currentModeIndex;
             const isActive = index === currentModeIndex;
 
             return (
@@ -194,10 +202,12 @@ export default function TakePictureScreen() {
                     <Text style={styles.progressNumber}>{index + 1}</Text>
                   )}
                 </View>
-                <Text style={[
-                  styles.progressLabel,
-                  isActive && styles.progressLabelActive
-                ]}>
+                <Text
+                  style={[
+                    styles.progressLabel,
+                    isActive && styles.progressLabelActive,
+                  ]}
+                >
                   {mode.title}
                 </Text>
               </View>
@@ -278,7 +288,11 @@ export default function TakePictureScreen() {
             {/* Processing Overlay */}
             {isProcessing && (
               <View style={styles.processingOverlay}>
-                <BlurView intensity={30} tint="light" style={StyleSheet.absoluteFill} />
+                <BlurView
+                  intensity={30}
+                  tint="light"
+                  style={StyleSheet.absoluteFill}
+                />
                 <ActivityIndicator size="large" color="#383643" />
                 <Text style={styles.processingText}>Processing Look...</Text>
               </View>
@@ -303,10 +317,7 @@ export default function TakePictureScreen() {
 
           {/* Center: Capture or Retake */}
           {hasCurrentPhoto ? (
-            <TouchableOpacity
-              style={styles.retakeButton}
-              onPress={retakePhoto}
-            >
+            <TouchableOpacity style={styles.retakeButton} onPress={retakePhoto}>
               <Ionicons name="refresh" size={28} color="#383643" />
             </TouchableOpacity>
           ) : (
@@ -332,32 +343,32 @@ export default function TakePictureScreen() {
                   const requestPayload = {
                     photos: [
                       {
-                        type: 'front_face',
+                        type: "front_face",
                         uri: capturedPhotos[0],
-                        label: 'Front Face',
+                        label: "Front Face",
                       },
                       {
-                        type: 'right_profile',
+                        type: "right_profile",
                         uri: capturedPhotos[1],
-                        label: 'Right Profile',
+                        label: "Right Profile",
                       },
                       {
-                        type: 'left_profile',
+                        type: "left_profile",
                         uri: capturedPhotos[2],
-                        label: 'Left Profile',
+                        label: "Left Profile",
                       },
                     ],
                     capturedAt: new Date().toISOString(),
                     deviceInfo: {
-                      platform: 'mobile',
-                      cameraFacing: 'front',
+                      platform: "mobile",
+                      cameraFacing: "front",
                     },
                   };
 
                   // Log the payload for backend preparation
-                  console.log('=== MAKEUP SCAN REQUEST PAYLOAD ===');
+                  console.log("=== MAKEUP SCAN REQUEST PAYLOAD ===");
                   console.log(JSON.stringify(requestPayload, null, 2));
-                  console.log('===================================');
+                  console.log("===================================");
 
                   // TODO: Send requestPayload to backend API
                   // const response = await api.analyzeMakeup(requestPayload);
@@ -378,10 +389,16 @@ export default function TakePictureScreen() {
               }}
             >
               <Text style={styles.navButtonText}>
-                {currentModeIndex === CAPTURE_MODES.length - 1 ? "Finish" : "Next"}
+                {currentModeIndex === CAPTURE_MODES.length - 1
+                  ? "Finish"
+                  : "Next"}
               </Text>
               <Ionicons
-                name={currentModeIndex === CAPTURE_MODES.length - 1 ? "checkmark" : "chevron-forward"}
+                name={
+                  currentModeIndex === CAPTURE_MODES.length - 1
+                    ? "checkmark"
+                    : "chevron-forward"
+                }
                 size={24}
                 color="#383643"
               />
