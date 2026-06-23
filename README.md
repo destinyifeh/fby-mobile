@@ -60,16 +60,6 @@ cd fby-mobile
 npm install
 ```
 
-### Environment Variables
-
-Create a `.env` file in the project root with:
-
-```env
-EXPO_PUBLIC_SUPABASE_URL=<your-supabase-url>
-EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
-EXPO_PUBLIC_RESEND_API_KEY=<your-resend-api-key>
-```
-
 ### Development
 
 ```bash
@@ -166,7 +156,6 @@ The app uses **NativeWind v4** with a comprehensive custom theme defined in `tai
 | `tailwind.config.js` | NativeWind — V2 purple palette, custom fonts, border radii |
 | `babel.config.js`    | Babel — `nativewind/babel` preset                          |
 | `metro.config.js`    | Metro — NativeWind CSS interop                             |
-| `.env`               | Environment — Supabase URL/key, Resend API key             |
 
 ---
 
@@ -176,7 +165,6 @@ The app uses **NativeWind v4** with a comprehensive custom theme defined in `tai
 | -------- | ------------------- | ------------------------------------- |
 | iOS      | `com.facebyyou.app` | Supports tablet, portrait orientation |
 | Android  | `com.facebyyou.app` | Edge-to-edge enabled, adaptive icon   |
-| Web      | —                   | Metro bundler with static output      |
 
 ---
 
